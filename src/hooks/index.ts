@@ -1,1 +1,1 @@
-export { default } from './usePostQuery';
+export { default as usePostQuery } from './usePostQuery';
