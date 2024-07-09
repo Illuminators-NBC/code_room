@@ -1,17 +1,18 @@
 'use client';
 
 import { usePostQuery } from '@/hooks';
+import { Tables } from '@/types/supabase';
 import Image from 'next/image';
 import { useParams } from 'next/navigation';
 
 interface PostContentProps {
-  initialData: any[];
+  initialData: Tables<'post'>[];
 }
 
 function PostContent({ initialData }: PostContentProps) {
   const { id } = useParams<{ id: string }>();
   const { data: post } = usePostQuery(id, initialData);
-  const { nickname, image, content, created_at, like, comment, tag } = post[0];
+  const { nickname, image, content, created_at, like, comment, tag, updated_at } = post[0];
 
   return (
     <div className="w-full py-[30px] text-white">
@@ -19,24 +20,28 @@ function PostContent({ initialData }: PostContentProps) {
         <p>{nickname}</p>
         <button className="text-[#676B70]">...</button>
       </div>
-      <div className="relative aspect-video mb-5 rounded-[10px] overflow-hidden">
-        <Image src={image} fill alt="" className="object-cover bg-red-400" />
-      </div>
+
+      {image && (
+        <div className="relative aspect-video mb-5 rounded-[10px] overflow-hidden">
+          <Image src={image} fill alt="" className="object-cover" />
+        </div>
+      )}
+
       <p className="break-words mb-[30px]">{content}</p>
-      <hr className="border-[#2F3336]" />
-      <div className="flex justify-between items-center py-[33px]">
+
+      <div className="flex justify-between items-center py-[33px] border-[#2F3336] border-y">
         <div className="flex items-center gap-[18px]">
-          <p>{created_at}</p>
+          <p>{updated_at ? updated_at : created_at}</p>
           <div className="flex items-center gap-1">
             <Image src="/heart.svg" width={22} height={22} alt="heart" />
-            <p>{like}</p>
+            <p>{like ? like : 0}</p>
           </div>
           <div className="flex items-center gap-1">
             <Image src="/message-square.svg" width={22} height={22} alt="message-square" />
-            <p>{comment ? comment.length : 0}</p>
+            <p>0</p>
           </div>
         </div>
-        <p>{tag.tag}</p>
+        {tag && <p>{tag}</p>}
       </div>
     </div>
   );

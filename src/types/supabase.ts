@@ -9,7 +9,83 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      comments: {
+        Row: {
+          comment_count: number
+          comment_list: Json
+          post_id: string
+        }
+        Insert: {
+          comment_count?: number
+          comment_list?: Json
+          post_id: string
+        }
+        Update: {
+          comment_count?: number
+          comment_list?: Json
+          post_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "comments_post_id_fkey"
+            columns: ["post_id"]
+            isOneToOne: true
+            referencedRelation: "post"
+            referencedColumns: ["post_id"]
+          },
+        ]
+      }
       post: {
+        Row: {
+          comment: Json | null
+          comment_count: number
+          content: string | null
+          created_at: string
+          image: string | null
+          like: number | null
+          nickname: string | null
+          post_id: string
+          tag: string | null
+          updated_at: string | null
+          user_id: string | null
+        }
+        Insert: {
+          comment?: Json | null
+          comment_count: number
+          content?: string | null
+          created_at?: string
+          image?: string | null
+          like?: number | null
+          nickname?: string | null
+          post_id?: string
+          tag?: string | null
+          updated_at?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          comment?: Json | null
+          comment_count?: number
+          content?: string | null
+          created_at?: string
+          image?: string | null
+          like?: number | null
+          nickname?: string | null
+          post_id?: string
+          tag?: string | null
+          updated_at?: string | null
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "post_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "user"
+            referencedColumns: ["user_id"]
+          },
+        ]
+      }
+      test_post: {
         Row: {
           comment: Json | null
           content: string | null
@@ -18,7 +94,7 @@ export type Database = {
           like: number | null
           nickname: string | null
           post_id: string
-          tag: Json | null
+          tag: string | null
           updated_at: string | null
           user_id: string | null
         }
@@ -30,7 +106,7 @@ export type Database = {
           like?: number | null
           nickname?: string | null
           post_id?: string
-          tag?: Json | null
+          tag?: string | null
           updated_at?: string | null
           user_id?: string | null
         }
@@ -42,11 +118,19 @@ export type Database = {
           like?: number | null
           nickname?: string | null
           post_id?: string
-          tag?: Json | null
+          tag?: string | null
           updated_at?: string | null
           user_id?: string | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "test_post_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "user"
+            referencedColumns: ["user_id"]
+          },
+        ]
       }
       user: {
         Row: {
@@ -78,8 +162,8 @@ export type Database = {
             foreignKeyName: "user_user_id_fkey"
             columns: ["user_id"]
             isOneToOne: true
-            referencedRelation: "post"
-            referencedColumns: ["user_id"]
+            referencedRelation: "users"
+            referencedColumns: ["id"]
           },
         ]
       }
