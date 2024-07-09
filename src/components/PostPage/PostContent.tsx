@@ -26,7 +26,7 @@ function PostContent({ initialData }: PostContentProps) {
       <hr className="border-[#2F3336]" />
       <div className="flex justify-between items-center py-[33px]">
         <div className="flex items-center gap-[18px]">
-          <p>{new Date(created_at).toLocaleString()}</p>
+          <p>{created_at}</p>
           <div className="flex items-center gap-1">
             <Image src="/heart.svg" width={22} height={22} alt="heart" />
             <p>{like}</p>
