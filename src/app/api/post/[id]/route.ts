@@ -1,8 +1,8 @@
-import { createClient } from '@/supabase/server';
+import { createClient as createServerClient } from '@/supabase/server';
 import { NextRequest, NextResponse } from 'next/server';
 
-export const getPostById = async (id: string) => {
-  const supabaseClient = createClient();
+export const getPostByIdInServer = async (id: string) => {
+  const supabaseClient = createServerClient();
   const { data, error } = await supabaseClient.from('post').select('*').eq('post_id', id);
 
   if (error) {
@@ -14,6 +14,6 @@ export const getPostById = async (id: string) => {
 
 export const GET = async (request: NextRequest, { params }: { params: { id: string } }) => {
   const { id } = params;
-  const res = await getPostById(id);
+  const res = await getPostByIdInServer(id);
   return NextResponse.json(res);
 };
