@@ -1,5 +1,5 @@
 import { createClient } from '@/supabase/client';
-import { FormState } from '../sign-up/route';
+import { FormState } from '@/types/signUpFormType';
 
 export async function POST(request: Request) {
   const supabase = createClient();
