@@ -5,8 +5,8 @@ import {
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger
-} from '../ui/dropdown-menu';
-import { Category } from '../../types/category';
+} from '../../ui/dropdown-menu';
+import { Category } from '../../../types/category';
 
 interface CategoryDropdownProps {
   categories: Category[];

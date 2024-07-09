@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import CategoryDropdown from './CategoryDropdown';
 import CategoryTags from './CategoryTags';
-import { Category } from '../../types/category';
+import { Category } from '../../../types/category';
 
 const categories: Category[] = [
   { name: 'JavaScript', color: 'text-yellow-900', backgroundColor: 'bg-yellow-200' },

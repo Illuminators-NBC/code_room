@@ -1,7 +1,7 @@
 'use client';
 import Image from 'next/image';
 import React, { useState } from 'react';
-import CategoryManager from './CategoryMenu';
+import CategoryManager from './Category/CategoryMenu';
 
 const PostingPage = () => {
   return (

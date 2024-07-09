@@ -1,5 +1,5 @@
 import React from 'react';
-import { Category } from '../../types/category';
+import { Category } from '../../../types/category';
 
 interface CategoryTagsProps {
   selectedCategories: Category[];
