@@ -1,11 +1,5 @@
-import { createClient } from '@/supabase/client';
-import { StringToBoolean } from 'class-variance-authority/types';
-
-export type FormState = {
-  email: string;
-  pw: string;
-  nickname: string;
-};
+import { createClient } from '@/supabase/server';
+import { FormState } from '@/types/signUpFormType';
 
 export async function POST(request: Request) {
   const supabase = createClient();

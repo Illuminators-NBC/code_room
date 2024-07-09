@@ -1,4 +1,4 @@
-import { createClient } from '@/supabase/client';
+import { createClient } from '@/supabase/server';
 import { FormState } from '@/types/signUpFormType';
 
 export async function POST(request: Request) {
