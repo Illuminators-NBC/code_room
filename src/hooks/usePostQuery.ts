@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 
 const getPostByIdInClient = async (id: string) => {
   const supabaseClient = createClient();
-  const { data, error } = await supabaseClient.from('post').select('*').eq('post_id', id);
+  const { data, error } = await supabaseClient.from('test_post').select('*').eq('post_id', id);
 
   if (error) {
     throw new Error(error.message);
