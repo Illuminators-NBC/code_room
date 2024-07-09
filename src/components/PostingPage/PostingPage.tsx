@@ -1,7 +1,8 @@
 'use client';
 import Image from 'next/image';
 import React, { useState } from 'react';
-import DropdouwnMenu from './Dropdown';
+import CategoryManager from './CategoryMenu';
+
 const PostingPage = () => {
   return (
     <div className="bg-black min-h-screen">
@@ -14,8 +15,9 @@ const PostingPage = () => {
       <main className="container mx-auto px-4">
         <div className="flex-col items-center  mb-2">
           <Image src="/terminal.png" alt="terminal" width={40} height={40} className="mb-4" />
-          <DropdouwnMenu />
+          <CategoryManager />
         </div>
+
         <p className="text-white">게시글</p>
       </main>
     </div>
