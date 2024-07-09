@@ -16,7 +16,7 @@ const usePostQuery = (id: string, initialData?: any[]) => {
   const result = useQuery({
     queryKey: ['post', id],
     queryFn: async () => await getPostByIdInClient(id),
-    initialData: initialData
+    initialData: initialData ? initialData : []
   });
 
   return { ...result };
