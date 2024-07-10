@@ -1,18 +1,23 @@
 'use client';
 
-import { useLoginContext } from '@/context/LoginProvider';
+import { FormState } from '@/types/signUpFormType';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { ChangeEventHandler, FormEventHandler, useState } from 'react';
-import { Button } from '../ui/button';
-import { Input } from '../ui/input';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import Image from 'next/image';
+import { Input } from '../ui/input';
+import { Button } from '../ui/button';
 
-export default function LoginForm() {
+export default function SignUpForm() {
   const router = useRouter();
-  const { login } = useLoginContext();
-  const [formState, setFormState] = useState({ email: '', pw: '' });
+  const initialState: FormState = {
+    email: '',
+    pw: '',
+    confirmPw: '',
+    nickname: ''
+  };
+  const [formState, setFormState] = useState<FormState>(initialState);
 
   const validateEmail = (email: string) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -26,16 +31,16 @@ export default function LoginForm() {
 
   const onSubmitHandler: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
-    if (!formState.email || !formState.pw) {
-      return toast.error('Please Enter Email and Password');
+    if (!formState.email || !formState.pw || !formState.nickname) {
+      return toast.error('Please enter all blanks');
+    }
+    if (formState.pw !== formState.confirmPw) {
+      return toast.error('Passwords do not match');
     }
     if (!validateEmail(formState.email)) {
       return toast.error('Invalid Email Format');
     }
-    if (formState.pw.length < 6) {
-      return toast.error('Password must be at least 6 characters long');
-    }
-    const data = await fetch('/api/auth/log-in', {
+    const data = await fetch('api/auth/sign-up', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -46,15 +51,14 @@ export default function LoginForm() {
       toast.error(data.errorMsg);
       return;
     }
-    toast.success('Success Login');
-    login();
-    setFormState({ email: '', pw: '' });
-    router.replace('/');
+    toast.success('Success Register');
+    setFormState(initialState);
+    router.push('/login');
   };
 
   return (
     <div className="bg-black w-[640px] h-screen border-2 border-zinc-800 h-auto m-auto text-center">
-      <Image src="/Group 100.png" width={400} height={50} alt="logo" className="m-auto mt-48 mb-[28px]" />
+      <Image src="/Group 100.png" width={400} height={50} alt="logo" className="m-auto mt-48 mb-12" />
       <form onSubmit={onSubmitHandler}>
         <section>
           <Input
@@ -63,7 +67,7 @@ export default function LoginForm() {
             value={formState.email}
             onChange={handleInputChange}
             placeholder="Email"
-            className="bg-[#27272A] text-white border-[#71717A] inline-flex items-center justify-center w-96 mb-12 mt-24"
+            className="bg-[#27272A] text-white border-[#71717A] inline-flex items-center justify-center w-96 mb-12"
           />
         </section>
         <section>
@@ -74,15 +78,35 @@ export default function LoginForm() {
             value={formState.pw}
             onChange={handleInputChange}
             placeholder="Password"
-            className="bg-[#27272A] text-white border-[#71717A] inline-flex items-center justify-center w-96 mb-24"
+            className="bg-[#27272A] text-white border-[#71717A] inline-flex items-center justify-center w-96 mb-12"
+          />
+        </section>
+        <section>
+          <Input
+            id="confirmPw"
+            name="confirmPw"
+            type="password"
+            value={formState.confirmPw}
+            onChange={handleInputChange}
+            placeholder="Confirm Password"
+            className="bg-[#27272A] text-white border-[#71717A] inline-flex items-center justify-center w-96 mb-12"
+          />
+        </section>
+        <section>
+          <Input
+            id="nickname"
+            name="nickname"
+            value={formState.nickname}
+            onChange={handleInputChange}
+            placeholder="Nickname"
+            className="bg-[#27272A] text-white border-[#71717A] inline-flex items-center justify-center w-96 mb-12"
           />
         </section>
         <Button type="submit" className="w-96 mb-7 bg-[#DD268E] hover:bg-[#FB2EA2]">
-          Log In
-        </Button>
-        <br />
-        <Button type="button" onClick={() => router.push('/sign-up')} className="w-96 bg-[#DD268E] hover:bg-[#FB2EA2]">
           Register
+        </Button>
+        <Button type="button" onClick={() => router.push('/login')} className="w-96 bg-[#DD268E] hover:bg-[#FB2EA2]">
+          Log In
         </Button>
       </form>
       <ToastContainer
