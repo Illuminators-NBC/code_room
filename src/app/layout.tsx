@@ -19,7 +19,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="w-screen p-0 bg-zinc-950">
+      <body className="w-screen p-0 m-0 bg-zinc-950">
         <header>
           <div className="w-[640px] h-[53px] m-auto bg-zinc-950 items-center justify-between px-[30px] flex border border-zinc-800">
             <Image src={'/logo.png'} alt="logo" width="93" height="14" />

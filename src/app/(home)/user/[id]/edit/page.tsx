@@ -6,8 +6,38 @@ import { Input } from '@/components/ui/input';
 import Image from 'next/image';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { createClient } from '@/supabase/client';
+import { useEffect, useState } from 'react';
 
-function AccountEditPage() {
+const AccountEditPage = () => {
+  const [userEmail, setUserEmail] = useState('');
+  const [userNickname, setUserNickName] = useState('');
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      const supabase = createClient();
+      try {
+        const {
+          data: { user },
+          error: userError
+        } = await supabase.auth.getUser();
+        if (userError) throw userError;
+        if (user) {
+          const { data, error } = await supabase.from('user').select('email, nickname').eq('id', user.id).single();
+          if (error) throw error;
+          if (data) {
+            setUserEmail(data.email ?? '');
+            setUserNickName(data.nickname ?? '');
+          }
+        }
+      } catch (error) {
+        console.log(error);
+        toast.error('비밀번호를 확인해주세요');
+      }
+    };
+    fetchUserData();
+  }, []);
+
   const notify = () => {
     toast.error('비밀번호를 확인해주세요.');
   };
@@ -22,17 +52,17 @@ function AccountEditPage() {
           className="m-auto mt-[83px] mb-[28px]"
         />
         <p className="text-xl font-bold">
-          <span>🌊 </span> 헤엄치는 피즈{' '}
-          <button className="ml-2">
-            <Image src={'/refresh_icon.png'} alt="refresh icon" width="16" height="16" />
+          <span>{userNickname}</span>
+          <button className="ml-2 hover:transition-all hover:duration-500 hover:rotate-180 items-center">
+            <Image src={'/refresh_icon.png'} alt="refresh icon" width="18" height="18" />
           </button>
         </p>
         <div>
           <form className="mt-[60px]">
             <Input
-              className="w-96 h-10 bg-[#71717A] border-zinc-600 p-4 m-auto mb-7 text-black placeholder:text-white placeholder:font-nomal"
+              className="w-96 h-10 bg-[#71717A] border-zinc-600 p-4 m-auto mb-7 text-white placeholder:text-white placeholder:font-nomal"
               type="email"
-              placeholder="Email@email.com"
+              value={userEmail}
               disabled
             />
             <Input
@@ -81,6 +111,6 @@ function AccountEditPage() {
       </div>
     </div>
   );
-}
+};
 
 export default AccountEditPage;
