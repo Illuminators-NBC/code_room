@@ -6,13 +6,13 @@ import Image from 'next/image';
 import { useParams } from 'next/navigation';
 
 interface PostContentProps {
-  initialPostData: Tables<'post'>[];
+  initialPostData: Tables<'test_post'>;
 }
 
 function PostContent({ initialPostData }: PostContentProps) {
   const { id } = useParams<{ id: string }>();
   const { data: post } = usePostQuery(id, initialPostData);
-  const { nickname, image, content, created_at, like, comment, tag, updated_at } = post[0];
+  const { nickname, image, content, created_at, like, comment, tag, updated_at } = post;
 
   return (
     <div className="w-full py-[30px] text-white">
