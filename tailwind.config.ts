@@ -68,7 +68,9 @@ const config = {
         'accordion-up': 'accordion-up 0.2s ease-out'
       },
       maxWidth: {
-        '92': '23.4375rem'
+        // 375px
+        '92': '23.4375rem',
+        '120': '36.25rem'
       }
     }
   },
