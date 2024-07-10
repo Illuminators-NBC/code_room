@@ -3,3 +3,7 @@ export interface Category {
   color: string;
   backgroundColor: string;
 }
+
+export interface PostButton {
+  type: 'button' | 'submit' | 'reset';
+}

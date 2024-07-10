@@ -37,7 +37,7 @@ const CategoryManager: React.FC = () => {
   };
 
   return (
-    <div>
+    <div className="mx-5">
       <CategoryDropdown categories={categories} onCategoryClick={handleCategoryClick} />
       <CategoryTags selectedCategories={selectedCategories} onRemoveCategory={handleRemoveCategory} />
     </div>

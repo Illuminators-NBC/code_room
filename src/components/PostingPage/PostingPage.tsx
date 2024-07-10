@@ -1,24 +1,27 @@
 'use client';
 import Image from 'next/image';
-import React, { useState } from 'react';
 import CategoryManager from './Category/CategoryMenu';
+import { Button } from '../ui/button';
+import { Posting } from './Posting/Posting';
 
 const PostingPage = () => {
   return (
-    <div className="bg-black min-h-screen">
+    <div className="bg-black w-[640px] h-screen border-2 border-zinc-800 h-auto m-auto ">
       <div className="bg-black">
         <header className="flex justify-between items-center p-5">
-          <Image src="/team_logo.png" alt="code_room" width={100} height={100} />
+          <Image src="/team_logo.png" alt="code_room" width={110} height={110} />
           <Image src="/user.png" alt="profile_img" width={20} height={20} />
         </header>
       </div>
-      <main className="container mx-auto px-4">
+      <main className="container mx-1 px-4">
         <div className="flex-col items-center  mb-2">
-          <Image src="/terminal.png" alt="terminal" width={40} height={40} className="mb-4" />
+          <Image src="/terminal.png" alt="terminal" width={35} height={35} className="mb-4" />
+          {/* 카테고리(태그) 컴포넌트 */}
           <CategoryManager />
         </div>
-
-        <p className="text-white">게시글</p>
+        <Posting />
+        {/* 버튼 클릭시 (1)빈 칸일 때 알럿창, (2) 조건<작성글 갯수>부 알럿창  */}
+        {/*  */}
       </main>
     </div>
   );

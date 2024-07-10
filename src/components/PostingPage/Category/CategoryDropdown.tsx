@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -14,12 +14,18 @@ interface CategoryDropdownProps {
 }
 
 const CategoryDropdown: React.FC<CategoryDropdownProps> = ({ categories, onCategoryClick }) => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const toggleDropdown = () => {
+    setIsOpen((preState) => !preState);
+  };
+
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger className="text-pink-600 hover:text-pink-300 transition-colors duration-200 text-xl border-none">
-        Categories
+    <DropdownMenu onOpenChange={toggleDropdown}>
+      <DropdownMenuTrigger className="text-pink-600 hover:text-pink-300 transition-colors duration-200 text-xl border-none ">
+        Categories {isOpen ? '◢' : '◥'}
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="m-3">
+      <DropdownMenuContent>
         <DropdownMenuSeparator />
         {categories.map((category, index) => (
           <DropdownMenuItem
