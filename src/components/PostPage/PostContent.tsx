@@ -16,18 +16,18 @@ function PostContent({ initialPostData }: PostContentProps) {
 
   return (
     <div className="w-full py-[30px] text-white">
-      <div className="flex justify-between items-center mb-5 font-medium">
-        <p>{nickname}</p>
-        <button className="text-[#676B70]">...</button>
-      </div>
-
-      {image && (
-        <div className="relative aspect-video mb-5 rounded-[10px] overflow-hidden">
-          <Image src={image} fill alt="" className="object-cover" />
+      <div className="min-h-[300px]">
+        <div className="flex justify-between items-center mb-5 font-medium">
+          <p>{nickname}</p>
+          <button className="text-[#676B70]">...</button>
         </div>
-      )}
-
-      <p className="break-words mb-[30px]">{content}</p>
+        {image && (
+          <div className="relative aspect-video mb-5 rounded-[10px] overflow-hidden">
+            <Image src={image} fill alt="" className="object-cover" />
+          </div>
+        )}
+        <p className="break-words mb-[30px]">{content}</p>
+      </div>
 
       <div className="flex justify-between items-center py-[33px] border-[#2F3336] border-y">
         <div className="flex items-center gap-[18px]">
