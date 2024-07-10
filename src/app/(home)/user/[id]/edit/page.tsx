@@ -8,10 +8,16 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { createClient } from '@/supabase/client';
 import { useEffect, useState } from 'react';
+import { useParams } from 'next/navigation';
 
 const AccountEditPage = () => {
   const [userEmail, setUserEmail] = useState('');
   const [userNickname, setUserNickName] = useState('');
+
+  const params = () => {
+    const { id } = useParams();
+    console.log(id);
+  };
 
   useEffect(() => {
     const fetchUserData = async () => {
