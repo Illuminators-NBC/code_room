@@ -6,7 +6,7 @@ import Image from 'next/image';
 import { useParams } from 'next/navigation';
 
 interface PostContentProps {
-  initialPostData: Tables<'test_post'>;
+  initialPostData: Tables<'post'>;
 }
 
 function PostContent({ initialPostData }: PostContentProps) {

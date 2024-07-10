@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from 'next/server';
 
 export const getPostByIdInServer = async (id: string) => {
   const supabaseClient = createServerClient();
-  const { data, error } = await supabaseClient.from('test_post').select('*').eq('post_id', id);
+  const { data, error } = await supabaseClient.from('post').select('*').eq('post_id', id);
 
   if (error) {
     throw new Error(error.message);

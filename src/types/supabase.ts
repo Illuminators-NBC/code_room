@@ -18,7 +18,7 @@ export type Database = {
         Insert: {
           comment_count?: number
           comment_list?: Json
-          post_id: string
+          post_id?: string
         }
         Update: {
           comment_count?: number
@@ -35,45 +35,57 @@ export type Database = {
           },
         ]
       }
+      name: {
+        Row: {
+          id: number
+          name: string | null
+        }
+        Insert: {
+          id?: number
+          name?: string | null
+        }
+        Update: {
+          id?: number
+          name?: string | null
+        }
+        Relationships: []
+      }
       post: {
         Row: {
-          comment: Json | null
           comment_count: number
-          content: string | null
+          content: string
           created_at: string
           image: string | null
-          like: number | null
-          nickname: string | null
+          like: number
+          nickname: string
           post_id: string
           tag: string | null
           updated_at: string | null
-          user_id: string | null
+          user_id: string
         }
         Insert: {
-          comment?: Json | null
-          comment_count: number
-          content?: string | null
+          comment_count?: number
+          content?: string
           created_at?: string
           image?: string | null
-          like?: number | null
-          nickname?: string | null
+          like?: number
+          nickname?: string
           post_id?: string
           tag?: string | null
           updated_at?: string | null
-          user_id?: string | null
+          user_id?: string
         }
         Update: {
-          comment?: Json | null
           comment_count?: number
-          content?: string | null
+          content?: string
           created_at?: string
           image?: string | null
-          like?: number | null
-          nickname?: string | null
+          like?: number
+          nickname?: string
           post_id?: string
           tag?: string | null
           updated_at?: string | null
-          user_id?: string | null
+          user_id?: string
         }
         Relationships: [
           {
@@ -81,86 +93,54 @@ export type Database = {
             columns: ["user_id"]
             isOneToOne: false
             referencedRelation: "user"
-            referencedColumns: ["user_id"]
+            referencedColumns: ["id"]
           },
         ]
       }
-      test_post: {
+      prefix: {
         Row: {
-          comment: Json | null
-          content: string | null
-          created_at: string
-          image: string | null
-          like: number | null
-          nickname: string | null
-          post_id: string
-          tag: string | null
-          updated_at: string | null
-          user_id: string | null
+          id: number
+          prefix: string | null
         }
         Insert: {
-          comment?: Json | null
-          content?: string | null
-          created_at?: string
-          image?: string | null
-          like?: number | null
-          nickname?: string | null
-          post_id?: string
-          tag?: string | null
-          updated_at?: string | null
-          user_id?: string | null
+          id?: number
+          prefix?: string | null
         }
         Update: {
-          comment?: Json | null
-          content?: string | null
-          created_at?: string
-          image?: string | null
-          like?: number | null
-          nickname?: string | null
-          post_id?: string
-          tag?: string | null
-          updated_at?: string | null
-          user_id?: string | null
+          id?: number
+          prefix?: string | null
         }
-        Relationships: [
-          {
-            foreignKeyName: "test_post_user_id_fkey"
-            columns: ["user_id"]
-            isOneToOne: false
-            referencedRelation: "user"
-            referencedColumns: ["user_id"]
-          },
-        ]
+        Relationships: []
       }
       user: {
         Row: {
           created_at: string
-          email: string | null
+          email: string
+          id: string
           liked_post: Json | null
-          nickname: string | null
+          nickname: string
           post: Json | null
-          user_id: string
         }
         Insert: {
           created_at?: string
-          email?: string | null
+          email: string
+          id: string
           liked_post?: Json | null
-          nickname?: string | null
+          nickname?: string
           post?: Json | null
-          user_id: string
         }
         Update: {
           created_at?: string
-          email?: string | null
+          email?: string
+          id?: string
           liked_post?: Json | null
-          nickname?: string | null
+          nickname?: string
           post?: Json | null
-          user_id?: string
         }
         Relationships: [
           {
-            foreignKeyName: "user_user_id_fkey"
-            columns: ["user_id"]
+            foreignKeyName: "user_id_fkey"
+            columns: ["id"]
             isOneToOne: true
             referencedRelation: "users"
             referencedColumns: ["id"]

@@ -2,7 +2,7 @@ import { Tables } from '@/types/supabase';
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 
-const usePostQuery = (id: string, initialPostData: Tables<'test_post'>) => {
+const usePostQuery = (id: string, initialPostData: Tables<'post'>) => {
   const result = useQuery({
     queryKey: ['post', id],
     queryFn: async () => {
