@@ -9,14 +9,14 @@ async function getPosts() {
     const { data: posts } = await supabase.from('post').select('*');
 
     // 서버 컴포넌트에서 데이터를 받아오는 경우, NextResponse.json() 을 이용하여 데이터를 반환함.
-    return NextResponse.json(posts);
+    return NextResponse.json({ posts });
   } catch (error) {
     throw new Error('데이터 조회에 실패했습니다.');
   }
 }
 
 export async function GET() {
-  const posts = await getPosts();
+  const response = await getPosts();
 
-  return posts;
+  return response;
 }

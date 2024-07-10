@@ -16,3 +16,9 @@ export type Post = {
 export interface PostProps {
   post: Post;
 }
+
+export type PaigniatedPost = {
+  data: Post[];
+  totalPages: number;
+  hasNextPage: boolean;
+};
