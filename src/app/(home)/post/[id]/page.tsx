@@ -1,6 +1,5 @@
-import { getPostByIdInServer } from '@/app/api/post/[id]/route';
-import { getCommentByIdInServer } from '@/app/api/post/comment/[id]/route';
 import PostContent from '@/components/PostPage/PostContent';
+import { getCommentByIdInServer, getPostByIdInServer } from '@/utils/api';
 
 async function PostPage({ params }: { params: { id: string } }) {
   const { id } = params;
