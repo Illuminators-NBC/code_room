@@ -7,8 +7,6 @@ const usePostQuery = (id: string, initialPostData?: Tables<'post'>[]) => {
     queryKey: ['post', id],
     queryFn: async () => {
       const res = await axios.get(`/api/post/${id}`);
-      console.log(res);
-
       return res.data;
     },
     initialData: initialPostData ? initialPostData : []
