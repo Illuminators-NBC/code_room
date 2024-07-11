@@ -31,7 +31,7 @@ export default function RandomNickname({ onNicknameGenerated }: RandomNicknamePr
         Generate Random Nickname
       </Button> */}
       <button
-        className="ml-2 hover:transition-all hover:duration-500 hover:rotate-180 items-center absolute top-[-57px] right-[115px]"
+        className="ml-2 hover:transition-all hover:duration-500 hover:rotate-180 items-center absolute top-[-57px] right-[150px]"
         onClick={generateNickname}
       >
         <Image src={'/refresh_icon.png'} alt="refresh icon" width="18" height="18" />

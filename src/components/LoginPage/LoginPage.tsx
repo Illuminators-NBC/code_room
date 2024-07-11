@@ -56,7 +56,7 @@ export default function LoginForm() {
   };
 
   return (
-    <div className="bg-black w-[640px] h-screen border-2 border-zinc-800 h-auto m-auto text-center">
+    <div className="bg-zinc-950 w-screen h-screen border-2 border-zinc-800 h-auto m-auto text-center">
       <Image src="/Group 100.png" width={400} height={50} alt="logo" className="m-auto mt-48 mb-[28px]" />
       <form onSubmit={onSubmitHandler}>
         <section>
@@ -66,7 +66,7 @@ export default function LoginForm() {
             value={formState.email}
             onChange={handleInputChange}
             placeholder="Email"
-            className="bg-[#27272A] text-white border-[#71717A] inline-flex items-center justify-center w-96 mb-12 mt-24"
+            className="bg-[#27272A] text-white border-[#71717A] inline-flex items-center justify-center w-[300px] mb-12 mt-24"
           />
         </section>
         <section>

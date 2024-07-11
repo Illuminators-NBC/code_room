@@ -72,7 +72,7 @@ export default function SignUpForm() {
   };
 
   return (
-    <div className="bg-black w-[640px] h-screen border-2 border-zinc-800 h-auto m-auto text-center">
+    <div className="bg-zinc-950 w-[640px] h-screen border-2 border-zinc-800 h-auto m-auto text-center">
       <Image src="/Group 100.png" width={400} height={50} alt="logo" className="m-auto mt-48 mb-12" />
       <form onSubmit={onSubmitHandler}>
         <section>

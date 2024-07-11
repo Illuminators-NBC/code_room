@@ -15,7 +15,6 @@ const NicknameSection: React.FC<NicknameSectionProps> = ({ nickname, onNicknameC
   const handleNicknameGenerated = (generatedNickname: string) => {
     onNicknameChange(generatedNickname);
   };
-  console.log(nickname);
   return (
     <section>
       <Input
@@ -23,7 +22,7 @@ const NicknameSection: React.FC<NicknameSectionProps> = ({ nickname, onNicknameC
         name="nickname"
         value={nickname}
         onChange={handleInputChange}
-        placeholder={nickname}
+        placeholder="nickname"
         className="bg-[#27272A] text-white border-[#71717A] inline-flex items-center justify-center w-96 mb-7"
         readOnly
       />
