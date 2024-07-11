@@ -33,6 +33,7 @@ export function Posting() {
 
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
     const inputData = data.bio;
+
     try {
       const timestamp = dayjs().format('YYYY-MM-DD HH:mm:ss');
       const { data: postData, error } = await supabase.from('post').insert({
