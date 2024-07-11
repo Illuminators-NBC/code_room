@@ -1,3 +1,5 @@
+import LogoutButton from '@/components/LoginPage/LogoutButton';
+
 import FeedList from '@/components/HomePage/FeedList';
 import PostBox from '@/components/HomePage/PostBox';
 

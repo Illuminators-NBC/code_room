@@ -1,5 +1,11 @@
-function PostingPage() {
-  return <div>PostingPage</div>;
+import PostingPage from '@/components/PostingPage';
+
+function PostPage() {
+  return (
+    <div>
+      <PostingPage />
+    </div>
+  );
 }
 
-export default PostingPage;
+export default PostPage;

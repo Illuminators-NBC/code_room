@@ -7,9 +7,11 @@ const nextConfig = {
         hostname: 'cdn.pixabay.com',
         port: '',
         pathname: '/photo/**'
+      },
+      {
+        protocol: 'https',
+        hostname: 'raw.githubusercontent.com'
       }
     ]
   }
 };
-
-export default nextConfig;
