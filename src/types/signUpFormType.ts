@@ -3,4 +3,5 @@ export type FormState = {
   pw: string;
   confirmPw: string;
   nickname: string;
+  recaptchaToken: string;
 };

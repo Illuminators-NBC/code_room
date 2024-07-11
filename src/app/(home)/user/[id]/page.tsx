@@ -83,20 +83,31 @@ function MyPage() {
             </div>
 
             {/* 사진 + 내용 */}
-            <div className="mt-2 bg-black  rounded">
-              <div className="px-[29px]">
-                {/* 삼항 연산자 사용해서 처리해보기 */}
-                <img className="w-[580px] h-[260px] h-auto object-cover" src={post.image} alt="" />
-              </div>
-
+            <div className="mt-2 bg-black rounded">
               <div className="px-[29px] border-b border-gray-400">
-                <p className="mt-[20px] mb-[19px] break-words">{post.content}</p>
-
-                <div className="flex justify-left">
-                  <p className="mb-[31px]">❤: {post.like}</p>
-                  <p className='ml-[19px]'>📢: {post.comment_count}</p>
-                  <p>{post.tag}Javascript</p>
-                </div>
+                {/* 삼항 연산자 사용해서 처리해보기*/}
+                {post.image ? (
+                  <>
+                    <img className="w-[580px] h-[260px] h-auto object-cover" src={post.image} alt="image" />
+                    <div className="px-[29px] border-gray-400">
+                      <p className="mt-[20px] mb-[19px] break-words">{post.content}</p>
+                      <div className="flex justify-left">
+                        <p className="mb-[18px]">❤: {post.like}</p>
+                        <p className='ml-[19px]'>📢: {post.comment_count}</p>
+                        <p className=' ml-[330px]'>{post.tag}</p>
+                      </div>
+                    </div>
+                  </>
+                ) : (
+                  <div className="px-[29px] ">
+                    <p className="mt-[-10px] mb-[19px] break-words">{post.content}</p>
+                    <div className="flex justify-left">
+                      <p className="mb-[31px]">❤: {post.like}</p>
+                      <p className='ml-[19px]'>📢: {post.comment_count}</p>
+                      <p className=' ml-[330px]'>{post.tag}</p>
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           </div>
