@@ -9,77 +9,141 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      post: {
+      comments: {
         Row: {
-          comment: Json | null
-          content: string | null
-          created_at: string
-          image: string | null
-          like: number | null
-          nickname: string | null
+          comment_count: number
+          comment_list: string[] | null
           post_id: string
-          tag: Json | null
-          updated_at: string | null
-          user_id: string | null
         }
         Insert: {
-          comment?: Json | null
-          content?: string | null
-          created_at?: string
-          image?: string | null
-          like?: number | null
-          nickname?: string | null
+          comment_count?: number
+          comment_list?: string[] | null
           post_id?: string
-          tag?: Json | null
-          updated_at?: string | null
-          user_id?: string | null
         }
         Update: {
-          comment?: Json | null
-          content?: string | null
+          comment_count?: number
+          comment_list?: string[] | null
+          post_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "comments_post_id_fkey"
+            columns: ["post_id"]
+            isOneToOne: true
+            referencedRelation: "post"
+            referencedColumns: ["post_id"]
+          },
+        ]
+      }
+      name: {
+        Row: {
+          id: number
+          name: string
+        }
+        Insert: {
+          id?: number
+          name?: string
+        }
+        Update: {
+          id?: number
+          name?: string
+        }
+        Relationships: []
+      }
+      post: {
+        Row: {
+          comment_count: number
+          content: string
+          created_at: string
+          image: string | null
+          like: number
+          nickname: string
+          post_id: string
+          tag: string | null
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          comment_count?: number
+          content?: string
           created_at?: string
           image?: string | null
-          like?: number | null
-          nickname?: string | null
+          like?: number
+          nickname?: string
           post_id?: string
-          tag?: Json | null
+          tag?: string | null
           updated_at?: string | null
-          user_id?: string | null
+          user_id?: string
+        }
+        Update: {
+          comment_count?: number
+          content?: string
+          created_at?: string
+          image?: string | null
+          like?: number
+          nickname?: string
+          post_id?: string
+          tag?: string | null
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "post_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "user"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      prefix: {
+        Row: {
+          id: number
+          prefix: string | null
+        }
+        Insert: {
+          id?: number
+          prefix?: string | null
+        }
+        Update: {
+          id?: number
+          prefix?: string | null
         }
         Relationships: []
       }
       user: {
         Row: {
           created_at: string
-          email: string | null
+          email: string
+          id: string
           liked_post: Json | null
-          nickname: string | null
+          nickname: string
           post: Json | null
-          user_id: string
         }
         Insert: {
           created_at?: string
-          email?: string | null
+          email: string
+          id: string
           liked_post?: Json | null
-          nickname?: string | null
+          nickname?: string
           post?: Json | null
-          user_id: string
         }
         Update: {
           created_at?: string
-          email?: string | null
+          email?: string
+          id?: string
           liked_post?: Json | null
-          nickname?: string | null
+          nickname?: string
           post?: Json | null
-          user_id?: string
         }
         Relationships: [
           {
-            foreignKeyName: "user_user_id_fkey"
-            columns: ["user_id"]
+            foreignKeyName: "user_id_fkey"
+            columns: ["id"]
             isOneToOne: true
-            referencedRelation: "post"
-            referencedColumns: ["user_id"]
+            referencedRelation: "users"
+            referencedColumns: ["id"]
           },
         ]
       }

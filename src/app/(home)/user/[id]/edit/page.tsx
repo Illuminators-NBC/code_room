@@ -8,20 +8,29 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { createClient } from '@/supabase/client';
 import { useEffect, useState } from 'react';
-import { useParams } from 'next/navigation';
+import { User } from 'lucide-react';
 
-const AccountEditPage = () => {
+type ChangePasswordFormProps = {
+  onSubmit: (newPassword: string) => void;
+};
+
+const AccountEditPage: React.FC<ChangePasswordFormProps> = ({ onSubmit }) => {
+  const supabase = createClient();
   const [userEmail, setUserEmail] = useState('');
   const [userNickname, setUserNickName] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
 
-  const params = () => {
-    const { id } = useParams();
-    console.log(id);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setNewPassword(e.target.value);
+
+    const { data: user, error } = await supabase.auth.updateUser({ password: newPassword });
+    console.log(error);
   };
 
   useEffect(() => {
     const fetchUserData = async () => {
-      const supabase = createClient();
       try {
         const {
           data: { user },
@@ -38,7 +47,6 @@ const AccountEditPage = () => {
         }
       } catch (error) {
         console.log(error);
-        toast.error('비밀번호를 확인해주세요');
       }
     };
     fetchUserData();
@@ -47,6 +55,7 @@ const AccountEditPage = () => {
   const notify = () => {
     toast.error('비밀번호를 확인해주세요.');
   };
+
   return (
     <div className="bg-zinc-950 w-screen h-screen">
       <div className="text-white bg-zinc-950 w-[640px] h-screen border border-zinc-800 m-auto p-[30px] text-center ">
@@ -64,7 +73,12 @@ const AccountEditPage = () => {
           </button>
         </p>
         <div>
-          <form className="mt-[60px]">
+          <form
+            className="mt-[60px]"
+            onSubmit={(e) => {
+              confirmPassword === newPassword ? handleSubmit(e) : toast.error('비밀번호를 확인해주세요');
+            }}
+          >
             <Input
               className="w-96 h-10 bg-[#71717A] border-zinc-600 p-4 m-auto mb-7 text-white placeholder:text-white placeholder:font-nomal"
               type="email"
@@ -75,21 +89,28 @@ const AccountEditPage = () => {
               className="w-96 h-10 bg-[#27272A] border-zinc-600 p-4 m-auto mb-7 text-white"
               type="password"
               placeholder="password"
+              value={newPassword}
+              onChange={(e) => setNewPassword(e.target.value)}
+              required
             />
             <Input
               className="w-96 h-10 bg-[#27272A] border-zinc-600 p-4 m-auto mb-7 text-white"
               type="password"
               placeholder="confirm password"
+              value={confirmPassword}
+              onChange={(e) => {
+                setConfirmPassword(e.target.value);
+              }}
+              required
             />
             <Button
               className="w-96 h-10 mt-8 bg-[#DD268E] border-0 font-bold hover:bg-[#FB2EA2] hover:text-white"
               variant="outline"
               type="submit"
-              onClick={notify}
             >
               수 정
             </Button>
-            <Link href={'/user/1'}>
+            <Link href={`/user`}>
               <Button
                 className="w-96 h-10 mt-5 bg-[#27272A] border-0 font-bold hover:bg-[#2d2d30] hover:text-white"
                 variant="outline"
@@ -103,7 +124,7 @@ const AccountEditPage = () => {
           <ToastContainer
             position="top-center"
             autoClose={3000}
-            limit={2}
+            limit={1}
             hideProgressBar={false}
             newestOnTop={false}
             closeOnClick
