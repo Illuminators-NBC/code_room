@@ -1,22 +1,38 @@
 "use client";
 import { Button } from '@/components/ui/button';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { createClient } from '@/supabase/client';
+import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
-
 
 function MyPage() {
   const [postdata, setPostdata] = useState<any[]>([]);
+  const [nickname, setNickname] = useState<string>('');
   const supabase = createClient();
 
   useEffect(() => {
     const PostingData = async () => {
-      const { data, error } = await supabase.from("post").select("*").eq("user_id", "1d8edfd6-9c34-49b3-82cd-5d26774cb63a")
-      if (error) {
-        console.log("오류 발생", error);
-      } else {
-        setPostdata(data);
-        console.log("데이터=> ", data);
+      try {
+        // 로그인 된 유저데이터 저장
+        const { data: UserData, error: UserDataError } = await supabase.auth.getUser();
+        console.log('유저데이터=> ', UserData);
+        // 유저ID 저장
+        const UserId = UserData.user?.id;
+        console.log('유저ID=> ', UserId);
+        // 닉네임 저장
+        const UserNickname = UserData.user?.user_metadata?.nickname;
+        console.log('불러온 닉네임=>', UserNickname);
+        setNickname(UserNickname);
+
+        const { data, error } = await supabase.from("post").select("*").eq("user_id", UserId as string);
+        if (error) {
+          console.error("오류 발생", error);
+        } else {
+          setPostdata(data);
+          console.log("데이터=> ", data);
+        }
+      } catch (error) {
+        console.error("Data Fetching Error", error)
       }
     };
     PostingData();
@@ -26,16 +42,14 @@ function MyPage() {
     <div className="w-[640px] mx-auto bg-black text-white min-h-screen ">
 
       {/* 헤더 */}
-      <header className="flex justify-between items-center h-[53px] bg-black border-b border-gray-400">
-        <div className="text-xl font-bold"></div>
-        <div>
-          <button>asd</button>
-        </div>
+      <header className="h-[53px] bg-black border-b border-gray-400 flex justify-between">
+        <Image src="/Group 100.png" width={100} height={50} alt="logo" className="m-auto ml-[30px]" />
+        <Image src="/user.png" width={30} height={30} alt="user" className="m-auto mr-[30px]" />
       </header>
 
       {/* 프로필 */}
       <section className="flex justify-between items-center bg-black rounded h-[93px]">
-        <span className="text-xl ml-[84px]">헤엄치는 피즈</span>
+        <span className="text-xl ml-[84px]">{nickname}</span>
         <Button className="px-4 py-2 bg-[#DD268E] rounded hover:bg-[#FB2EA2] mr-[30px]">프로필 수정</Button>
       </section>
 
@@ -71,15 +85,17 @@ function MyPage() {
             {/* 사진 + 내용 */}
             <div className="mt-2 bg-black  rounded">
               <div className="px-[29px]">
+                {/* 삼항 연산자 사용해서 처리해보기 */}
                 <img className="w-[580px] h-[260px] h-auto object-cover" src={post.image} alt="" />
               </div>
 
               <div className="px-[29px] border-b border-gray-400">
                 <p className="mt-[20px] mb-[19px] break-words">{post.content}</p>
+
                 <div className="flex justify-left">
                   <p className="mb-[31px]">❤: {post.like}</p>
-                  <p>📢: {post.comment_count}</p>
-                  <p>{post.tag}</p>
+                  <p className='ml-[19px]'>📢: {post.comment_count}</p>
+                  <p>{post.tag}Javascript</p>
                 </div>
               </div>
             </div>
