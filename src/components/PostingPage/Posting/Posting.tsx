@@ -8,15 +8,15 @@ import { Textarea } from '@/components/ui/textarea';
 import { toast } from '@/components/ui/use-toast';
 import Link from 'next/link';
 import PostBtn from '../Btn/PostBtn';
-import { useState } from 'react';
+import { createClient } from '@/supabase/client';
 
-// import MDEditor from '@uiw/react-md-editor';
+const supabase = createClient();
 
 const FormSchema = z.object({
   bio: z
     .string()
-    .min(10, {
-      message: 'text must be at least 10 characters.'
+    .min(5, {
+      message: 'text must be at least 5 characters.'
     })
     .max(500, {
       message: 'text must not be longer than 500 characters.'
@@ -26,27 +26,38 @@ const FormSchema = z.object({
 type FormValues = z.infer<typeof FormSchema>;
 //
 export function Posting() {
-  // const [value, setValue] = useState('');
   const form = useForm<FormValues>({
     resolver: zodResolver(FormSchema)
   });
 
-  const onSubmit: SubmitHandler<FormValues> = (data) => {
-    toast({
-      title: 'You submitted the following values:',
-      description: (
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-        </pre>
-      )
-    });
+  const onSubmit: SubmitHandler<FormValues> = async (data) => {
+    try {
+      const { data: postData, error } = await supabase.from('post').insert({ content: postData }).select().single();
+
+      if (error) {
+        throw error;
+      }
+      toast({
+        title: 'You submitted the following values:',
+        description: (
+          <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
+            <code className="text-white">{JSON.stringify(data, null, 2)}</code>
+          </pre>
+        )
+      });
+
+      form.reset();
+    } catch (error) {
+      console.error(error);
+      toast({
+        title: 'Error submitting post',
+        description: 'There was an error submitting your post. Please try again.',
+        variant: 'destructive'
+      });
+    }
   };
 
   return (
-    // <div className="container">
-    //   <MDEditor value={value} onChange={setValue} />
-    //   <MDEditor.Markdown source={value} style={{ whiteSpace: 'pre-wrap' }} />
-    // </div>
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="w-2/3 space-y-6">
         <FormField
