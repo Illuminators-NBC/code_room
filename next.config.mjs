@@ -8,7 +8,7 @@ const nextConfig = {
         hostname: 'raw.githubusercontent.com'
       }
     ]
-  }
+  },
+  reactStrictMode: false
 };
-
 export default nextConfig;
