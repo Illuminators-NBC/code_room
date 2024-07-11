@@ -66,11 +66,6 @@ const config = {
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out'
-      },
-      maxWidth: {
-        // 375px
-        '92': '23.4375rem',
-        '120': '36.25rem'
       }
     }
   },
