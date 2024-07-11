@@ -1,4 +1,5 @@
 'use client';
+import dayjs from 'dayjs';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm, SubmitHandler, Control } from 'react-hook-form';
 import { z } from 'zod';
@@ -31,10 +32,15 @@ export function Posting() {
   });
 
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
-    console.log('datadata=>', data);
     const inputData = data.bio;
     try {
-      const { data: postData, error } = await supabase.from('post').update({ content: inputData }).select().single();
+      const timestamp = dayjs().format('YYYY-MM-DD HH:mm:ss');
+      const { data: postData, error } = await supabase.from('post').insert({
+        post_id: crypto.randomUUID(),
+        user_id: crypto.randomUUID(),
+        content: inputData,
+        created_at: timestamp
+      });
 
       if (error) {
         throw error;

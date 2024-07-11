@@ -22,21 +22,17 @@
     "axios": "^1.7.2",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
+    "dayjs": "^1.11.11",
     "lucide-react": "^0.401.0",
     "next": "14.2.4",
     "next-recaptcha-v3": "^1.4.1",
     "next-remove-imports": "^1.0.12",
     "react": "^18",
     "react-dom": "^18",
-<<<<<<< HEAD
-=======
-    "react-intersection-observer": "^9.10.3",
-    "react-hook-form": "^7.52.1",
-    "next-recaptcha-v3": "^1.4.1",
->>>>>>> 78d2b78baba599b329c0edaf3a0212423c4906fb
     "react-google-recaptcha": "^3.1.0",
     "react-google-recaptcha-v3": "^1.10.1",
     "react-hook-form": "^7.52.1",
+    "react-intersection-observer": "^9.10.3",
     "react-toastify": "^10.0.5",
     "tailwind-merge": "^2.4.0",
     "tailwindcss-animate": "^1.0.7",
