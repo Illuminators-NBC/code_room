@@ -25,7 +25,8 @@ const NicknameSection: React.FC<NicknameSectionProps> = ({ nickname, onNicknameC
         onChange={handleInputChange}
         placeholder="Nickname"
         className="bg-[#27272A] text-white border-[#71717A] inline-flex items-center justify-center w-96 mb-7"
-        disabled
+        // disabled
+        readOnly
       />
       <RandomNickname onNicknameGenerated={handleNicknameGenerated} />
     </section>

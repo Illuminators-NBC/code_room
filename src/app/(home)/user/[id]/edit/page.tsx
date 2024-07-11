@@ -11,6 +11,7 @@ import { ChangeEventHandler, MouseEventHandler, useEffect, useState } from 'reac
 import { User } from 'lucide-react';
 import RandomNickname from '@/components/common/RandomNickname';
 import { FormState } from '@/types/signUpFormType';
+import NicknameSection from '@/components/common/NicknameSection';
 
 type ChangePasswordFormProps = {
   onSubmit: (newPassword: string) => void;
@@ -22,9 +23,6 @@ const AccountEditPage: React.FC<ChangePasswordFormProps> = ({ onSubmit }) => {
   const [userNickname, setUserNickName] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const handleNicknameGenerated = (nickname: string) => {
-    setFormState((prev) => ({ ...prev, nickname }));
-  };
   const initialState: FormState = {
     email: '',
     pw: '',
@@ -32,10 +30,16 @@ const AccountEditPage: React.FC<ChangePasswordFormProps> = ({ onSubmit }) => {
     nickname: '',
     recaptchaToken: ''
   };
+  const handleNicknameGenerated = (nickname: string) => {
+    setFormState((prev) => ({ ...prev, nickname }));
+  };
   const [formState, setFormState] = useState<FormState>(initialState);
   const handleInputChange: ChangeEventHandler<HTMLInputElement> = (e) => {
     const { name, value } = e.target;
     setFormState((prev) => ({ ...prev, [name]: value }));
+  };
+  const handleNicknameChange = (nickname: string) => {
+    setFormState((prev) => ({ ...prev, nickname }));
   };
 
   const handleSubmit = async (e) => {
@@ -88,37 +92,21 @@ const AccountEditPage: React.FC<ChangePasswordFormProps> = ({ onSubmit }) => {
           alt="code_room logo icon"
           width="50"
           height="50"
-          className="m-auto mt-[83px] mb-[28px]"
+          className="m-auto mt-[83px] mb-[60px]"
         />
-        {/* <span>{userNickname}</span>
-          <button className="ml-2 hover:transition-all hover:duration-500 hover:rotate-180 items-center" onClick={(e)=>{updateNickname(e)}}>
-            <Image src={'/refresh_icon.png'} alt="refresh icon" width="18" height="18" />
-          </button> */}
-        {/* <section>
+        <div>
           <Input
-            id="nickname"
-            name="nickname"
-            value={formState.nickname}
-            onChange={handleInputChange}
-            placeholder="Nickname"
-            className="bg-[#27272A] text-white border-[#71717A] inline-flex items-center justify-center w-96 mb-7"
+            className="w-96 h-10 bg-[#71717A] border-zinc-600 p-4 m-auto mb-7 text-white placeholder:text-white placeholder:font-nomal"
+            type="email"
+            value={userEmail}
             disabled
           />
-          <RandomNickname onNicknameGenerated={handleNicknameGenerated} />
-        </section> */}
-        <div>
+          <NicknameSection nickname={formState.nickname} onNicknameChange={handleNicknameChange} />
           <form
-            className="mt-[60px]"
             onSubmit={(e) => {
               confirmPassword === newPassword ? handleSubmit(e) : toast.error('비밀번호를 확인해주세요.');
             }}
           >
-            <Input
-              className="w-96 h-10 bg-[#71717A] border-zinc-600 p-4 m-auto mb-7 text-white placeholder:text-white placeholder:font-nomal"
-              type="email"
-              value={userEmail}
-              disabled
-            />
             <Input
               className="w-96 h-10 bg-[#27272A] border-zinc-600 p-4 m-auto mb-7 text-white"
               type="password"
