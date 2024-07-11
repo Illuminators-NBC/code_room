@@ -8,11 +8,13 @@ import { Input } from '../ui/input';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Image from 'next/image';
+import useUserInfo from '@/hooks/useUserInfo';
 
 export default function LoginForm() {
   const router = useRouter();
   const { login } = useLoginContext();
   const [formState, setFormState] = useState({ email: '', pw: '' });
+  const { setUserInfo } = useUserInfo();
 
   const validateEmail = (email: string) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -48,6 +50,7 @@ export default function LoginForm() {
     }
     toast.success('Success Login');
     login();
+    setUserInfo({ id: data.id, nickname: data.nickname });
     setFormState({ email: '', pw: '' });
     router.replace('/');
   };
