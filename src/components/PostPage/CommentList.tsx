@@ -5,6 +5,7 @@ import { Tables } from '@/types/supabase';
 import { Comment } from '@/utils/api';
 import { useParams } from 'next/navigation';
 import { useMemo } from 'react';
+import CommentItem from './CommentItem';
 
 interface CommentListProps {
   initialCommentData: Tables<'comments'>;
@@ -23,13 +24,7 @@ function CommentList({ initialCommentData }: CommentListProps) {
     <ul className="text-white flex flex-col w-full">
       {formattedCommentList.map((comment: Comment) => (
         <li key={comment.comment_id}>
-          <div className="py-8 border-b flex flex-col gap-5">
-            <div className="flex items-center justify-between font-medium">
-              <p>{comment.nickname}</p>
-              <button className="text-xl">...</button>
-            </div>
-            <p>{comment.content}</p>
-          </div>
+          <CommentItem comment={comment} />
         </li>
       ))}
     </ul>

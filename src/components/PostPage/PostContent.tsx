@@ -15,7 +15,7 @@ function PostContent({ initialPostData }: PostContentProps) {
   const { nickname, image, content, created_at, like, comment, tag, updated_at } = post;
 
   return (
-    <div className="w-full py-[30px] text-white">
+    <div className="w-full pt-[30px] text-white">
       <div className="min-h-[300px]">
         <div className="flex justify-between items-center mb-5 font-medium">
           <p>{nickname}</p>
