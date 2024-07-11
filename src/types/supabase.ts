@@ -5,17 +5,17 @@ export type Database = {
       comments: {
         Row: {
           comment_count: number;
-          comment_list: string[] | null;
+          comment_list: Json[] | null;
           post_id: string;
         };
         Insert: {
           comment_count?: number;
-          comment_list?: string[] | null;
+          comment_list?: Json[] | null;
           post_id?: string;
         };
         Update: {
           comment_count?: number;
-          comment_list?: string[] | null;
+          comment_list?: Json[] | null;
           post_id?: string;
         };
         Relationships: [
