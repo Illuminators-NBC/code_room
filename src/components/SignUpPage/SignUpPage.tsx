@@ -3,11 +3,17 @@
 import { FormState } from '@/types/signUpFormType';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { ChangeEventHandler, FormEventHandler, useState } from 'react';
+import { ChangeEventHandler, FormEventHandler, useEffect, useState } from 'react';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
+
+import RandomNickname from '../common/RandomNickname';
+import ReCAPTCHA from 'react-google-recaptcha';
+
+const RECAPTCHA_SITE_KEY = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY as string;
+
 
 export default function SignUpForm() {
   const router = useRouter();
@@ -15,9 +21,12 @@ export default function SignUpForm() {
     email: '',
     pw: '',
     confirmPw: '',
-    nickname: ''
+    nickname: '',
+    recaptchaToken: ''
   };
   const [formState, setFormState] = useState<FormState>(initialState);
+  const [recaptchaToken, setRecaptchaToken] = useState<string | null>(null);
+
 
   const validateEmail = (email: string) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -29,10 +38,15 @@ export default function SignUpForm() {
     setFormState((prev) => ({ ...prev, [name]: value }));
   };
 
+
+  const handleNicknameGenerated = (nickname: string) => {
+    setFormState((prev) => ({ ...prev, nickname }));
+  };
+
   const onSubmitHandler: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
-    if (!formState.email || !formState.pw || !formState.nickname) {
-      return toast.error('Please enter all blanks');
+    if (!formState.email || !formState.pw || !formState.nickname || !recaptchaToken) {
+      return toast.error('Please enter all fields and verify reCAPTCHA');
     }
     if (formState.pw !== formState.confirmPw) {
       return toast.error('Passwords do not match');
@@ -45,7 +59,8 @@ export default function SignUpForm() {
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(formState)
+
+      body: JSON.stringify({ ...formState, recaptchaToken })
     }).then((res) => res.json());
     if (data.errorMsg) {
       toast.error(data.errorMsg);
@@ -56,6 +71,10 @@ export default function SignUpForm() {
     router.push('/login');
   };
 
+
+  const onReCaptchaChange = (token: string | null) => {
+    setRecaptchaToken(token);
+  };
   return (
     <div className="bg-black w-[640px] h-screen border-2 border-zinc-800 h-auto m-auto text-center">
       <Image src="/Group 100.png" width={400} height={50} alt="logo" className="m-auto mt-48 mb-12" />
@@ -67,7 +86,7 @@ export default function SignUpForm() {
             value={formState.email}
             onChange={handleInputChange}
             placeholder="Email"
-            className="bg-[#27272A] text-white border-[#71717A] inline-flex items-center justify-center w-96 mb-12"
+            className="bg-[#27272A] text-white border-[#71717A] inline-flex items-center justify-center w-96 mb-7"
           />
         </section>
         <section>
@@ -78,7 +97,7 @@ export default function SignUpForm() {
             value={formState.pw}
             onChange={handleInputChange}
             placeholder="Password"
-            className="bg-[#27272A] text-white border-[#71717A] inline-flex items-center justify-center w-96 mb-12"
+            className="bg-[#27272A] text-white border-[#71717A] inline-flex items-center justify-center w-96 mb-7"
           />
         </section>
         <section>
@@ -89,7 +108,7 @@ export default function SignUpForm() {
             value={formState.confirmPw}
             onChange={handleInputChange}
             placeholder="Confirm Password"
-            className="bg-[#27272A] text-white border-[#71717A] inline-flex items-center justify-center w-96 mb-12"
+            className="bg-[#27272A] text-white border-[#71717A] inline-flex items-center justify-center w-96 mb-7"
           />
         </section>
         <section>
@@ -99,9 +118,16 @@ export default function SignUpForm() {
             value={formState.nickname}
             onChange={handleInputChange}
             placeholder="Nickname"
-            className="bg-[#27272A] text-white border-[#71717A] inline-flex items-center justify-center w-96 mb-12"
+            className="bg-[#27272A] text-white border-[#71717A] inline-flex items-center justify-center w-96 mb-7"
+            disabled
           />
+          <RandomNickname onNicknameGenerated={handleNicknameGenerated} />
         </section>
+        <ReCAPTCHA
+          sitekey={RECAPTCHA_SITE_KEY}
+          onChange={onReCaptchaChange}
+          className="inline-flex items-center justify-center mb-7"
+        />
         <Button type="submit" className="w-96 mb-7 bg-[#DD268E] hover:bg-[#FB2EA2]">
           Register
         </Button>
