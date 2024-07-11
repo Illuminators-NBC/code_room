@@ -1,14 +1,19 @@
 "use client";
 import { Button } from '@/components/ui/button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
+import useUserInfo from '@/hooks/useUserInfo';
 import { createClient } from '@/supabase/client';
 import Image from 'next/image';
+import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 
 function MyPage() {
   const [postdata, setPostdata] = useState<any[]>([]);
   const [nickname, setNickname] = useState<string>('');
+  const [writePost, setWritePost] = useState<boolean>(false);
+  const [favoritePost, setFavoritePost] = useState<boolean>(false);
   const supabase = createClient();
+  const {userInfo} = useUserInfo();
 
   useEffect(() => {
     const PostingData = async () => {
@@ -38,26 +43,88 @@ function MyPage() {
     PostingData();
   }, []);
 
+  // 작성된 글 보여주기
+  const WritePosting = async () => {
+    try {
+      // 로그인 된 유저데이터 저장
+      const { data: UserData, error: UserDataError } = await supabase.auth.getUser();
+      // 유저ID 저장
+      const UserId = UserData.user?.id;
+      // 닉네임 저장
+      const UserNickname = UserData.user?.user_metadata?.nickname;
+      setNickname(UserNickname);
+
+      const { data, error } = await supabase.from("post").select("*").eq("user_id", UserId as string);
+      if (error) {
+        console.error("오류 발생", error);
+      } else {
+        setPostdata(data);
+        console.log("데이터=> ", data);
+      }
+    } catch (error) {
+      console.error("Data Fetching Error", error);
+    }
+  };
+
+  // 좋아요한 글 보여주기
+  const FavoritePosting = async () => {
+    try {
+      // 로그인 된 유저데이터 저장
+      const { data: UserData, error: UserDataError } = await supabase.auth.getUser();
+      // 유저ID 저장
+      const UserId = UserData.user?.id;
+      // 닉네임 저장
+      const UserNickname = UserData.user?.user_metadata?.nickname;
+      setNickname(UserNickname);
+
+      const { data, error } = await supabase.from("post").select("*");
+      if (error) {
+        console.error("오류 발생", error);
+      } else {
+        setPostdata(data);
+        console.log("데이터=> ", data);
+      }
+    } catch (error) {
+      console.error("Data Fetching Error", error);
+    }
+  };
+
+  // 작성한글 보여주는 함수
+  const WriteShowHandler = () => {
+    setWritePost(true);
+    WritePosting();
+    setFavoritePost(false);
+  };
+  // 좋아요한 글 보여주는 함수
+  const FavoriteShowHandler = () => {
+    setFavoritePost(true);
+    FavoritePosting();
+    setWritePost(false);
+  }
+
   return (
-    <div className="w-[640px] mx-auto bg-black text-white min-h-screen ">
+    <div className="w-[640px] mx-auto bg-black text-white min-h-screen">
 
       {/* 헤더 */}
-      <header className="h-[53px] bg-black border-b border-gray-400 flex justify-between">
-        <Image src="/Group 100.png" width={100} height={50} alt="logo" className="m-auto ml-[30px]" />
+      <header className="h-[53px] bg-black border-b border-gray-500 flex justify-between">
+        <Link href="/" className="m-auto ml-[30px]"><Image src="/Group 100.png" width={100} height={50} alt="logo" /></Link>
         <Image src="/user.png" width={30} height={30} alt="user" className="m-auto mr-[30px]" />
       </header>
 
       {/* 프로필 */}
       <section className="flex justify-between items-center bg-black rounded h-[93px]">
         <span className="text-xl ml-[84px]">{nickname}</span>
-        <Button className="px-4 py-2 bg-[#DD268E] rounded hover:bg-[#FB2EA2] mr-[30px]">프로필 수정</Button>
+        {/* <Button className="px-4 py-2 bg-[#DD268E] rounded hover:bg-[#FB2EA2] mr-[30px]">프로필 수정</Button> */}
+        <Link href={`/user/${userInfo.id}/edit`} className=' text-white'>수정</Link>
       </section>
 
       {/* 버튼 */}
       <section>
         <div className="flex justify-center">
-          <button className=" bg-black w-[320px] h-[40px] border border-gray-700 hover:bg-gray-700 font-bold">작성한 글</button>
-          <button className=" bg-black w-[320px] h-[40px] border border-gray-700 hover:bg-gray-700 font-bold">좋아요한 글</button>
+          <button className={`w-[320px] h-[40px] border font-bold ${writePost ? 'bg-[#27272A]' : 'bg-[#09090B] hover:bg-[#27272A]'}`}
+            onClick={WriteShowHandler}>작성한 글</button>
+          <button className={`w-[320px] h-[40px] border font-bold ${favoritePost ? 'bg-[#27272A]' : 'bg-[#09090B] hover:bg-[#27272A]'}`}
+            onClick={FavoriteShowHandler}>좋아요한 글</button>
         </div>
       </section>
 
@@ -84,7 +151,7 @@ function MyPage() {
 
             {/* 사진 + 내용 */}
             <div className="mt-2 bg-black rounded">
-              <div className="px-[29px] border-b border-gray-400">
+              <div className="px-[29px] border-b border-gray-500">
                 {/* 삼항 연산자 사용해서 처리해보기*/}
                 {post.image ? (
                   <>
@@ -93,8 +160,8 @@ function MyPage() {
                       <p className="mt-[20px] mb-[19px] break-words">{post.content}</p>
                       <div className="flex justify-left">
                         <p className="mb-[18px]">❤: {post.like}</p>
-                        <p className='ml-[19px]'>📢: {post.comment_count}</p>
-                        <p className=' ml-[330px]'>{post.tag}</p>
+                        <p className="ml-[19px]">📢: {post.comment_count}</p>
+                        <p className="ml-[330px]">{post.tag}</p>
                       </div>
                     </div>
                   </>
@@ -103,8 +170,8 @@ function MyPage() {
                     <p className="mt-[-10px] mb-[19px] break-words">{post.content}</p>
                     <div className="flex justify-left">
                       <p className="mb-[31px]">❤: {post.like}</p>
-                      <p className='ml-[19px]'>📢: {post.comment_count}</p>
-                      <p className=' ml-[330px]'>{post.tag}</p>
+                      <p className="ml-[19px]">📢: {post.comment_count}</p>
+                      <p className="ml-[330px]">{post.tag}</p>
                     </div>
                   </div>
                 )}
