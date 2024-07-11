@@ -5,6 +5,8 @@ import { Post, PaigniatedPost } from '@/types/posts';
 import { useInView } from 'react-intersection-observer';
 import Image from 'next/image';
 import { SkeletonCard } from './Skeleton';
+import LikeButton from '../common/LikeButton';
+import CommentButton from '../common/CommentButton';
 
 const fetchPost = async (pageParam: number) => {
   try {
@@ -90,8 +92,9 @@ export default function FeedList() {
                   </figure>
                 ) : null}
                 <p className="mt-5 mb-7">{post.content}</p>
-                <div>
-                  <span className="mb-7">{post.like}</span> <span>{post.comment_count}</span>
+                <div className="flex mb-7">
+                  <LikeButton /> <span className="mx-2">{post.like}</span>
+                  <CommentButton /> <span className="mx-2">{post.comment_count}</span>
                 </div>
               </li>
             );
