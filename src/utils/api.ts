@@ -1,4 +1,5 @@
 import { createClient as createServerClient } from '@/supabase/server';
+import { Tables } from '@/types/supabase';
 
 // Post
 export const getPostByIdInServer = async (id: string) => {
@@ -13,14 +14,6 @@ export const getPostByIdInServer = async (id: string) => {
 };
 
 // Comment
-export interface Comment {
-  comment_id: string;
-  content: string;
-  user_id: string;
-  nickname: string;
-  created_at?: string;
-  updated_at?: string;
-}
 
 export const getCommentByIdInServer = async (id: string) => {
   const supabaseClient = createServerClient();
@@ -33,20 +26,10 @@ export const getCommentByIdInServer = async (id: string) => {
   return data[0];
 };
 
-export const createCommentInServer = async (postId: string, newComment: Comment) => {
-  const { comment_count: prevCommentCount, comment_list: prevCommentList = [] } = await getCommentByIdInServer(postId);
-
-  const formattedPrevCommentList = prevCommentList!.map((comment) => JSON.parse(comment as string));
-
-  const newCommentList = [...formattedPrevCommentList, newComment];
-  const formattedNewCommentList = newCommentList.map((comment) => JSON.stringify(comment));
-
+export const createCommentInServer = async (newComment: Tables<'comments'>) => {
   const supabaseClient = createServerClient();
 
-  const { error } = await supabaseClient
-    .from('comments')
-    .update({ comment_list: formattedNewCommentList, comment_count: prevCommentCount + 1 })
-    .eq('post_id', postId);
+  const { error } = await supabaseClient.from('comments').insert(newComment);
 
   if (error) {
     throw new Error(error.message);
@@ -54,45 +37,25 @@ export const createCommentInServer = async (postId: string, newComment: Comment)
 };
 
 export const updateCommentInServer = async (
-  postId: string,
-  commentId: Comment['comment_id'],
-  newComment: Comment['content']
+  commentId: Tables<'comments'>['comment_id'],
+  newCommentContent: Tables<'comments'>['content']
 ) => {
-  const { comment_list: prevCommentList = [] } = await getCommentByIdInServer(postId);
-
-  const formattedPrevCommentList: Comment[] = prevCommentList!.map((comment) => JSON.parse(comment as string));
-
-  const newCommentList = formattedPrevCommentList.map((comment) =>
-    comment.comment_id === commentId ? { ...comment, content: newComment } : comment
-  );
-  const formattedNewCommentList = newCommentList.map((comment) => JSON.stringify(comment));
-
   const supabaseClient = createServerClient();
 
   const { error } = await supabaseClient
     .from('comments')
-    .update({ comment_list: formattedNewCommentList })
-    .eq('post_id', postId);
+    .update({ content: newCommentContent })
+    .eq('comment_id', commentId);
 
   if (error) {
     throw new Error(error.message);
   }
 };
 
-export const deleteCommentInServer = async (postId: string, commentId: Comment['comment_id']) => {
-  const { comment_count: prevCommentCount, comment_list: prevCommentList = [] } = await getCommentByIdInServer(postId);
-
-  const formattedPrevCommentList: Comment[] = prevCommentList!.map((comment) => JSON.parse(comment as string));
-
-  const newCommentList = formattedPrevCommentList.filter((comment) => comment.comment_id !== commentId);
-  const formattedNewCommentList = newCommentList.map((comment) => JSON.stringify(comment));
-
+export const deleteCommentInServer = async (commentId: Tables<'comments'>['comment_id']) => {
   const supabaseClient = createServerClient();
 
-  const { error } = await supabaseClient
-    .from('comments')
-    .update({ comment_list: formattedNewCommentList, comment_count: prevCommentCount - 1 })
-    .eq('post_id', postId);
+  const { error } = await supabaseClient.from('comments').delete().eq('comment_id', commentId);
 
   if (error) {
     throw new Error(error.message);

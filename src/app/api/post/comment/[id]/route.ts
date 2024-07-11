@@ -13,29 +13,27 @@ export const GET = async (request: NextRequest, { params }: { params: { id: stri
   return NextResponse.json(res);
 };
 
-export const POST = async (request: NextRequest, { params }: { params: { id: string } }) => {
-  const { id } = params;
+export const POST = async (request: NextRequest) => {
   const newComment = await request.json();
 
-  await createCommentInServer(id, newComment);
+  await createCommentInServer(newComment);
 
   return NextResponse.json('Comment Create Success!');
 };
 
-export const PATCH = async (request: NextRequest, { params }: { params: { id: string } }) => {
-  const { id } = params;
-  const { commentId, newComment } = await request.json();
+export const PATCH = async (request: NextRequest, { params }: { params: { commentId: string } }) => {
+  const { commentId } = params;
+  const { newCommentContent } = await request.json();
 
-  await updateCommentInServer(id, commentId, newComment);
+  await updateCommentInServer(commentId, newCommentContent);
 
   return NextResponse.json('Comment Update Success!');
 };
 
-export const DELETE = async (request: NextRequest, { params }: { params: { id: string } }) => {
-  const { id } = params;
+export const DELETE = async (request: NextRequest) => {
   const { commentId } = await request.json();
 
-  await deleteCommentInServer(id, commentId);
+  await deleteCommentInServer(commentId);
 
   return NextResponse.json('Comment Delete Success!');
 };
