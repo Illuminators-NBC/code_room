@@ -10,7 +10,7 @@ import Link from 'next/link';
 import PostBtn from '../Btn/PostBtn';
 import { useState } from 'react';
 
-import MDEditor from '@uiw/react-md-editor';
+// import MDEditor from '@uiw/react-md-editor';
 
 const FormSchema = z.object({
   bio: z
@@ -24,9 +24,9 @@ const FormSchema = z.object({
 });
 
 type FormValues = z.infer<typeof FormSchema>;
-
+//
 export function Posting() {
-  const [value, setValue] = useState('');
+  // const [value, setValue] = useState('');
   const form = useForm<FormValues>({
     resolver: zodResolver(FormSchema)
   });
@@ -43,37 +43,37 @@ export function Posting() {
   };
 
   return (
-    <div className="container">
-      <MDEditor value={value} onChange={setValue} />
-      <MDEditor.Markdown source={value} style={{ whiteSpace: 'pre-wrap' }} />
-    </div>
-    // <Form {...form}>
-    //   <form onSubmit={form.handleSubmit(onSubmit)} className="w-2/3 space-y-6">
-    //     <FormField
-    //       control={form.control as Control<FormValues>}
-    //       name="bio"
-    //       render={({ field }) => (
-    //         <FormItem>
-    //           <FormLabel></FormLabel>
-    //           <FormControl>
-    //             <Textarea
-    //               placeholder="Tell us a little bit about yourself"
-    //               className="resize-none h-40 bg-black text-white"
-    //               {...field}
-    //             />
-    //           </FormControl>
-    //           <FormDescription></FormDescription>
-    //           <FormMessage />
-    //         </FormItem>
-    //       )}
-    //     />
-    //     <Button asChild variant="outline" className="bg-[#27272A] border-none m-2">
-    //       <Link href="/" className="bg-[#27272A] hover:bg-[#71717A] text-white font-semibold ">
-    //         Cancel
-    //       </Link>
-    //     </Button>
-    //     <PostBtn type="submit" />
-    //   </form>
-    // </Form>
+    // <div className="container">
+    //   <MDEditor value={value} onChange={setValue} />
+    //   <MDEditor.Markdown source={value} style={{ whiteSpace: 'pre-wrap' }} />
+    // </div>
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="w-2/3 space-y-6">
+        <FormField
+          control={form.control as Control<FormValues>}
+          name="bio"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel></FormLabel>
+              <FormControl>
+                <Textarea
+                  placeholder="Tell us a little bit about yourself"
+                  className="resize-none h-40 bg-black text-white"
+                  {...field}
+                />
+              </FormControl>
+              <FormDescription></FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <Button asChild variant="outline" className="bg-[#27272A] border-none m-2">
+          <Link href="/" className="bg-[#27272A] hover:bg-[#71717A] text-white font-semibold ">
+            Cancel
+          </Link>
+        </Button>
+        <PostBtn type="submit" />
+      </form>
+    </Form>
   );
 }

@@ -1,7 +1,6 @@
 'use client';
 import Image from 'next/image';
 import CategoryManager from './Category/CategoryMenu';
-import { Button } from '../ui/button';
 import { Posting } from './Posting/Posting';
 
 const PostingPage = () => {
@@ -20,8 +19,6 @@ const PostingPage = () => {
           <CategoryManager />
         </div>
         <Posting />
-        {/* 버튼 클릭시 (1)빈 칸일 때 알럿창, (2) 조건<작성글 갯수>부 알럿창  */}
-        {/*  */}
       </main>
     </div>
   );
