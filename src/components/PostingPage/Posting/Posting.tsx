@@ -10,6 +10,7 @@ import { toast } from '@/components/ui/use-toast';
 import Link from 'next/link';
 import PostBtn from '../Btn/PostBtn';
 import { createClient } from '@/supabase/client';
+import useUserInfo from '@/hooks/useUserInfo';
 
 const supabase = createClient();
 
@@ -27,6 +28,7 @@ const FormSchema = z.object({
 type FormValues = z.infer<typeof FormSchema>;
 //
 export function Posting() {
+  const { userInfo } = useUserInfo();
   const form = useForm<FormValues>({
     resolver: zodResolver(FormSchema)
   });
@@ -37,8 +39,7 @@ export function Posting() {
     try {
       const timestamp = dayjs().format('YYYY-MM-DD HH:mm:ss');
       const { data: postData, error } = await supabase.from('post').insert({
-        post_id: crypto.randomUUID(),
-        user_id: crypto.randomUUID(),
+        user_id: userInfo.id,
         content: inputData,
         created_at: timestamp
       });
