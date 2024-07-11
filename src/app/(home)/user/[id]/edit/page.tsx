@@ -53,8 +53,11 @@ const AccountEditPage: React.FC<ChangePasswordFormProps> = ({ onSubmit }) => {
     fetchUserData();
   }, []);
 
-  const notify = () => {
-    toast.error('비밀번호를 확인해주세요.');
+  // 닉네임 바꾸기
+  const updateNickname = () => {
+    // 새로고침 버튼을 누르면 닉네임이 랜덤 변경되는 함수 실행
+    // 변경된 닉네임은 setnickname -> nickname으로 저장
+    // nickname을 supabase에 업데이트
   };
 
   return (
@@ -77,7 +80,7 @@ const AccountEditPage: React.FC<ChangePasswordFormProps> = ({ onSubmit }) => {
           <form
             className="mt-[60px]"
             onSubmit={(e) => {
-              confirmPassword === newPassword ? handleSubmit(e) : toast.error('비밀번호를 확인해주세요');
+              confirmPassword === newPassword ? handleSubmit(e) : toast.error('비밀번호를 확인해주세요.');
             }}
           >
             <Input

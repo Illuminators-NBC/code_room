@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 export type Json =
   | string
   | number
@@ -244,3 +245,5 @@ export type Enums<
   : PublicEnumNameOrOptions extends keyof PublicSchema["Enums"]
     ? PublicSchema["Enums"][PublicEnumNameOrOptions]
     : never
+=======
+>>>>>>> 0cb5b4ed119dbe7be778018cf0186b25d9b35f6b
