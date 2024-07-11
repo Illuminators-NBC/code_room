@@ -28,23 +28,23 @@ export default function RootLayout({
             <Link href={'/'}>
               <Image src={'/logo.png'} alt="logo" width="93" height="14" />
             </Link>
-            <div className="로그인O flex">
+            {/* <div className="로그인O flex">
               <Link href={'/user'}>
                 <Image src={'/mypage_icon.png'} alt="mypage" width="16" height="20" />
               </Link>
               <Link href={'/'} className="ml-5">
                 <Image src={'/logout_icon.png'} alt="mypage" width="20" height="20" />
               </Link>
-            </div>
+            </div> */}
 
-            {/* <div className="로그인X">
+            <div className="로그인X flex">
               <Link href={'/login'}>
                 <Image src={'/login_icon.png'} alt="mypage" width="16" height="20" />
               </Link>
               <Link href={'/sign-up'}>
                 <Image src={'/signup_icon.png'} alt="mypage" width="20" height="20" />
               </Link>
-            </div> */}
+            </div>
           </div>
         </header>
 
