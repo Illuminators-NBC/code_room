@@ -26,6 +26,7 @@ const AccountEditPage: React.FC<ChangePasswordFormProps> = ({ onSubmit }) => {
     setNewPassword(e.target.value);
 
     const { data: user, error } = await supabase.auth.updateUser({ password: newPassword });
+    toast.success('비밀번호가 변경되었습니다.');
     console.log(error);
   };
 
