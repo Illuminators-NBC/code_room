@@ -1,12 +1,14 @@
 'use client';
 
 import { useInfiniteQuery } from '@tanstack/react-query';
-import FeedItem from './FeedItem';
 import { Post, PaigniatedPost } from '@/types/posts';
+import { useInView } from 'react-intersection-observer';
+import Image from 'next/image';
+import { SkeletonCard } from './Skeleton';
 
 const fetchPost = async (pageParam: number) => {
   try {
-    // 얘는 HTTP 요청에 대한 정보를 담고 있음, status code, header, body 등
+    // HTTP 요청에 대한 정보를 담고 있음, status code, header, body 등
     // SEO 최적화를 위해 client-side 가 아니라 서버 환경에서 진행할 경우, route.ts 코드를 직접 실행할 수 있게 만드는 방법이 있음
     const response = await fetch(`http://localhost:3000/api/home?page=${pageParam}`);
 
@@ -41,7 +43,21 @@ export default function FeedList() {
     }
   });
 
-  if (isPending) return <div>Loading...</div>;
+  const { ref } = useInView({
+    threshold: 1,
+    onChange: (inView) => {
+      if (inView && hasNextPage && !isFetchingNextPage) fetchNextPage();
+    }
+  });
+
+  if (isPending)
+    return (
+      <ul className="max-w-92 sm:max-w-120">
+        <SkeletonCard />
+        <SkeletonCard />
+        <SkeletonCard />
+      </ul>
+    );
   if (isError) return <div>Error...</div>;
 
   return (
@@ -49,15 +65,46 @@ export default function FeedList() {
       <ul className="max-w-92 sm:max-w-120">
         {paginatedPosts.pages.map((page) => {
           return page.data.map((post: Post) => {
-            return <FeedItem key={post.post_id} post={post} />;
+            const isLastItem = page.data.length - 1 === page.data.indexOf(post);
+            return (
+              // react-intersection-observer 에서 제공하는 ref 를 사용하기 위해 한 컴포넌트 안에서 ref를 사용하도록 설정.
+              // forwardRef 를 사용하면 동작 안 함
+              <li
+                ref={isLastItem ? ref : null}
+                key={post.post_id}
+                className="max-w-92 sm:max-w-120 border border-[#2F3336] p-3.5 sm:p-7"
+              >
+                <h6 className="mb-5">{post.nickname}</h6>
+                {post.image ? (
+                  <figure className="relative max-w-92 sm:max-w-120 h-32 sm:h-64">
+                    {post.image ? (
+                      <Image
+                        className="rounded-xl"
+                        priority={true}
+                        src={post.image}
+                        alt="유저가 업로드한 사진"
+                        fill={true}
+                        sizes="100vw"
+                      />
+                    ) : null}
+                  </figure>
+                ) : null}
+                <p className="mt-5 mb-7">{post.content}</p>
+                <div>
+                  <span className="mb-7">{post.like}</span> <span>{post.comment_count}</span>
+                </div>
+              </li>
+            );
           });
         })}
+        {isFetchingNextPage && (
+          <>
+            <SkeletonCard />
+            <SkeletonCard />
+            <SkeletonCard />
+          </>
+        )}
       </ul>
-      {hasNextPage && (
-        <button onClick={() => fetchNextPage()} disabled={isFetchingNextPage}>
-          {isFetchingNextPage ? 'Loading more...' : 'Load More'}
-        </button>
-      )}
     </>
   );
 }
