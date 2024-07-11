@@ -11,20 +11,20 @@ export type Database = {
     Tables: {
       comments: {
         Row: {
-          comment_count: number
-          comment_list: Json[] | null
-          post_id: string
-        }
+          comment_count: number;
+          comment_list: string[] | null;
+          post_id: string;
+        };
         Insert: {
-          comment_count?: number
-          comment_list?: Json[] | null
-          post_id?: string
-        }
+          comment_count?: number;
+          comment_list?: Json[] | null;
+          post_id?: string;
+        };
         Update: {
-          comment_count?: number
-          comment_list?: Json[] | null
-          post_id?: string
-        }
+          comment_count?: number;
+          comment_list?: Json[] | null;
+          post_id?: string;
+        };
         Relationships: [
           {
             foreignKeyName: "comments_post_id_fkey"
