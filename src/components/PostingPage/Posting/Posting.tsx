@@ -41,15 +41,13 @@ export function Posting() {
 
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
     const inputData = data.bio;
-    console.log('보이는가');
     try {
-      console.log('작동 좀 하자~!');
       const timestamp = dayjs().format('YYYY-MM-DD HH:mm:ss');
       const { data: postData, error } = await supabase.from('post').insert({
         user_id: userInfo.id,
         content: inputData,
         created_at: timestamp,
-        tag: selectedCategories[0].name
+        tag: selectedCategories[0]?.name
       });
       if (error) {
         console.error(error);
@@ -112,7 +110,6 @@ export function Posting() {
           >
             POST
           </button>
-          {/* <PostBtn type="submit" /> */}
         </form>
       </Form>
     </div>

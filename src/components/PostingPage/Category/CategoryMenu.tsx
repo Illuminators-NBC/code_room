@@ -23,8 +23,6 @@ interface CategoryManagerProps {
 }
 
 const CategoryManager: React.FC<CategoryManagerProps> = ({ selectedCategories, setSelectedCategories }) => {
-  // const [selectedCategories, setSelectedCategories] = useState<Category[]>([]);
-  console.log(typeof selectedCategories);
   const handleCategoryClick = (categoryName: string) => {
     console.log(selectedCategories);
     if (selectedCategories.length > 0) {
