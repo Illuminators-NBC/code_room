@@ -66,7 +66,7 @@ export default function LoginForm() {
             value={formState.email}
             onChange={handleInputChange}
             placeholder="Email"
-            className="bg-[#27272A] text-white border-[#71717A] inline-flex items-center justify-center w-[300px] mb-12 mt-24"
+            className="bg-[#27272A] text-white border-[#71717A] inline-flex items-center justify-center w-96 mb-12 mt-24"
           />
         </section>
         <section>

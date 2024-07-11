@@ -16,7 +16,7 @@ const NicknameSection: React.FC<NicknameSectionProps> = ({ nickname, onNicknameC
     onNicknameChange(generatedNickname);
   };
   return (
-    <section>
+    <section className="w-96 h-10 mx-auto mb-7 relative">
       <Input
         id="nickname"
         name="nickname"
