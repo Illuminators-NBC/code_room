@@ -17,7 +17,12 @@ const categories: Category[] = [
   { name: 'TanStack-Query', color: 'text-purple-900', backgroundColor: 'bg-purple-200' }
 ];
 
-const CategoryManager: React.FC = ({ selectedCategories, setSelectedCategories }) => {
+interface CategoryManagerProps {
+  selectedCategories: Category[];
+  setSelectedCategories: React.Dispatch<React.SetStateAction<Category[]>>;
+}
+
+const CategoryManager: React.FC<CategoryManagerProps> = ({ selectedCategories, setSelectedCategories }) => {
   // const [selectedCategories, setSelectedCategories] = useState<Category[]>([]);
   console.log(typeof selectedCategories);
   const handleCategoryClick = (categoryName: string) => {

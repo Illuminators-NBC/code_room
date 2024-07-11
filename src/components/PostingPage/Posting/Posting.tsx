@@ -101,16 +101,16 @@ export function Posting() {
             )}
           />
           <Button asChild variant="outline" className="bg-[#27272A] border-none m-2">
-            <Link href="/" className="bg-[#27272A] hover:bg-[#71717A] text-white font-semibold ">
+            <Link href="/" className="bg-[#27272A] hover:bg-[#4f4f57] text-white font-semibold ">
               Cancel
             </Link>
           </Button>
           <button
-            className="bg-[#DD268E] text-white hover:bg-[#FB2EA2] hover:text-black transition-colors duration-300 border-none font-semibold  justify-end"
+            className="bg-[#DD268E] text-white hover:bg-[#FB2EA2] hover:text-black px-5 py-2.5 rounded-md text-sm font-semibold"
             type="submit"
             onClick={() => navigate.push('/')}
           >
-            클릭
+            POST
           </button>
           {/* <PostBtn type="submit" /> */}
         </form>
