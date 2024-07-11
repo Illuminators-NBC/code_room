@@ -19,7 +19,7 @@ export async function POST(request: Request) {
   const { data: userProfile, error: profileError } = await supabase
     .from('user')
     .select('id, nickname')
-    .eq('id', user?.id)
+    .eq('id', user.id)
     .single();
   if (profileError) {
     console.error('profileError:', profileError.message);
