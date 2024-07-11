@@ -8,10 +8,12 @@ import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
+
 import RandomNickname from '../common/RandomNickname';
 import ReCAPTCHA from 'react-google-recaptcha';
 
 const RECAPTCHA_SITE_KEY = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY as string;
+
 
 export default function SignUpForm() {
   const router = useRouter();
@@ -25,6 +27,7 @@ export default function SignUpForm() {
   const [formState, setFormState] = useState<FormState>(initialState);
   const [recaptchaToken, setRecaptchaToken] = useState<string | null>(null);
 
+
   const validateEmail = (email: string) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
@@ -34,6 +37,7 @@ export default function SignUpForm() {
     const { name, value } = e.target;
     setFormState((prev) => ({ ...prev, [name]: value }));
   };
+
 
   const handleNicknameGenerated = (nickname: string) => {
     setFormState((prev) => ({ ...prev, nickname }));
@@ -55,6 +59,7 @@ export default function SignUpForm() {
       headers: {
         'Content-Type': 'application/json'
       },
+
       body: JSON.stringify({ ...formState, recaptchaToken })
     }).then((res) => res.json());
     if (data.errorMsg) {
@@ -66,10 +71,10 @@ export default function SignUpForm() {
     router.push('/login');
   };
 
+
   const onReCaptchaChange = (token: string | null) => {
     setRecaptchaToken(token);
   };
-
   return (
     <div className="bg-black w-[640px] h-screen border-2 border-zinc-800 h-auto m-auto text-center">
       <Image src="/Group 100.png" width={400} height={50} alt="logo" className="m-auto mt-48 mb-12" />
