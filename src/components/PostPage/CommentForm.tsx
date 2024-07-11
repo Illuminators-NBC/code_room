@@ -1,12 +1,34 @@
 'use client';
 
-import { useState } from 'react';
+import useCommentMutation from '@/hooks/useCommentMutation';
+import { Comment } from '@/utils/api';
+import { useParams } from 'next/navigation';
+import { FormEvent, useState } from 'react';
 
 function CommentForm() {
+  const { id } = useParams<{ id: string }>();
+  const { createCommentMutation } = useCommentMutation();
+
   const [content, setContent] = useState<string>('');
 
+  const handleCreateComment = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const newComment: Comment = {
+      comment_id: '2',
+      content,
+      nickname: '2',
+      user_id: '2'
+    };
+
+    createCommentMutation.mutate({ id, newComment });
+  };
+
   return (
-    <form className="text-white h-10 flex items-center justify-between w-full gap-[28px]">
+    <form
+      onSubmit={handleCreateComment}
+      className="text-white h-10 flex items-center justify-between w-full gap-[28px]"
+    >
       <input
         className="font-medium text-sm px-4 h-full rounded-[6px] bg-[#27272A] outline-none w-full placeholder:text-[#71717A]"
         placeholder="댓글을 작성하세요"
