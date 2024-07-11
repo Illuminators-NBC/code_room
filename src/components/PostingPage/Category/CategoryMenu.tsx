@@ -21,6 +21,9 @@ const CategoryManager: React.FC = () => {
   const [selectedCategories, setSelectedCategories] = useState<Category[]>([]);
 
   const handleCategoryClick = (categoryName: string) => {
+    if (selectedCategories.length > 0) {
+      return;
+    }
     setSelectedCategories((prevCategories) => {
       const category = categories.find((c) => c.name === categoryName);
       if (!category) return prevCategories;

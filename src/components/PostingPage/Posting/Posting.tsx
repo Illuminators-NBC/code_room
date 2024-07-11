@@ -31,8 +31,10 @@ export function Posting() {
   });
 
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
+    console.log('datadata=>', data);
+    const inputData = data.bio;
     try {
-      const { data: postData, error } = await supabase.from('post').insert({ content: postData }).select().single();
+      const { data: postData, error } = await supabase.from('post').update({ content: inputData }).select().single();
 
       if (error) {
         throw error;
@@ -83,7 +85,7 @@ export function Posting() {
             Cancel
           </Link>
         </Button>
-        <PostBtn type="submit" />
+        <PostBtn />
       </form>
     </Form>
   );
