@@ -7,8 +7,10 @@ import Image from 'next/image';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { createClient } from '@/supabase/client';
-import { useEffect, useState } from 'react';
+import { ChangeEventHandler, MouseEventHandler, useEffect, useState } from 'react';
 import { User } from 'lucide-react';
+import RandomNickname from '@/components/common/RandomNickname';
+import { FormState } from '@/types/signUpFormType';
 
 type ChangePasswordFormProps = {
   onSubmit: (newPassword: string) => void;
@@ -20,13 +22,28 @@ const AccountEditPage: React.FC<ChangePasswordFormProps> = ({ onSubmit }) => {
   const [userNickname, setUserNickName] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const handleNicknameGenerated = (nickname: string) => {
+    setFormState((prev) => ({ ...prev, nickname }));
+  };
+  const initialState: FormState = {
+    email: '',
+    pw: '',
+    confirmPw: '',
+    nickname: '',
+    recaptchaToken: ''
+  };
+  const [formState, setFormState] = useState<FormState>(initialState);
+  const handleInputChange: ChangeEventHandler<HTMLInputElement> = (e) => {
+    const { name, value } = e.target;
+    setFormState((prev) => ({ ...prev, [name]: value }));
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setNewPassword(e.target.value);
 
     const { data: user, error } = await supabase.auth.updateUser({ password: newPassword });
-    toast.success('비밀번호가 변경되었습니다.');
+    toast.success('수정되었습니다.');
     console.log(error);
   };
 
@@ -54,8 +71,11 @@ const AccountEditPage: React.FC<ChangePasswordFormProps> = ({ onSubmit }) => {
   }, []);
 
   // 닉네임 바꾸기
-  const updateNickname = () => {
+  const updateNickname: React.MouseEventHandler<HTMLElement> = (e) => {
+    e.preventDefault();
     // 새로고침 버튼을 누르면 닉네임이 랜덤 변경되는 함수 실행
+
+    return toast.success('수정되었습니다.');
     // 변경된 닉네임은 setnickname -> nickname으로 저장
     // nickname을 supabase에 업데이트
   };
@@ -70,12 +90,22 @@ const AccountEditPage: React.FC<ChangePasswordFormProps> = ({ onSubmit }) => {
           height="50"
           className="m-auto mt-[83px] mb-[28px]"
         />
-        <p className="text-xl font-bold">
-          <span>{userNickname}</span>
-          <button className="ml-2 hover:transition-all hover:duration-500 hover:rotate-180 items-center">
+        {/* <span>{userNickname}</span>
+          <button className="ml-2 hover:transition-all hover:duration-500 hover:rotate-180 items-center" onClick={(e)=>{updateNickname(e)}}>
             <Image src={'/refresh_icon.png'} alt="refresh icon" width="18" height="18" />
-          </button>
-        </p>
+          </button> */}
+        {/* <section>
+          <Input
+            id="nickname"
+            name="nickname"
+            value={formState.nickname}
+            onChange={handleInputChange}
+            placeholder="Nickname"
+            className="bg-[#27272A] text-white border-[#71717A] inline-flex items-center justify-center w-96 mb-7"
+            disabled
+          />
+          <RandomNickname onNicknameGenerated={handleNicknameGenerated} />
+        </section> */}
         <div>
           <form
             className="mt-[60px]"
