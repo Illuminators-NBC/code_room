@@ -22,7 +22,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="w-screen p-0 m-0 bg-zinc-950">
+      <body className={`w-screen p-0 m-0 bg-zinc-950 ${inter.className}`}>
         <header>
           <div className="w-[640px] h-[53px] m-auto bg-zinc-950 items-center justify-between px-[30px] flex border border-zinc-800">
             <Link href={'/'}>
@@ -47,6 +47,7 @@ export default function RootLayout({
             </div> */}
           </div>
         </header>
+
         <Providers>{children}</Providers>
       </body>
     </html>
