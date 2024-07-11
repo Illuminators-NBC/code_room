@@ -8,12 +8,10 @@ import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
-
-import RandomNickname from '../common/RandomNickname';
 import ReCAPTCHA from 'react-google-recaptcha';
+import NicknameSection from '../common/NicknameSection';
 
 const RECAPTCHA_SITE_KEY = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY as string;
-
 
 export default function SignUpForm() {
   const router = useRouter();
@@ -27,7 +25,6 @@ export default function SignUpForm() {
   const [formState, setFormState] = useState<FormState>(initialState);
   const [recaptchaToken, setRecaptchaToken] = useState<string | null>(null);
 
-
   const validateEmail = (email: string) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
@@ -38,8 +35,7 @@ export default function SignUpForm() {
     setFormState((prev) => ({ ...prev, [name]: value }));
   };
 
-
-  const handleNicknameGenerated = (nickname: string) => {
+  const handleNicknameChange = (nickname: string) => {
     setFormState((prev) => ({ ...prev, nickname }));
   };
 
@@ -71,10 +67,10 @@ export default function SignUpForm() {
     router.push('/login');
   };
 
-
   const onReCaptchaChange = (token: string | null) => {
     setRecaptchaToken(token);
   };
+
   return (
     <div className="bg-black w-[640px] h-screen border-2 border-zinc-800 h-auto m-auto text-center">
       <Image src="/Group 100.png" width={400} height={50} alt="logo" className="m-auto mt-48 mb-12" />
@@ -111,18 +107,7 @@ export default function SignUpForm() {
             className="bg-[#27272A] text-white border-[#71717A] inline-flex items-center justify-center w-96 mb-7"
           />
         </section>
-        <section>
-          <Input
-            id="nickname"
-            name="nickname"
-            value={formState.nickname}
-            onChange={handleInputChange}
-            placeholder="Nickname"
-            className="bg-[#27272A] text-white border-[#71717A] inline-flex items-center justify-center w-96 mb-7"
-            disabled
-          />
-          <RandomNickname onNicknameGenerated={handleNicknameGenerated} />
-        </section>
+        <NicknameSection nickname={formState.nickname} onNicknameChange={handleNicknameChange} />
         <ReCAPTCHA
           sitekey={RECAPTCHA_SITE_KEY}
           onChange={onReCaptchaChange}
