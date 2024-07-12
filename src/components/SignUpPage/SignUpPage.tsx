@@ -42,7 +42,7 @@ export default function SignUpForm() {
 
   const onSubmitHandler: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
-    if (!formState.email || !formState.pw || !formState.nickname || !recaptchaToken) {
+    if (!formState.email || !formState.pw || !recaptchaToken) {
       return toast.error('Please enter all fields and verify reCAPTCHA');
     }
     if (formState.pw !== formState.confirmPw) {
