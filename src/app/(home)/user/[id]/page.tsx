@@ -229,7 +229,7 @@ function MyPage() {
                         <p className="mt-[20px] mb-[19px] break-words">{post.content}</p>
                         <div className="flex justify-left">
                           <p className="flex gap-[8px]">
-                            <HeartButton /> {post.like}
+                            <HeartButton post_id={post.id} /> {post.like}
                           </p>
                           <p className="ml-[19px] flex gap-[8px]">
                             <CommentButton /> {post.comment_count}
@@ -244,7 +244,7 @@ function MyPage() {
                       <p className="mt-[-10px] mb-[19px] break-words">{post.content}</p>
                       <div className="flex justify-left mb-[31px] ">
                         <p className="flex gap-[8px]">
-                          <HeartButton />
+                          <HeartButton post_id={post.id} />
                           {post.like}
                         </p>
                         <p className="ml-[19px] flex gap-[8px]">
