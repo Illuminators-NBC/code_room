@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { Category } from '../../../types/category';
 import CategoryDropdown from './CategoryDropdown';
 import CategoryTags from './CategoryTags';
-import { Category } from '../../../types/category';
 
 const categories: Category[] = [
   { name: 'JavaScript', color: 'text-yellow-900', backgroundColor: 'bg-yellow-200' },
@@ -24,7 +24,6 @@ interface CategoryManagerProps {
 
 const CategoryManager: React.FC<CategoryManagerProps> = ({ selectedCategories, setSelectedCategories }) => {
   const handleCategoryClick = (categoryName: string) => {
-    console.log(selectedCategories);
     if (selectedCategories.length > 0) {
       return;
     }

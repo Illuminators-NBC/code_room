@@ -4,7 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import LogoutButton from '../LoginPage/LogoutButton';
 
-const Header = ({}) => {
+const Header = () => {
   const { userInfo } = useUserInfo();
   return (
     <header>

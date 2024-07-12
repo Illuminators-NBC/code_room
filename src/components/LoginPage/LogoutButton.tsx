@@ -1,9 +1,8 @@
 'use client';
 
 import { useLoginContext } from '@/context/LoginProvider';
-import { Button } from '../ui/button';
-import { useRouter } from 'next/navigation';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 
 export default function LogoutButton() {
   const { logout } = useLoginContext();
