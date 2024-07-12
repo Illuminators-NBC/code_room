@@ -3,6 +3,7 @@
 import { usePostQuery } from '@/hooks';
 import { createClient } from '@/supabase/client';
 import { Tables } from '@/types/supabase';
+import dayjs from 'dayjs';
 import Image from 'next/image';
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
@@ -14,7 +15,8 @@ interface PostContentProps {
 function PostContent({ initialPostData }: PostContentProps) {
   const { id } = useParams<{ id: string }>();
   const { data: post } = usePostQuery(id, initialPostData);
-  const { user_id, image, content, created_at, like, comment, tag, updated_at } = post;
+  const { user_id, image, content, created_at, like, tag, updated_at } = post;
+  const formattedDate = dayjs(updated_at ? updated_at : created_at).format('h:mm A · MMM D, YYYY');
 
   const [nickname, setNickname] = useState<Tables<'user'>['nickname']>('');
 
@@ -48,7 +50,7 @@ function PostContent({ initialPostData }: PostContentProps) {
 
       <div className="flex justify-between items-center py-[33px] border-[#2F3336] border-y">
         <div className="flex items-center gap-[18px]">
-          <p>{updated_at ? updated_at : created_at}</p>
+          <p>{formattedDate}</p>
           <div className="flex items-center gap-1">
             <Image src="/heart.svg" width={22} height={22} alt="heart" />
             <p>{like ? like : 0}</p>
