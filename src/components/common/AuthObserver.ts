@@ -13,7 +13,8 @@ function AuthObserver() {
       if (session?.user) {
         setUserInfo({
           id: session.user.id,
-          nickname: session.user.user_metadata.nickname
+          nickname: session.user.user_metadata.nickname,
+          email: session.user.user_metadata.email
         });
       } else {
         deleteUserInfo();

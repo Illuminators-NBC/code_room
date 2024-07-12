@@ -7,11 +7,11 @@ import Image from 'next/image';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { createClient } from '@/supabase/client';
-import { ChangeEventHandler, MouseEventHandler, useEffect, useState } from 'react';
-import { User } from 'lucide-react';
-import RandomNickname from '@/components/common/RandomNickname';
+import React, { ChangeEventHandler, MouseEventHandler, useEffect, useState } from 'react';
 import { FormState } from '@/types/signUpFormType';
 import NicknameSection from '@/components/common/NicknameSection';
+import { useRouter } from 'next/navigation';
+import useUserInfo from '@/hooks/useUserInfo';
 
 type ChangePasswordFormProps = {
   onSubmit: (newPassword: string) => void;
@@ -22,6 +22,7 @@ const AccountEditPage: React.FC<ChangePasswordFormProps> = ({ onSubmit }) => {
   const [userEmail, setUserEmail] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const router = useRouter();
   const initialState: FormState = {
     email: '',
     pw: '',
@@ -29,6 +30,7 @@ const AccountEditPage: React.FC<ChangePasswordFormProps> = ({ onSubmit }) => {
     nickname: '',
     recaptchaToken: ''
   };
+  const { userInfo } = useUserInfo();
 
   // 데이타 불러오기
   useEffect(() => {
@@ -56,7 +58,7 @@ const AccountEditPage: React.FC<ChangePasswordFormProps> = ({ onSubmit }) => {
   }, []);
 
   // 닉네임 업데이트
-  const updateNickname = async (e) => {
+  const updateNickname = async (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
     try {
       const { data, error } = await supabase
@@ -84,7 +86,7 @@ const AccountEditPage: React.FC<ChangePasswordFormProps> = ({ onSubmit }) => {
   };
 
   // 업데이트
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
     setNewPassword(e.target.value);
 
@@ -93,6 +95,7 @@ const AccountEditPage: React.FC<ChangePasswordFormProps> = ({ onSubmit }) => {
     updateNickname(e);
     toast.success('수정되었습니다.');
 
+    router.replace(`/user/${userInfo.id}`);
     console.log(error);
   };
 
@@ -142,10 +145,13 @@ const AccountEditPage: React.FC<ChangePasswordFormProps> = ({ onSubmit }) => {
             >
               수 정
             </Button>
-            <Link href={`/user`}>
+            <Link href={`/user/${userInfo.id}`}>
               <Button
                 className="w-96 h-10 mt-5 bg-[#27272A] border-0 font-bold hover:bg-[#2d2d30] hover:text-white"
                 variant="outline"
+                onClick={() => {
+                  router.replace(`/user/${userInfo.id}`);
+                }}
               >
                 취 소
               </Button>
