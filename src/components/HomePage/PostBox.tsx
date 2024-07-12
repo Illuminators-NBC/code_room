@@ -1,12 +1,12 @@
-import Link from 'next/link';
-import Image from 'next/image';
 import { Button } from '@/components/ui/button';
+import Image from 'next/image';
+import Link from 'next/link';
 
 export default function PostInput() {
   return (
     <Link className="pointer" href="/posting">
       <section className="flex w-[640px] justify-between items-center h-14 sm:h-24 border border-[#2F3336] p-3.5 sm:p-7">
-        <div className="flex ">
+        <div className="flex gap-[11px]">
           <figure>
             <Image src="/terminal-square.png" alt="terminal icon" width={25} height={25} />
           </figure>
