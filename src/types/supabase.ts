@@ -133,7 +133,7 @@ export type Database = {
           created_at: string
           email: string
           id: string
-          liked_post: Json | null
+          liked_post: Json[] | null
           nickname: string
           post: Json | null
         }
@@ -141,7 +141,7 @@ export type Database = {
           created_at?: string
           email: string
           id: string
-          liked_post?: Json | null
+          liked_post?: Json[] | null
           nickname: string
           post?: Json | null
         }
@@ -149,7 +149,7 @@ export type Database = {
           created_at?: string
           email?: string
           id?: string
-          liked_post?: Json | null
+          liked_post?: Json[] | null
           nickname?: string
           post?: Json | null
         }

@@ -54,7 +54,7 @@ export default function FeedList() {
 
   if (isPending)
     return (
-      <ul className="max-w-92 sm:max-w-120">
+      <ul className="w-92 sm:w-[640px]">
         <SkeletonCard />
         <SkeletonCard />
         <SkeletonCard />
@@ -74,27 +74,27 @@ export default function FeedList() {
               <li
                 ref={isLastItem ? ref : null}
                 key={post.post_id}
-                className="max-w-92 sm:max-w-120 border border-[#2F3336] p-3.5 sm:p-7"
+                className="w-92 sm:w-120 border border-[#2F3336] p-3.5 sm:p-7"
               >
-                <h6 className="mb-5">{post.nickname}</h6>
+                {/* <h6 className="mb-5">{nickname}</h6> */}
                 {post.image ? (
                   <figure className="relative max-w-92 sm:max-w-120 h-32 sm:h-64">
                     {post.image ? (
                       <Image
+                        loader={({ src }) => src}
                         className="rounded-xl"
                         priority={true}
                         src={post.image}
                         alt="유저가 업로드한 사진"
                         fill={true}
                         sizes="100vw"
-                        loader={({ src }) => src}
                       />
                     ) : null}
                   </figure>
                 ) : null}
                 <p className="mt-5 mb-7">{post.content}</p>
                 <div className="flex mb-7">
-                  <LikeButton /> <span className="mx-2">{post.like}</span>
+                  <LikeButton post_id={post.post_id} /> <span className="mx-2">{post.like}</span>
                   <CommentButton /> <span className="mx-2">{post.comment_count}</span>
                 </div>
               </li>
