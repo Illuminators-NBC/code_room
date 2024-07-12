@@ -13,10 +13,15 @@ import React, { useEffect, useState } from 'react';
 function MyPage() {
   const [postdata, setPostdata] = useState<any[]>([]);
   const [nickname, setNickname] = useState<string>('');
-  const [writePost, setWritePost] = useState<boolean>(false);
+  const [writePost, setWritePost] = useState<boolean>(true);
   const [favoritePost, setFavoritePost] = useState<boolean>(false);
+  const [likedPost, setlikedPost] = useState<any[]>([]);
   const { userInfo } = useUserInfo();
   const supabase = createClient();
+
+  useEffect(() => {
+    console.log('포스트데이터', postdata);
+  }, [postdata])
 
   useEffect(() => {
     const PostingData = async () => {
@@ -25,15 +30,15 @@ function MyPage() {
         const { data: UserData, error: UserDataError } = await supabase.auth.getUser();
         if (UserDataError) throw UserDataError;
 
-        console.log('유저데이터=> ', UserData);
+        //console.log('유저데이터=> ', UserData);
 
         // 유저ID 저장
         const UserId = UserData.user?.id;
-        console.log('유저ID=> ', UserId);
+        //console.log('유저ID=> ', UserId);
 
         // 닉네임 저장
         const UserNickname = UserData.user?.user_metadata?.nickname;
-        console.log('불러온 닉네임=>', UserNickname);
+        //console.log('불러온 닉네임=>', UserNickname);
         setNickname(UserNickname);
 
         const { data, error } = await supabase
@@ -44,7 +49,7 @@ function MyPage() {
           console.error("오류 발생", error);
         } else {
           setPostdata(data);
-          console.log("데이터=> ", data);
+          //console.log("데이터=> ", data);
         }
       } catch (error) {
         console.error("Data Fetching Error", error);
@@ -71,12 +76,36 @@ function MyPage() {
         console.error("오류 발생", error);
       } else {
         setPostdata(data);
-        console.log("데이터=> ", data);
+        //console.log("데이터=> ", data);
       }
     } catch (error) {
       console.error("Data Fetching Error", error);
     }
   };
+
+  // 전체 글 보여주기(좋아요한 글 버튼에 적용되어있음)
+  // const FavoritePosting = async () => {
+  //   try {
+  //     const { data: UserData, error: UserDataError } = await supabase.auth.getUser();
+  //     if (UserDataError) throw UserDataError;
+
+  //     const UserId = UserData.user?.id;
+  //     const UserNickname = UserData.user?.user_metadata?.nickname;
+  //     setNickname(UserNickname);
+
+  //     const { data, error } = await supabase
+  //       .from("post")
+  //       .select("*, user(nickname)");
+  //     if (error) {
+  //       console.error("오류 발생", error);
+  //     } else {
+  //       setPostdata(data);
+  //       console.log("데이터=> ", data);
+  //     }
+  //   } catch (error) {
+  //     console.error("Data Fetching Error", error);
+  //   }
+  // };
 
   // 좋아요한 글 보여주기
   const FavoritePosting = async () => {
@@ -88,15 +117,32 @@ function MyPage() {
       const UserNickname = UserData.user?.user_metadata?.nickname;
       setNickname(UserNickname);
 
-      const { data, error } = await supabase
-        .from("post")
-        .select("*, user(nickname)");
+      const { data: likedPostsIdResponse, error } = await supabase
+        .from("user")
+        .select("liked_post")
+        .eq("id", UserId);
       if (error) {
         console.error("오류 발생", error);
-      } else {
-        setPostdata(data);
-        console.log("데이터=> ", data);
       }
+
+      if (!likedPostsIdResponse) {
+        setlikedPost([])
+        return;
+      }
+      const likedPostsId = likedPostsIdResponse[0].liked_post as string[]
+
+      const postPromises = likedPostsId?.map(async (postId) => {
+        const { data: postData, error: postError } =
+          await supabase
+            .from("post")
+            .select("*")
+            .eq("post_id", postId)
+          console.log(postData);
+        return postData?.[0]
+      })
+      const likedposts = await Promise.all(postPromises)
+      setlikedPost(likedposts);
+      console.log(likedposts)
     } catch (error) {
       console.error("Data Fetching Error", error);
     }
@@ -115,12 +161,13 @@ function MyPage() {
     setWritePost(false);
   }
 
+  const selectData = writePost ? postdata : likedPost;
+
   return (
     <div className="w-[640px] mx-auto bg-[#09090B] text-white min-h-screen border border-[#27272A]">
 
       {/* 헤더 */}
       <Header />
-      
       {/* <header className="h-[53px] bg-[#09090B] border-b border-[#27272A] flex justify-between">
         <Link href="/" className="m-auto ml-[30px]"><Image src="/Group 100.png" width={100} height={50} alt="logo" /></Link>
         <Image src="/user.png" width={30} height={30} alt="user" className="m-auto mr-[30px]" />
@@ -147,8 +194,8 @@ function MyPage() {
 
       {/* 작성한 글 */}
       <section>
-        {postdata.map((post, index) => {
-          console.log("포스트 데이터: ", post);
+        {selectData.map((post, index) => {
+          // console.log("포스트 데이터: ", post);
           return (
             <div key={index} className="bg-[#09090B] rounded mt-4">
               <div className="flex justify-between items-center">

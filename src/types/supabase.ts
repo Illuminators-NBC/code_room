@@ -11,27 +11,46 @@ export type Database = {
     Tables: {
       comments: {
         Row: {
-          comment_count: number;
-          comment_list: string[] | null;
-          post_id: string;
-        };
+          comment_id: string
+          content: string
+          created_at: string
+          like_count: number
+          post_id: string
+          updated_at: string | null
+          user_id: string
+        }
         Insert: {
-          comment_count?: number;
-          comment_list?: Json[] | null;
-          post_id?: string;
-        };
+          comment_id?: string
+          content?: string
+          created_at?: string
+          like_count?: number
+          post_id?: string
+          updated_at?: string | null
+          user_id?: string
+        }
         Update: {
-          comment_count?: number;
-          comment_list?: Json[] | null;
-          post_id?: string;
-        };
+          comment_id?: string
+          content?: string
+          created_at?: string
+          like_count?: number
+          post_id?: string
+          updated_at?: string | null
+          user_id?: string
+        }
         Relationships: [
           {
             foreignKeyName: "comments_post_id_fkey"
             columns: ["post_id"]
-            isOneToOne: true
+            isOneToOne: false
             referencedRelation: "post"
             referencedColumns: ["post_id"]
+          },
+          {
+            foreignKeyName: "comments_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "user"
+            referencedColumns: ["id"]
           },
         ]
       }
@@ -57,7 +76,6 @@ export type Database = {
           created_at: string
           image: string | null
           like: number
-          nickname: string
           post_id: string
           tag: string | null
           updated_at: string | null
@@ -69,7 +87,6 @@ export type Database = {
           created_at?: string
           image?: string | null
           like?: number
-          nickname?: string
           post_id?: string
           tag?: string | null
           updated_at?: string | null
@@ -81,7 +98,6 @@ export type Database = {
           created_at?: string
           image?: string | null
           like?: number
-          nickname?: string
           post_id?: string
           tag?: string | null
           updated_at?: string | null
@@ -117,7 +133,7 @@ export type Database = {
           created_at: string
           email: string
           id: string
-          liked_post: Json | null
+          liked_post: Json[] | null
           nickname: string
           post: Json | null
         }
@@ -125,15 +141,15 @@ export type Database = {
           created_at?: string
           email: string
           id: string
-          liked_post?: Json | null
-          nickname?: string
+          liked_post?: Json[] | null
+          nickname: string
           post?: Json | null
         }
         Update: {
           created_at?: string
           email?: string
           id?: string
-          liked_post?: Json | null
+          liked_post?: Json[] | null
           nickname?: string
           post?: Json | null
         }
