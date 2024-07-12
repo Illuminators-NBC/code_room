@@ -7,7 +7,7 @@ import Image from 'next/image';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { createClient } from '@/supabase/client';
-import { ChangeEventHandler, MouseEventHandler, useEffect, useState } from 'react';
+import React, { ChangeEventHandler, MouseEventHandler, useEffect, useState } from 'react';
 import { FormState } from '@/types/signUpFormType';
 import NicknameSection from '@/components/common/NicknameSection';
 import { useRouter } from 'next/navigation';

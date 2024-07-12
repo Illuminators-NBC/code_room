@@ -147,7 +147,7 @@ export function Posting() {
             name="bio"
             render={({ field }) => (
               <FormItem>
-                <FormLabel></FormLabel>
+                {/* <FormLabel></FormLabel> */}
                 <FormControl>
                   <Textarea
                     placeholder="Tell us a little bit about yourself"
