@@ -147,7 +147,7 @@ supabase<br />
 
 ## ERD
 
-![ERD](https://github.com/user-attachments/assets/da70871b-dc94-4307-999e-41e40a4ee830)
+![ERD (2)](https://github.com/user-attachments/assets/ead03cca-4a60-4760-8532-a0bb82db5de6)
 
 <br /><br />
 
