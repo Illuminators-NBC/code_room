@@ -1,9 +1,11 @@
 'use client';
 
 import { usePostQuery } from '@/hooks';
+import { createClient } from '@/supabase/client';
 import { Tables } from '@/types/supabase';
 import Image from 'next/image';
 import { useParams } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
 interface PostContentProps {
   initialPostData: Tables<'post'>;
@@ -12,7 +14,22 @@ interface PostContentProps {
 function PostContent({ initialPostData }: PostContentProps) {
   const { id } = useParams<{ id: string }>();
   const { data: post } = usePostQuery(id, initialPostData);
-  const { nickname, image, content, created_at, like, comment, tag, updated_at } = post;
+  const { user_id, image, content, created_at, like, comment, tag, updated_at } = post;
+
+  const [nickname, setNickname] = useState<Tables<'user'>['nickname']>('');
+
+  const supabaseClient = createClient();
+
+  useEffect(() => {
+    (async () => {
+      const { data, error } = await supabaseClient.from('user').select('*').eq('id', user_id);
+      if (error) {
+        throw new Error(error.message);
+      }
+
+      setNickname(data[0].nickname);
+    })();
+  }, [supabaseClient, user_id]);
 
   return (
     <div className="w-full pt-[30px] text-white">
