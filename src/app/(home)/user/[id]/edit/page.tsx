@@ -12,6 +12,8 @@ import { User } from 'lucide-react';
 import RandomNickname from '@/components/common/RandomNickname';
 import { FormState } from '@/types/signUpFormType';
 import NicknameSection from '@/components/common/NicknameSection';
+import { useRouter } from 'next/navigation';
+import useUserInfo from '@/hooks/useUserInfo';
 
 type ChangePasswordFormProps = {
   onSubmit: (newPassword: string) => void;
@@ -22,6 +24,7 @@ const AccountEditPage: React.FC<ChangePasswordFormProps> = ({ onSubmit }) => {
   const [userEmail, setUserEmail] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const router = useRouter();
   const initialState: FormState = {
     email: '',
     pw: '',
@@ -29,6 +32,7 @@ const AccountEditPage: React.FC<ChangePasswordFormProps> = ({ onSubmit }) => {
     nickname: '',
     recaptchaToken: ''
   };
+  const { userInfo } = useUserInfo();
 
   // 데이타 불러오기
   useEffect(() => {
@@ -92,6 +96,7 @@ const AccountEditPage: React.FC<ChangePasswordFormProps> = ({ onSubmit }) => {
 
     updateNickname(e);
     toast.success('수정되었습니다.');
+    router.replace(`/user/${userInfo.id}`);
     console.log(error);
   };
 
@@ -141,10 +146,13 @@ const AccountEditPage: React.FC<ChangePasswordFormProps> = ({ onSubmit }) => {
             >
               수 정
             </Button>
-            <Link href={`/user`}>
+            <Link href={`/user/${userInfo.id}`}>
               <Button
                 className="w-96 h-10 mt-5 bg-[#27272A] border-0 font-bold hover:bg-[#2d2d30] hover:text-white"
                 variant="outline"
+                onClick={() => {
+                  router.replace(`/user/${userInfo.id}`);
+                }}
               >
                 취 소
               </Button>
