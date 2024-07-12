@@ -35,3 +35,54 @@ export async function GET(request: Request) {
 
   return response;
 }
+
+export async function POST(request: Request) {
+  const supabase = createClient();
+
+  const { email, post_id } = await request.json();
+
+  console.log('email', email);
+  console.log('post_id', post_id);
+
+  const { data: post } = await supabase.from('post').select('like').eq('post_id', post_id).single();
+
+  console.log('count', post?.like);
+
+  const { data, error } = await supabase
+    .from('post')
+    .update({ like: (post?.like || 0) + 1 })
+    .eq('post_id', post_id);
+
+  if (error) console.error('error', error);
+
+  const { data: liked, error: userError } = await supabase
+    .from('user')
+    .select('liked_post')
+    .eq('email', email)
+    .single();
+
+  const likedPosts = liked?.liked_post ? liked.liked_post : [];
+
+  console.log('liked_post', likedPosts);
+  console.log('liked_post_list', [...likedPosts, post_id]);
+  console.log(post_id);
+
+  const {} = await supabase
+    .from('user')
+    .update({ liked_post: [...likedPosts!, post_id] })
+    .eq('email', email);
+
+  console.log(JSON.stringify([{ ...likedPosts!, post_id }]));
+
+  return NextResponse.json({ data });
+}
+
+// export async function PATCH(response: NextApiResponse, request: NextApiRequest) {
+//   const supabase = createClient();
+
+//   const { data, error } = await supabase.from('post').update({ like: 0 }).eq('post_id', post_id);
+
+//   if (error) console.error('error', error);
+
+//   return NextResponse.json({ data });
+// }
