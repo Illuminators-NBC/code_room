@@ -142,8 +142,7 @@ supabase<br />
 
 ## ERD
 
-![ERD (2)](https://github.com/user-attachments/assets/ead03cca-4a60-4760-8532-a0bb82db5de6)
-
+![Schema_Visualizer](https://github.com/user-attachments/assets/4c379ba3-3516-4a83-a547-c6acc02d9cf9)
 <br /><br />
 
 ## Trouble Shooting
