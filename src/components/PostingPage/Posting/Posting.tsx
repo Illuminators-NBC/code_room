@@ -16,6 +16,7 @@ import { Category } from '@/types/category';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { v4 as uuidv4 } from 'uuid';
+import { ToastContainer } from 'react-toastify';
 
 const supabase = createClient();
 
@@ -72,19 +73,10 @@ export function Posting() {
         console.error(error);
         return;
       }
-      const test = 'https://pdgwrjxbqywcmuxwjqos.supabase.co/storage/v1/object/public/';
-
       const res = supabase.storage.from('Images').getPublicUrl(data.path);
       const publicUrl = res.data.publicUrl;
 
       setUploadFileUrl((prevUrls) => [...prevUrls, publicUrl]);
-
-      // Note: This part might need to be updated after the post is created
-      const { error: insertError } = await supabase.from('post').update({ image: test + data.fullPath });
-
-      if (insertError) {
-        console.error('URL을 post 테이블에 저장하는 중 오류 발생:', insertError);
-      }
     } catch (error) {
       console.error('문제가 발생했습니다. 다시 시도해주세요!', error);
     }
@@ -106,12 +98,13 @@ export function Posting() {
         content: inputData,
         created_at: timestamp,
         tag: selectedCategories[0]?.name,
-        image: uploadFileUrl.join(',') // Join all image URLs
+        image: uploadFileUrl.join(',')
       });
       if (error) {
         console.error(error);
         throw error;
       }
+
       toast({
         title: 'You submitted the following values:',
         description: (
@@ -120,6 +113,10 @@ export function Posting() {
           </pre>
         )
       });
+
+      if (window.confirm('게시글이 등록되었습니다. 메인으로 이동하시겠습니까?')) {
+        navigate.push('/');
+      }
 
       form.reset();
       setPreviews([]);
@@ -150,7 +147,7 @@ export function Posting() {
             name="bio"
             render={({ field }) => (
               <FormItem>
-                <FormLabel></FormLabel>
+                {/* <FormLabel></FormLabel> */}
                 <FormControl>
                   <Textarea
                     placeholder="Tell us a little bit about yourself"
@@ -209,11 +206,24 @@ export function Posting() {
               <button
                 className="bg-[#DD268E] text-white hover:bg-[#FB2EA2] hover:text-black px-5 py-2.5 rounded-md text-sm font-semibold"
                 type="submit"
-                onClick={() => navigate.push('/')}
+                // onClick={() => navigate.push('/')}
               >
                 POST
               </button>
             </div>
+            <ToastContainer
+              position="top-center"
+              autoClose={3000}
+              limit={1}
+              hideProgressBar={false}
+              newestOnTop={false}
+              closeOnClick
+              rtl={false}
+              pauseOnFocusLoss
+              draggable
+              pauseOnHover
+              theme="dark"
+            />
           </div>
         </form>
       </Form>

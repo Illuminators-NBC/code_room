@@ -1,25 +1,18 @@
-import { createClient } from '@/supabase/client';
+import { Tables } from '@/types/supabase';
 import { useQuery } from '@tanstack/react-query';
+import axios from 'axios';
 
-const getPostByIdInClient = async (id: string) => {
-  const supabaseClient = createClient();
-  const { data, error } = await supabaseClient.from('post').select('*').eq('post_id', id);
-
-  if (error) {
-    throw new Error(error.message);
-  }
-
-  return data;
-};
-
-const usePostQuery = (id: string, initialData?: any[]) => {
+const usePostQuery = (id: string, initialPostData: Tables<'post'>) => {
   const result = useQuery({
     queryKey: ['post', id],
-    queryFn: async () => await getPostByIdInClient(id),
-    initialData: initialData ? initialData : []
+    queryFn: async () => {
+      const res = await axios.get(`/api/post/${id}`);
+      return res.data[0];
+    },
+    initialData: initialPostData
   });
 
-  return { ...result };
+  return result;
 };
 
 export default usePostQuery;
