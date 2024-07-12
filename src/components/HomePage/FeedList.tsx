@@ -76,7 +76,7 @@ export default function FeedList() {
                 key={post.post_id}
                 className="w-92 sm:w-120 border border-[#2F3336] p-3.5 sm:p-7"
               >
-                <h6 className="mb-5">{post.nickname}</h6>
+                {/* <h6 className="mb-5">{nickname}</h6> */}
                 {post.image ? (
                   <figure className="relative max-w-92 sm:max-w-120 h-32 sm:h-64">
                     {post.image ? (
