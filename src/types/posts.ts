@@ -22,3 +22,12 @@ export type PaigniatedPost = {
   totalPages: number;
   hasNextPage: boolean;
 };
+
+export type idProps = {
+  user_id: string;
+  post_id: string;
+};
+
+export type postProps = {
+  post_id: string;
+};
