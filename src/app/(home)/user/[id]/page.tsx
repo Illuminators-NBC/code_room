@@ -1,4 +1,6 @@
 "use client";
+import CommentButton from '@/components/common/CommentButton';
+import HeartButton from '@/components/common/LikeButton';
 import { Button } from '@/components/ui/button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import useUserInfo from '@/hooks/useUserInfo';
@@ -12,24 +14,31 @@ function MyPage() {
   const [nickname, setNickname] = useState<string>('');
   const [writePost, setWritePost] = useState<boolean>(false);
   const [favoritePost, setFavoritePost] = useState<boolean>(false);
+  const { userInfo } = useUserInfo();
   const supabase = createClient();
-  const {userInfo} = useUserInfo();
 
   useEffect(() => {
     const PostingData = async () => {
       try {
         // 로그인 된 유저데이터 저장
         const { data: UserData, error: UserDataError } = await supabase.auth.getUser();
+        if (UserDataError) throw UserDataError;
+
         console.log('유저데이터=> ', UserData);
+
         // 유저ID 저장
         const UserId = UserData.user?.id;
         console.log('유저ID=> ', UserId);
+
         // 닉네임 저장
         const UserNickname = UserData.user?.user_metadata?.nickname;
         console.log('불러온 닉네임=>', UserNickname);
         setNickname(UserNickname);
 
-        const { data, error } = await supabase.from("post").select("*").eq("user_id", UserId as string);
+        const { data, error } = await supabase
+          .from("post")
+          .select("*, user(nickname)")
+          .eq("user_id", UserId);
         if (error) {
           console.error("오류 발생", error);
         } else {
@@ -37,7 +46,7 @@ function MyPage() {
           console.log("데이터=> ", data);
         }
       } catch (error) {
-        console.error("Data Fetching Error", error)
+        console.error("Data Fetching Error", error);
       }
     };
     PostingData();
@@ -46,15 +55,17 @@ function MyPage() {
   // 작성된 글 보여주기
   const WritePosting = async () => {
     try {
-      // 로그인 된 유저데이터 저장
       const { data: UserData, error: UserDataError } = await supabase.auth.getUser();
-      // 유저ID 저장
+      if (UserDataError) throw UserDataError;
+
       const UserId = UserData.user?.id;
-      // 닉네임 저장
       const UserNickname = UserData.user?.user_metadata?.nickname;
       setNickname(UserNickname);
 
-      const { data, error } = await supabase.from("post").select("*").eq("user_id", UserId as string);
+      const { data, error } = await supabase
+        .from("post")
+        .select("*, user(nickname)")
+        .eq("user_id", UserId);
       if (error) {
         console.error("오류 발생", error);
       } else {
@@ -69,15 +80,16 @@ function MyPage() {
   // 좋아요한 글 보여주기
   const FavoritePosting = async () => {
     try {
-      // 로그인 된 유저데이터 저장
       const { data: UserData, error: UserDataError } = await supabase.auth.getUser();
-      // 유저ID 저장
+      if (UserDataError) throw UserDataError;
+
       const UserId = UserData.user?.id;
-      // 닉네임 저장
       const UserNickname = UserData.user?.user_metadata?.nickname;
       setNickname(UserNickname);
 
-      const { data, error } = await supabase.from("post").select("*");
+      const { data, error } = await supabase
+        .from("post")
+        .select("*, user(nickname)");
       if (error) {
         console.error("오류 발생", error);
       } else {
@@ -103,82 +115,89 @@ function MyPage() {
   }
 
   return (
-    <div className="w-[640px] mx-auto bg-black text-white min-h-screen">
+    <div className="w-[640px] mx-auto bg-black text-white min-h-screen border border-[#27272A]">
+
 
       {/* 헤더 */}
-      <header className="h-[53px] bg-black border-b border-gray-500 flex justify-between">
+      {/* <header className="h-[53px] bg-black border-b border-gray-500 flex justify-between">
         <Link href="/" className="m-auto ml-[30px]"><Image src="/Group 100.png" width={100} height={50} alt="logo" /></Link>
         <Image src="/user.png" width={30} height={30} alt="user" className="m-auto mr-[30px]" />
-      </header>
+      </header> */}
 
       {/* 프로필 */}
       <section className="flex justify-between items-center bg-black rounded h-[93px]">
-        <span className="text-xl ml-[84px]">{nickname}</span>
-        {/* <Button className="px-4 py-2 bg-[#DD268E] rounded hover:bg-[#FB2EA2] mr-[30px]">프로필 수정</Button> */}
-        <Link href={`/user/${userInfo.id}/edit`} className=' text-white'>수정</Link>
+        <span className="text-xl ml-[84px] flex">
+          <Image src="/logo_icon.png" width={30} height={30} alt="logo" className='ml-[-37px] mr-[19px]' />
+          {nickname}
+        </span>
+        <Link href={`/user/${userInfo.id}/edit`} className="px-4 py-2 bg-[#DD268E] rounded hover:bg-[#FB2EA2] mr-[30px]">프로필 수정</Link>
       </section>
 
       {/* 버튼 */}
       <section>
         <div className="flex justify-center">
-          <button className={`w-[320px] h-[40px] border font-bold ${writePost ? 'bg-[#27272A]' : 'bg-[#09090B] hover:bg-[#27272A]'}`}
+          <button className={`w-[320px] h-[40px] border border-[#27272A] font-bold ${writePost ? 'bg-[#27272A]' : 'bg-[#09090B] hover:bg-[#27272A]'}`}
             onClick={WriteShowHandler}>작성한 글</button>
-          <button className={`w-[320px] h-[40px] border font-bold ${favoritePost ? 'bg-[#27272A]' : 'bg-[#09090B] hover:bg-[#27272A]'}`}
+          <button className={`w-[320px] h-[40px] border border-[#27272A] font-bold ${favoritePost ? 'bg-[#27272A]' : 'bg-[#09090B] hover:bg-[#27272A]'}`}
             onClick={FavoriteShowHandler}>좋아요한 글</button>
         </div>
       </section>
 
       {/* 작성한 글 */}
       <section>
-        {postdata.map((post, index) => (
-          <div key={index} className="bg-black rounded mt-4">
-            <div className="flex justify-between items-center">
-              <span className="ml-[29px] h-[67px] flex items-center">작성자: {post.nickname}</span>
+        {postdata.map((post, index) => {
+          console.log("포스트 데이터: ", post);
+          return (
+            <div key={index} className="bg-black rounded mt-4">
+              <div className="flex justify-between items-center">
+                <span className="ml-[29px] h-[67px] flex items-center">작성자: {post.user?.nickname}</span>
 
-              {/* 드롭다운 */}
-              <div className="mr-[28px]">
-                <DropdownMenu>
-                  <DropdownMenuTrigger>...</DropdownMenuTrigger>
-                  <DropdownMenuContent className="mr-[100px] bg-black text-white border-black">
-                    {/* <DropdownMenuLabel>My Account</DropdownMenuLabel> */}
-                    {/* <DropdownMenuSeparator /> */}
-                    <DropdownMenuItem>글 삭제</DropdownMenuItem>
-                    <DropdownMenuItem>글 수정</DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
+                {/* 드롭다운 */}
+                <div className="mr-[28px]">
+                  <DropdownMenu>
+                    <DropdownMenuTrigger>...</DropdownMenuTrigger>
+                    <DropdownMenuContent className="mr-[60px] bg-black text-white border-black">
+                      {/* <DropdownMenuLabel>My Account</DropdownMenuLabel> */}
+                      {/* <DropdownMenuSeparator /> */}
+                      <DropdownMenuItem>글 삭제</DropdownMenuItem>
+                      <DropdownMenuItem>글 수정</DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                </div>
               </div>
-            </div>
 
-            {/* 사진 + 내용 */}
-            <div className="mt-2 bg-black rounded">
-              <div className="px-[29px] border-b border-gray-500">
-                {/* 삼항 연산자 사용해서 처리해보기*/}
-                {post.image ? (
-                  <>
-                    <img className="w-[580px] h-[260px] h-auto object-cover" src={post.image} alt="image" />
-                    <div className="px-[29px] border-gray-400">
-                      <p className="mt-[20px] mb-[19px] break-words">{post.content}</p>
-                      <div className="flex justify-left">
-                        <p className="mb-[18px]">❤: {post.like}</p>
-                        <p className="ml-[19px]">📢: {post.comment_count}</p>
-                        <p className="ml-[330px]">{post.tag}</p>
+              {/* 사진 + 내용 */}
+              <div className="mt-2 bg-black rounded">
+                <div className="px-[29px] border-b border-[#27272A]">
+                  {/* 삼항 연산자 사용해서 처리해보기*/}
+                  {post.image ? (
+                    <>
+                      <img className="w-[580px] h-[260px] mb-[19px] " src={post.image} alt="image" />
+                      <div className="mb-[19px]">
+                        <p className="mt-[20px] mb-[19px] break-words">{post.content}</p>
+                        <div className="flex justify-left">
+                          <p className="flex gap-[8px]"><HeartButton /> {post.like}</p>
+                          <p className="ml-[19px] flex gap-[8px]"><CommentButton /> {post.comment_count}</p>
+                          <p className="ml-[330px]">{post.tag}</p>
+                        </div>
+                      </div>
+                    </>
+                  ) : (
+                    // <div className="px-[29px] ">
+                    <div>
+                      <p className="mt-[-10px] mb-[19px] break-words">{post.content}</p>
+                      <div className="flex justify-left mb-[31px] ">
+                        <p className="flex gap-[8px]"><HeartButton />{post.like}</p>
+                        <p className="ml-[19px] flex gap-[8px]"><CommentButton />{post.comment_count}</p>
+                        <p className="ml-[400px]">{post.tag}</p>
                       </div>
                     </div>
-                  </>
-                ) : (
-                  <div className="px-[29px] ">
-                    <p className="mt-[-10px] mb-[19px] break-words">{post.content}</p>
-                    <div className="flex justify-left">
-                      <p className="mb-[31px]">❤: {post.like}</p>
-                      <p className="ml-[19px]">📢: {post.comment_count}</p>
-                      <p className="ml-[330px]">{post.tag}</p>
-                    </div>
-                  </div>
-                )}
+                  )}
+                </div>
               </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </section>
     </div>
   );

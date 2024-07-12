@@ -87,6 +87,7 @@ export default function FeedList() {
                         alt="유저가 업로드한 사진"
                         fill={true}
                         sizes="100vw"
+                        loader={({src}) => src}
                       />
                     ) : null}
                   </figure>
