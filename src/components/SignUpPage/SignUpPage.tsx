@@ -42,8 +42,10 @@ export default function SignUpForm() {
 
   const onSubmitHandler: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
+
     if (!formState.email || !formState.pw || !formState.nickname || !recaptchaToken) {
       return toast.error('모든 빈칸을 채워주시고 reCAPTCHA를 완료해주세요.');
+
     }
     if (formState.pw !== formState.confirmPw) {
       return toast.error('비밀번호가 올바르지 않습니다.');
