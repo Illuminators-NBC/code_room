@@ -12,7 +12,7 @@ function HomePage() {
     <>
       <LogoutButton />
       <header></header>
-      <main className="text-white mx-auto max-w-92 p-3.5 sm:max-w-screen-sm sm:p-7">
+      <main className="text-white mx-auto max-w-92 sm:max-w-screen-sm">
         <PostBox />
         <section className="w-full">
           {/* tanstack query 의 prefetchQuery 를 사용하면 SEO 최적화에 도움이 됨*/}
