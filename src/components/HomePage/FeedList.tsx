@@ -7,6 +7,8 @@ import { useInView } from 'react-intersection-observer';
 import CommentButton from '../common/CommentButton';
 import LikeButton from '../common/LikeButton';
 import { SkeletonCard } from './Skeleton';
+import Link from 'next/link';
+import UserNickname from './UserNickname';
 
 const fetchPost = async (pageParam: number) => {
   try {
@@ -75,26 +77,27 @@ export default function FeedList() {
                 key={post.post_id}
                 className="w-92 sm:w-120 border border-[#2F3336] p-3.5 sm:p-7"
               >
-                {/* <h6 className="mb-5">{nickname}</h6> */}
-                {post.image ? (
-                  <figure className="relative max-w-92 sm:max-w-120 h-32 sm:h-64">
-                    {post.image ? (
-                      <Image
-                        loader={({ src }) => src}
-                        className="rounded-xl"
-                        priority={true}
-                        src={post.image}
-                        alt="유저가 업로드한 사진"
-                        fill={true}
-                        sizes="100vw"
-                      />
-                    ) : null}
+                <Link className="pointer" href={`/post/${post.post_id}`}>
+                  <UserNickname post_id={post.post_id} />
+                  <figure className="relative max-w-92 sm:max-w-120 h-32 sm:h-[300px]">
+                    <Image
+                      priority={true}
+                      src={post.image ? post.image : '/no-image.png'}
+                      className="rounded-xl"
+                      alt="유저가 업로드한 사진"
+                      fill={true}
+                      sizes={'100vw'}
+                    />
                   </figure>
-                ) : null}
-                <p className="mt-5 mb-7">{post.content}</p>
+
+                  <p className="mt-5 mb-7">{post.content}</p>
+                </Link>
                 <div className="flex mb-7">
                   <LikeButton post_id={post.post_id} /> <span className="mx-2">{post.like}</span>
-                  <CommentButton /> <span className="mx-2">{post.comment_count}</span>
+                  <Link className="flex pointer" href={`/post/${post.post_id}`}>
+                    <CommentButton /> <span className="mx-2">{post.comment_count}</span>
+                  </Link>
+                  <span className="ml-auto">{post.tag}</span>
                 </div>
               </li>
             );
