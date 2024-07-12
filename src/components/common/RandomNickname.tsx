@@ -31,6 +31,7 @@ export default function RandomNickname({ onNicknameGenerated }: RandomNicknamePr
         Generate Random Nickname
       </Button> */}
       <button
+        type="button"
         className="ml-2 hover:transition-all hover:duration-500 hover:rotate-180 items-center absolute top-[10px] right-[12px]"
         onClick={generateNickname}
       >
