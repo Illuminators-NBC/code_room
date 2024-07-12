@@ -26,6 +26,7 @@ export type PaigniatedPost = {
 export type idProps = {
   user_id: string;
   post_id: string;
+  email: string;
 };
 
 export type postProps = {
