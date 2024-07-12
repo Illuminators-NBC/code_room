@@ -7,9 +7,7 @@ import Image from 'next/image';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { createClient } from '@/supabase/client';
-import { ChangeEventHandler, MouseEventHandler, useEffect, useState } from 'react';
-import { User } from 'lucide-react';
-import RandomNickname from '@/components/common/RandomNickname';
+import React, { ChangeEventHandler, MouseEventHandler, useEffect, useState } from 'react';
 import { FormState } from '@/types/signUpFormType';
 import NicknameSection from '@/components/common/NicknameSection';
 import { useRouter } from 'next/navigation';
@@ -60,7 +58,7 @@ const AccountEditPage: React.FC<ChangePasswordFormProps> = ({ onSubmit }) => {
   }, []);
 
   // 닉네임 업데이트
-  const updateNickname = async (e) => {
+  const updateNickname = async (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
     try {
       const { data, error } = await supabase
@@ -88,7 +86,7 @@ const AccountEditPage: React.FC<ChangePasswordFormProps> = ({ onSubmit }) => {
   };
 
   // 업데이트
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
     setNewPassword(e.target.value);
 
