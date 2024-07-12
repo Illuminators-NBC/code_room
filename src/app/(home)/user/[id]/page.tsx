@@ -123,7 +123,7 @@ function MyPage() {
       const likedPostsId = likedPostsIdResponse[0].liked_post as string[];
 
       const postPromises = likedPostsId?.map(async (postId) => {
-        const { data: postData, error: postError } = await supabase.from('post').select('*').eq('post_id', postId);
+        const { data: postData, error: postError } = await supabase.from('post').select('*,user(*)').eq('post_id', postId);
         return postData?.[0];
       });
       const likedposts = await Promise.all(postPromises);
@@ -196,7 +196,7 @@ function MyPage() {
       {/* 작성한 글 */}
       <section>
         {selectData.map((post, index) => {
-          // console.log("포스트 데이터: ", post);
+          // console.log('map Data',post)
           return (
             <div key={index} className="bg-[#09090B] rounded mt-4">
               <div className="flex justify-between items-center">
