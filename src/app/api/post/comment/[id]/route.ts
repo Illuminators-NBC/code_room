@@ -30,10 +30,11 @@ export const PATCH = async (request: NextRequest) => {
   return NextResponse.json('Comment Update Success!');
 };
 
-export const DELETE = async (request: NextRequest) => {
+export const DELETE = async (request: NextRequest, { params }: { params: { id: string } }) => {
+  const { id } = params;
   const { commentId } = await request.json();
 
-  await deleteCommentInServer(commentId);
+  await deleteCommentInServer(id, commentId);
 
   return NextResponse.json('Comment Delete Success!');
 };
