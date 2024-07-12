@@ -5,7 +5,6 @@ import Header from '@/components/common/Header';
 import useUserInfo from '@/hooks/useUserInfo';
 
 function HomePage() {
-  const { userInfo } = useUserInfo();
   return (
     <>
       <Header />
