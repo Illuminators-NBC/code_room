@@ -1,4 +1,46 @@
-# code_room
+<h1> code_room </h1>
+<br />
+
+## 팀원 소개
+
+<table>
+  <tbody>
+    <tr>
+      <th align="center"><b>팀장: 서주환</b></th>
+      <th align="center"><b>팀원: 김영범</b></th>
+      <th align="center"><b>팀원: 김준영</b></th>
+      <th align="center"><b>팀원: 박세영</b></th>
+      <th align="center"><b>팀원: 박원빈</b></th>
+      <th align="center"><b>팀원: 손서영</b></th>
+    </tr>
+    <tr>
+      <td align="center"><img src="https://avatars.githubusercontent.com/u/104831702?v=4" width="100px;" alt="서주환"/></td>
+      <td align="center"><img src="https://avatars.githubusercontent.com/u/96457953?v=4" width="100px;" alt="김영범"/></td>
+      <td align="center"><img src="https://avatars.githubusercontent.com/u/167187204?v=4" width="100px;" alt="김준영"/></td>
+      <td align="center"><img src="https://avatars.githubusercontent.com/u/131146693?v=4" width="100px;" alt="박세영"/></td>
+      <td align="center"><img src="https://avatars.githubusercontent.com/u/119783002?v=4" width="100px;" alt="박원빈"/></td>
+      <td align="center"><img src="https://avatars.githubusercontent.com/u/139070143?v=4" width="100px;" alt="손서영"/></td>
+     <tr/>
+     <td align="center"><a href="https://github.com/JoohwanSeo">@Jony</a></td>
+      <td align="center"><a href="https://github.com/kybaq">@Yeong-Beom Kim</a></td>
+      <td align="center"><a href="https://github.com/Eunyoung-Jo">@Eunyoung-Jo</a></td>
+      <td align="center"><a href="https://github.com/Eunyoung-Jo">@Eunyoung-Jo</a></td>
+      <td align="center"><a href="https://github.com/Eunyoung-Jo">@Eunyoung-Jo</a></td>
+      <td align="center"><a href="https://github.com/sonsy723">@sonsy723</a></td>
+    </tr>
+  </tbody>
+</table>
+<br /><br />
+
+## 주요 기능
+
+- 회원가입, 로그인, 로그아웃
+- 글 작성, 이미지 삽입, 카테고리 선택
+- 내가 쓴 글 수정 / 삭제
+- 댓글 작성
+- 계정 비밀번호, 닉네임 변경
+- 내가 쓴 글, 좋아요한 글 목록 보기
+  <br /><br />
 
 ## 폴더 구조
 
@@ -55,3 +97,17 @@
 - `src/supabase` : `supabase` BaaS와 관련한 로직을 모아놓은 폴더입니다.
 
 - `src/utils` : 여러 페이지에서 공통적으로 사용될 수 있는 유틸 함수들을 모아놓은 폴더입니다.
+  <br /><br />
+
+## 필수 구현 사항
+
+✔ Typescript, Next.js 적용<br />
+✔ redux 외의 클라이언트 전역상태관리 <br />
+✔ 라이브러리 적용 (recoil, zustand, zotai 중 선택 권장)
+supabase<br />
+✔ 인증/인가 적용 (supabase authentication)<br />
+✔ api 요청은 반드시 Route Handle<br />
+✔ 성능 최적화 Lighthouse<br />
+<br />
+
+## Stacks
