@@ -1,7 +1,7 @@
 import { usePathname } from 'next/navigation';
 
 function MyPage() {
-  return <div>MyPage</div>;
+  return <div className="text-white">MyPage</div>;
 }
 
 export default MyPage;

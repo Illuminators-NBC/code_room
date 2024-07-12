@@ -64,7 +64,7 @@ export default function FeedList() {
 
   return (
     <>
-      <ul className="max-w-92 sm:max-w-120">
+      <ul className="w-[640px] sm:max-w-120">
         {paginatedPosts.pages.map((page) => {
           return page.data.map((post: Post) => {
             const isLastItem = page.data.length - 1 === page.data.indexOf(post);
@@ -87,6 +87,7 @@ export default function FeedList() {
                         alt="유저가 업로드한 사진"
                         fill={true}
                         sizes="100vw"
+                        loader={({ src }) => src}
                       />
                     ) : null}
                   </figure>
