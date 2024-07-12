@@ -1,6 +1,5 @@
 'use client';
 import Image from 'next/image';
-import CategoryManager from './Category/CategoryMenu';
 import { Posting } from './Posting/Posting';
 
 const PostingPage = () => {
@@ -15,8 +14,6 @@ const PostingPage = () => {
       <main className="container mx-1 px-4">
         <div className="flex-col items-center  mb-2">
           <Image src="/terminal.png" alt="terminal" width={35} height={35} className="mb-4" />
-          {/* 카테고리(태그) 컴포넌트 */}
-          <CategoryManager />
         </div>
         <Posting />
       </main>

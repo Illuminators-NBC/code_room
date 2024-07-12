@@ -9,7 +9,7 @@ interface CategoryTagsProps {
 const CategoryTags: React.FC<CategoryTagsProps> = ({ selectedCategories, onRemoveCategory }) => {
   return (
     <div className="mt-4 flex flex-wrap gap-2">
-      {selectedCategories.map((category, index) => (
+      {selectedCategories?.map((category, index) => (
         <span
           key={index}
           className={`px-2 py-1 rounded-full text-sm flex items-center ${category.backgroundColor} ${category.color}`}
