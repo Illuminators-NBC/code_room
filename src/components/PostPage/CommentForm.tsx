@@ -2,7 +2,7 @@
 
 import useCommentMutation from '@/hooks/useCommentMutation';
 import useUserInfo from '@/hooks/useUserInfo';
-import { Comment } from '@/utils/api';
+import { Tables } from '@/types/supabase';
 import { useParams } from 'next/navigation';
 import { FormEvent, useState } from 'react';
 
@@ -17,11 +17,10 @@ function CommentForm() {
   const handleCreateComment = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const newComment: Comment = {
-      comment_id: crypto.randomUUID(),
-      content,
-      nickname: userInfo.nickname,
-      user_id: userInfo.id
+    const newComment: Pick<Tables<'comments'>, 'post_id' | 'content' | 'user_id'> = {
+      user_id: userInfo.id,
+      post_id: id,
+      content
     };
 
     createCommentMutation.mutate({ id, newComment });

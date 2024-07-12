@@ -15,15 +15,15 @@ export const getPostByIdInServer = async (id: string) => {
 
 // Comment
 
-export const getCommentByIdInServer = async (id: string) => {
+export const getCommentByIdInServer = async (postId: string) => {
   const supabaseClient = createServerClient();
-  const { data, error } = await supabaseClient.from('comments').select('*').eq('post_id', id);
+  const { data, error } = await supabaseClient.from('comments').select('*').eq('post_id', postId);
 
   if (error) {
     throw new Error(error.message);
   }
 
-  return data[0];
+  return data;
 };
 
 export const createCommentInServer = async (newComment: Tables<'comments'>) => {

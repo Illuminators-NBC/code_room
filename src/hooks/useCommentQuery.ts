@@ -2,14 +2,14 @@ import { Tables } from '@/types/supabase';
 import { useQuery } from '@tanstack/react-query';
 import axios, { AxiosResponse } from 'axios';
 
-const useCommentQuery = (id: string, initialCommentData: Tables<'comments'>) => {
+const useCommentQuery = (postId: string, initialCommentData: Tables<'comments'>[]) => {
   const result = useQuery({
-    queryKey: ['comment', id],
+    queryKey: ['comment', postId],
     queryFn: async () => {
-      const res: AxiosResponse<Tables<'comments'>> = await axios.get(`/api/post/comment/${id}`);
+      const res: AxiosResponse<Tables<'comments'>[]> = await axios.get(`/api/post/comment/${postId}`);
       return res.data;
     },
-    initialData: initialCommentData
+    initialData: initialCommentData ? initialCommentData : []
   });
 
   return result;

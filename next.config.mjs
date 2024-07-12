@@ -7,7 +7,10 @@ const nextConfig = {
         hostname: 'raw.githubusercontent.com',
         pathname: '/**'
       },
-      { hostname: 'cdn.pixabay.com' }
+      { hostname: 'cdn.pixabay.com' },
+      { hostname: 'pdgwrjxbqywcmuxwjqos.supabase.co' }
     ]
   }
 };
+
+export default nextConfig;
