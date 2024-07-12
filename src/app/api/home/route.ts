@@ -35,3 +35,46 @@ export async function GET(request: Request) {
 
   return response;
 }
+
+export async function POST(request: Request) {
+  const supabase = createClient();
+
+  const { user_id, post_id } = await request.json();
+
+  console.log('user_id', user_id);
+  console.log('post_id', post_id);
+
+  const { data: post } = await supabase.from('post').select('like').eq('post_id', post_id).single();
+
+  console.log('count', post?.like);
+
+  const { data, error } = await supabase
+    .from('post')
+    .update({ like: (post?.like || 0) + 1 })
+    .eq('post_id', post_id);
+
+  if (error) console.error('error', error);
+
+  const { data: liked_post } = await supabase.from('user').select('liked_post').eq('user_id', user_id).single();
+
+  console.log('liked_post', liked_post);
+
+  const {} = await supabase
+    .from('user')
+    .update({ liked_post: { post_id: '1' } })
+    .eq('user_id', user_id);
+
+  console.log({ ...liked_post, post_id });
+
+  return NextResponse.json({ data });
+}
+
+// export async function PATCH(response: NextApiResponse, request: NextApiRequest) {
+//   const supabase = createClient();
+
+//   const { data, error } = await supabase.from('post').update({ like: 0 }).eq('post_id', post_id);
+
+//   if (error) console.error('error', error);
+
+//   return NextResponse.json({ data });
+// }
