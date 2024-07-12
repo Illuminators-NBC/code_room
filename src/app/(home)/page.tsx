@@ -2,7 +2,6 @@
 import FeedList from '@/components/HomePage/FeedList';
 import PostBox from '@/components/HomePage/PostBox';
 import Header from '@/components/common/Header';
-import useUserInfo from '@/hooks/useUserInfo';
 
 function HomePage() {
   return (

@@ -2,7 +2,7 @@
 import useUserInfo from '@/hooks/useUserInfo';
 import { postProps } from '@/types/posts';
 import { useRouter } from 'next/navigation';
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 export default function LikeButton({ post_id }: postProps): JSX.Element {
   // 좋아요 버튼 클릭 여부를 react state 말고 서버에서 받아오는 방법은?
@@ -11,8 +11,6 @@ export default function LikeButton({ post_id }: postProps): JSX.Element {
   const [liked, setLiked] = useState(false);
   const { userInfo } = useUserInfo();
   const { id: user_id, email } = userInfo;
-
-  console.log(user_id, email);
 
   const onClickLike = async () => {
     if (!user_id) {

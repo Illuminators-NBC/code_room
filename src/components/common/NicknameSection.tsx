@@ -1,6 +1,6 @@
 import { ChangeEventHandler } from 'react';
-import { Input } from '../ui/input';
 import RandomNickname from '../common/RandomNickname';
+import { Input } from '../ui/input';
 
 interface NicknameSectionProps {
   nickname: string;

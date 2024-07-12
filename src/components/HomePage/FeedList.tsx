@@ -1,12 +1,12 @@
 'use client';
 
+import { PaigniatedPost, Post } from '@/types/posts';
 import { useInfiniteQuery } from '@tanstack/react-query';
-import { Post, PaigniatedPost } from '@/types/posts';
-import { useInView } from 'react-intersection-observer';
 import Image from 'next/image';
-import { SkeletonCard } from './Skeleton';
-import LikeButton from '../common/LikeButton';
+import { useInView } from 'react-intersection-observer';
 import CommentButton from '../common/CommentButton';
+import LikeButton from '../common/LikeButton';
+import { SkeletonCard } from './Skeleton';
 
 const fetchPost = async (pageParam: number) => {
   try {
@@ -18,7 +18,6 @@ const fetchPost = async (pageParam: number) => {
       // response.json()은 body를 JSON으로 파싱하는 메소드
       const posts = await response.json();
 
-      console.log(posts);
       return posts;
     }
   } catch (error) {
@@ -88,6 +87,7 @@ export default function FeedList() {
                         alt="유저가 업로드한 사진"
                         fill={true}
                         sizes="100vw"
+                        loader={({ src }) => src}
                       />
                     ) : null}
                   </figure>

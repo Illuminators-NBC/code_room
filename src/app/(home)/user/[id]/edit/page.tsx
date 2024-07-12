@@ -1,17 +1,17 @@
 'use client';
 
-import Link from 'next/link';
+import NicknameSection from '@/components/common/NicknameSection';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import useUserInfo from '@/hooks/useUserInfo';
+import { createClient } from '@/supabase/client';
+import { FormState } from '@/types/signUpFormType';
 import Image from 'next/image';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import React, { ChangeEventHandler, useEffect, useState } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { createClient } from '@/supabase/client';
-import React, { ChangeEventHandler, MouseEventHandler, useEffect, useState } from 'react';
-import { FormState } from '@/types/signUpFormType';
-import NicknameSection from '@/components/common/NicknameSection';
-import { useRouter } from 'next/navigation';
-import useUserInfo from '@/hooks/useUserInfo';
 
 type ChangePasswordFormProps = {
   onSubmit: (newPassword: string) => void;
@@ -45,14 +45,11 @@ const AccountEditPage: React.FC<ChangePasswordFormProps> = ({ onSubmit }) => {
           const { data, error } = await supabase.from('user').select('email, nickname').eq('id', user.id).single();
           if (error) throw error;
           if (data) {
-            console.log(data);
             setUserEmail(data.email ?? '');
             handleNicknameChange(data.nickname ?? '');
           }
         }
-      } catch (error) {
-        console.log(error);
-      }
+      } catch (error) {}
     };
     fetchUserData();
   }, []);
@@ -65,7 +62,6 @@ const AccountEditPage: React.FC<ChangePasswordFormProps> = ({ onSubmit }) => {
         .from('user')
         .update({ nickname: formState.nickname })
         .eq('email', userEmail);
-      console.log(data);
       if (error) {
         throw error;
       }
@@ -96,7 +92,6 @@ const AccountEditPage: React.FC<ChangePasswordFormProps> = ({ onSubmit }) => {
     toast.success('수정되었습니다.');
 
     router.replace(`/user/${userInfo.id}`);
-    console.log(error);
   };
 
   return (
