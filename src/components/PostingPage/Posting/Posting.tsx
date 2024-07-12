@@ -8,13 +8,13 @@ import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, For
 import { Textarea } from '@/components/ui/textarea';
 import { toast } from '@/components/ui/use-toast';
 import Link from 'next/link';
-import PostBtn from '../Btn/PostBtn';
 import { createClient } from '@/supabase/client';
 import useUserInfo from '@/hooks/useUserInfo';
 import CategoryManager from '../Category/CategoryMenu';
 import { useState } from 'react';
 import { Category } from '@/types/category';
 import { useRouter } from 'next/navigation';
+import UploadImg from '../Upload_img/UploadImg';
 
 const supabase = createClient();
 
@@ -35,6 +35,7 @@ export function Posting() {
   const navigate = useRouter();
   const [selectedCategories, setSelectedCategories] = useState<Category[]>([]);
   const { userInfo } = useUserInfo();
+  const [uploadFileUrl, setUploadFileUrl] = useState([]);
   const form = useForm<FormValues>({
     resolver: zodResolver(FormSchema)
   });
@@ -79,7 +80,10 @@ export function Posting() {
         <CategoryManager selectedCategories={selectedCategories} setSelectedCategories={setSelectedCategories} />
       </div>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="w-2/3 space-y-6">
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="w-full px-4 sm:px-6 md:px-3 max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl mx-auto space-y-6 flex flex-col min-h-[50vh]"
+        >
           <FormField
             control={form.control as Control<FormValues>}
             name="bio"
@@ -98,18 +102,23 @@ export function Posting() {
               </FormItem>
             )}
           />
-          <Button asChild variant="outline" className="bg-[#27272A] border-none m-2">
-            <Link href="/" className="bg-[#27272A] hover:bg-[#4f4f57] text-white font-semibold ">
-              Cancel
-            </Link>
-          </Button>
-          <button
-            className="bg-[#DD268E] text-white hover:bg-[#FB2EA2] hover:text-black px-5 py-2.5 rounded-md text-sm font-semibold"
-            type="submit"
-            onClick={() => navigate.push('/')}
-          >
-            POST
-          </button>
+          <div>
+            <div className="flex justify-end items-center mt-auto">
+              <UploadImg uploadFileUrl={uploadFileUrl} setUploadFileUrl={setUploadFileUrl} />
+              <Button asChild variant="outline" className="bg-[#27272A] border-none m-2">
+                <Link href="/" className="bg-[#27272A] hover:bg-[#4f4f57] text-white font-semibold">
+                  Cancel
+                </Link>
+              </Button>
+              <button
+                className="bg-[#DD268E] text-white hover:bg-[#FB2EA2] hover:text-black px-5 py-2.5 rounded-md text-sm font-semibold"
+                type="submit"
+                onClick={() => navigate.push('/')}
+              >
+                POST
+              </button>
+            </div>
+          </div>
         </form>
       </Form>
     </div>

@@ -1,6 +1,5 @@
 'use client';
 import Image from 'next/image';
-import CategoryManager from './Category/CategoryMenu';
 import { Posting } from './Posting/Posting';
 
 const PostingPage = () => {
