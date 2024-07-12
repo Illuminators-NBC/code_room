@@ -38,18 +38,22 @@ const UploadImg = ({ uploadFileUrl, setUploadFileUrl }: UploadImage) => {
     try {
       const newFileName = uuidv4();
       const { data, error } = await supabase.storage.from('Images').upload(`${newFileName}`, file);
-
+      console.log(data);
       if (error) {
         console.error(error);
         return;
       }
+      const test = 'https://pdgwrjxbqywcmuxwjqos.supabase.co/storage/v1/object/public/';
 
       const res = supabase.storage.from('Images').getPublicUrl(data.path);
       const publicUrl = res.data.publicUrl;
 
       setUploadFileUrl((prevUrls) => [...prevUrls, publicUrl]);
 
-      const { error: insertError } = await supabase.from('post').insert({ image: publicUrl });
+      const { error: insertError } = await supabase
+        .from('post')
+        .update({ image: test + data.fullPath })
+        .eq('post_id');
 
       if (insertError) {
         console.error('URL을 post 테이블에 저장하는 중 오류 발생:', insertError);

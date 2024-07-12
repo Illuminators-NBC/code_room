@@ -113,7 +113,7 @@ export function Posting() {
               <button
                 className="bg-[#DD268E] text-white hover:bg-[#FB2EA2] hover:text-black px-5 py-2.5 rounded-md text-sm font-semibold"
                 type="submit"
-                onClick={() => navigate.push('/')}
+                // onClick={() => navigate.push('/')}
               >
                 POST
               </button>
