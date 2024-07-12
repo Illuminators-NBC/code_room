@@ -16,7 +16,7 @@ interface PostContentProps {
 function PostContent({ initialPostData }: PostContentProps) {
   const { id } = useParams<{ id: string }>();
   const { data: post } = usePostQuery(id, initialPostData);
-  const { user_id, image, content, created_at, like, tag, updated_at } = post;
+  const { user_id, image, content, created_at, like, tag, updated_at, comment_count } = post;
 
   const formattedDate = dayjs(updated_at ? updated_at : created_at).format('h:mm A · MMM D, YYYY');
 
@@ -61,7 +61,7 @@ function PostContent({ initialPostData }: PostContentProps) {
           </div>
           <div className="flex items-center gap-1">
             <Image src="/message-square.svg" width={22} height={22} alt="message-square" />
-            <p>0</p>
+            <p>{comment_count}</p>
           </div>
         </div>
         {tag && (
