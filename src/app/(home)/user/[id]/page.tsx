@@ -1,5 +1,6 @@
 "use client";
 import CommentButton from '@/components/common/CommentButton';
+import Header from '@/components/common/Header';
 import HeartButton from '@/components/common/LikeButton';
 import { Button } from '@/components/ui/button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
@@ -115,17 +116,18 @@ function MyPage() {
   }
 
   return (
-    <div className="w-[640px] mx-auto bg-black text-white min-h-screen border border-[#27272A]">
-
+    <div className="w-[640px] mx-auto bg-[#09090B] text-white min-h-screen border border-[#27272A]">
 
       {/* 헤더 */}
-      {/* <header className="h-[53px] bg-black border-b border-gray-500 flex justify-between">
+      <Header />
+      
+      {/* <header className="h-[53px] bg-[#09090B] border-b border-[#27272A] flex justify-between">
         <Link href="/" className="m-auto ml-[30px]"><Image src="/Group 100.png" width={100} height={50} alt="logo" /></Link>
         <Image src="/user.png" width={30} height={30} alt="user" className="m-auto mr-[30px]" />
       </header> */}
 
       {/* 프로필 */}
-      <section className="flex justify-between items-center bg-black rounded h-[93px]">
+      <section className="flex justify-between items-center bg-[#09090B] rounded h-[93px]">
         <span className="text-xl ml-[84px] flex">
           <Image src="/logo_icon.png" width={30} height={30} alt="logo" className='ml-[-37px] mr-[19px]' />
           {nickname}
@@ -148,15 +150,15 @@ function MyPage() {
         {postdata.map((post, index) => {
           console.log("포스트 데이터: ", post);
           return (
-            <div key={index} className="bg-black rounded mt-4">
+            <div key={index} className="bg-[#09090B] rounded mt-4">
               <div className="flex justify-between items-center">
-                <span className="ml-[29px] h-[67px] flex items-center">작성자: {post.user?.nickname}</span>
+                <span className="ml-[29px] h-[67px] flex items-center font-bold  text-[20px] ">{post.user?.nickname}</span>
 
                 {/* 드롭다운 */}
                 <div className="mr-[28px]">
                   <DropdownMenu>
                     <DropdownMenuTrigger>...</DropdownMenuTrigger>
-                    <DropdownMenuContent className="mr-[60px] bg-black text-white border-black">
+                    <DropdownMenuContent className="mr-[60px] bg-[#09090B] text-white border-[#27272A]">
                       {/* <DropdownMenuLabel>My Account</DropdownMenuLabel> */}
                       {/* <DropdownMenuSeparator /> */}
                       <DropdownMenuItem>글 삭제</DropdownMenuItem>
@@ -167,7 +169,7 @@ function MyPage() {
               </div>
 
               {/* 사진 + 내용 */}
-              <div className="mt-2 bg-black rounded">
+              <div className="mt-2 bg-[#09090B] rounded">
                 <div className="px-[29px] border-b border-[#27272A]">
                   {/* 삼항 연산자 사용해서 처리해보기*/}
                   {post.image ? (
@@ -178,7 +180,7 @@ function MyPage() {
                         <div className="flex justify-left">
                           <p className="flex gap-[8px]"><HeartButton /> {post.like}</p>
                           <p className="ml-[19px] flex gap-[8px]"><CommentButton /> {post.comment_count}</p>
-                          <p className="ml-[330px]">{post.tag}</p>
+                          <p className="ml-[auto]">{post.tag}</p>
                         </div>
                       </div>
                     </>
@@ -189,7 +191,7 @@ function MyPage() {
                       <div className="flex justify-left mb-[31px] ">
                         <p className="flex gap-[8px]"><HeartButton />{post.like}</p>
                         <p className="ml-[19px] flex gap-[8px]"><CommentButton />{post.comment_count}</p>
-                        <p className="ml-[400px]">{post.tag}</p>
+                        <p className="ml-[auto]">{post.tag}</p>
                       </div>
                     </div>
                   )}

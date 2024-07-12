@@ -60,7 +60,7 @@ const AccountEditPage: React.FC<ChangePasswordFormProps> = ({ onSubmit }) => {
   }, []);
 
   // 닉네임 업데이트
-  const updateNickname = async (e:any) => {
+  const updateNickname = async (e) => {
     e.preventDefault();
     try {
       const { data, error } = await supabase
@@ -88,7 +88,7 @@ const AccountEditPage: React.FC<ChangePasswordFormProps> = ({ onSubmit }) => {
   };
 
   // 업데이트
-  const handleSubmit = async (e:any) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setNewPassword(e.target.value);
 
