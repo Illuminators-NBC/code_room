@@ -1,15 +1,15 @@
 'use client';
 
 import { useLoginContext } from '@/context/LoginProvider';
+import useUserInfo from '@/hooks/useUserInfo';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { ChangeEventHandler, FormEventHandler, useState } from 'react';
-import { Button } from '../ui/button';
-import { Input } from '../ui/input';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import Image from 'next/image';
-import useUserInfo from '@/hooks/useUserInfo';
 import CloseButton from '../common/CloseButton';
+import { Button } from '../ui/button';
+import { Input } from '../ui/input';
 
 export default function LoginForm() {
   const router = useRouter();
@@ -30,13 +30,13 @@ export default function LoginForm() {
   const onSubmitHandler: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
     if (!formState.email || !formState.pw) {
-      return toast.error('Please Enter Email and Password');
+      return toast.error('이메일과 비밀번호를 입력해주세요.');
     }
     if (!validateEmail(formState.email)) {
-      return toast.error('Invalid Email Format');
+      return toast.error('올바른 이메일을 입력해주세요.');
     }
     if (formState.pw.length < 6) {
-      return toast.error('Password must be at least 6 characters long');
+      return toast.error('비밀번호는 최소 6글자 이상이여야합니다.');
     }
     const data = await fetch('/api/auth/log-in', {
       method: 'POST',
@@ -49,7 +49,7 @@ export default function LoginForm() {
       toast.error(data.errorMsg);
       return;
     }
-    toast.success('Success Login');
+    toast.success('성공적으로 로그인되었습니다.');
     login();
     setUserInfo({ id: data.id, nickname: data.nickname, email: data.email });
     setFormState({ email: '', pw: '' });
