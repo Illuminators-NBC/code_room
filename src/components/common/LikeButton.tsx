@@ -14,8 +14,7 @@ export default function LikeButton({ post_id }: postProps): JSX.Element {
 
   const onClickLike = async () => {
     if (!user_id) {
-      alert('로그인이 필요합니다.');
-      router.push('/login');
+      router.push('/sign-up');
     } else {
       setLiked(!liked);
       const response = await fetch('/api/home', {
