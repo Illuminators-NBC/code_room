@@ -10,6 +10,7 @@ import { Input } from '../ui/input';
 import { Button } from '../ui/button';
 import ReCAPTCHA from 'react-google-recaptcha';
 import NicknameSection from '../common/NicknameSection';
+import CloseButton from '../common/CloseButton';
 
 const RECAPTCHA_SITE_KEY = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY as string;
 
@@ -72,8 +73,13 @@ export default function SignUpForm() {
   };
 
   return (
-    <div className="bg-black w-[640px] h-screen border-2 border-zinc-800 h-auto m-auto text-center">
-      <Image src="/Group 100.png" width={400} height={50} alt="logo" className="m-auto mt-48 mb-12" />
+    <div className="bg-black w-[640px] h-screen border-2 border-zinc-800 m-auto text-center">
+      <div className="mt-12 ml-[500px]">
+        <button type="button" onClick={() => router.push('/')}>
+          <CloseButton />
+        </button>
+      </div>
+      <Image src="/Group 100.png" width={400} height={50} alt="logo" className="m-auto mt-24 mb-8" />
       <form onSubmit={onSubmitHandler}>
         <section>
           <Input
@@ -116,7 +122,11 @@ export default function SignUpForm() {
         <Button type="submit" className="w-96 mb-7 bg-[#DD268E] hover:bg-[#FB2EA2]">
           Register
         </Button>
-        <Button type="button" onClick={() => router.push('/login')} className="w-96 bg-[#DD268E] hover:bg-[#FB2EA2]">
+        <Button
+          type="button"
+          onClick={() => router.push('/login')}
+          className="w-96 mb-7 bg-[#DD268E] hover:bg-[#FB2EA2]"
+        >
           Log In
         </Button>
       </form>

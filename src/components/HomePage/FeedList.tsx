@@ -64,7 +64,7 @@ export default function FeedList() {
 
   return (
     <>
-      <ul className="w-92 sm:w-[640px]">
+      <ul className="w-[640px] sm:max-w-120">
         {paginatedPosts.pages.map((page) => {
           return page.data.map((post: Post) => {
             const isLastItem = page.data.length - 1 === page.data.indexOf(post);

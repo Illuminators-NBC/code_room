@@ -1,17 +1,13 @@
 'use client';
-import AuthObserver from '@/components/common/AuthObserver';
-import LogoutButton from '@/components/LoginPage/LogoutButton';
-import useUserInfo from '@/hooks/useUserInfo';
-
 import FeedList from '@/components/HomePage/FeedList';
 import PostBox from '@/components/HomePage/PostBox';
+import Header from '@/components/common/Header';
+import useUserInfo from '@/hooks/useUserInfo';
 
 function HomePage() {
-  const { userInfo } = useUserInfo();
   return (
     <>
-      <LogoutButton />
-      <header></header>
+      <Header />
       <main className="text-white mx-auto max-w-92 sm:max-w-screen-sm">
         <PostBox />
         <section className="w-full">
