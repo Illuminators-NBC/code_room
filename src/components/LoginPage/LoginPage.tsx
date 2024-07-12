@@ -9,6 +9,7 @@ import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Image from 'next/image';
 import useUserInfo from '@/hooks/useUserInfo';
+import CloseButton from '../common/CloseButton';
 
 export default function LoginForm() {
   const router = useRouter();
@@ -50,14 +51,19 @@ export default function LoginForm() {
     }
     toast.success('Success Login');
     login();
-    setUserInfo({ id: data.id, nickname: data.nickname });
+    setUserInfo({ id: data.id, nickname: data.nickname, email: data.email });
     setFormState({ email: '', pw: '' });
     router.replace('/');
   };
 
   return (
-    <div className="bg-black w-[640px] h-screen border-2 border-zinc-800 h-auto m-auto text-center">
-      <Image src="/Group 100.png" width={400} height={50} alt="logo" className="m-auto mt-48 mb-[28px]" />
+    <div className="bg-zinc-950 w-[640px] h-screen border-2 border-zinc-800 m-auto text-center">
+      <div className="mt-12 ml-[500px]">
+        <button type="button" onClick={() => router.push('/')}>
+          <CloseButton />
+        </button>
+      </div>
+      <Image src="/Group 100.png" width={400} height={50} alt="logo" className="m-auto mt-24" />
       <form onSubmit={onSubmitHandler}>
         <section>
           <Input
@@ -77,10 +83,10 @@ export default function LoginForm() {
             value={formState.pw}
             onChange={handleInputChange}
             placeholder="Password"
-            className="bg-[#27272A] text-white border-[#71717A] inline-flex items-center justify-center w-96 mb-24"
+            className="bg-[#27272A] text-white border-[#71717A] inline-flex items-center justify-center w-96"
           />
         </section>
-        <Button type="submit" className="w-96 mb-7 bg-[#DD268E] hover:bg-[#FB2EA2]">
+        <Button type="submit" className="w-96 mb-7 mt-24 bg-[#DD268E] hover:bg-[#FB2EA2]">
           Log In
         </Button>
         <br />
