@@ -61,7 +61,7 @@ export async function POST(request: Request) {
     .eq('email', email)
     .single();
 
-  const likedPosts = liked?.liked_post ? liked.liked_post : {};
+  const likedPosts = liked?.liked_post ? liked.liked_post : [];
 
   console.log('liked_post', likedPosts);
   console.log('liked_post_list', [...likedPosts, post_id]);
