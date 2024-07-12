@@ -19,6 +19,7 @@ async function getPosts(searchParams: URLSearchParams) {
   } = await supabase
     .from('post')
     .select('*', { count: 'exact' })
+    .order('created_at', { ascending: false })
     .range(offset, offset + PAGE_SIZE - 1);
 
   const totalPages = Math.ceil(count! / PAGE_SIZE);
