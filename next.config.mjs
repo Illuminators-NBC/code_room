@@ -7,8 +7,11 @@ const nextConfig = {
         hostname: 'raw.githubusercontent.com',
         pathname: '/**'
       },
-      { hostname: 'cdn.pixabay.com' },
-      { hostname: 'pdgwrjxbqywcmuxwjqos.supabase.co' }
+      {
+        protocol: 'https',
+        hostname: 'pdgwrjxbqywcmuxwjqos.supabase.co',
+        pathname: '/**'
+      }
     ]
   }
 };

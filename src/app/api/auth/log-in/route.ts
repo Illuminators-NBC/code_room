@@ -18,14 +18,17 @@ export async function POST(request: Request) {
   const { user } = data;
   const { data: userProfile, error: profileError } = await supabase
     .from('user')
-    .select('id, nickname')
-    .eq('id', user.id)
+    .select('id, nickname, email')
+    .eq('id', user?.id)
     .single();
   if (profileError) {
     console.error('profileError:', profileError.message);
     return new Response(JSON.stringify({ errorMsg: profileError.message }), { status: 400 });
   }
-  return new Response(JSON.stringify({ id: userProfile.id, nickname: userProfile.nickname, errorMsg: null }), {
-    status: 200
-  });
+  return new Response(
+    JSON.stringify({ id: userProfile.id, nickname: userProfile.nickname, email: userProfile.email, errorMsg: null }),
+    {
+      status: 200
+    }
+  );
 }
