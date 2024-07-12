@@ -2,6 +2,7 @@
 import { useEffect } from 'react';
 import useUserInfo from '@/hooks/useUserInfo';
 import { createClient } from '@/supabase/client';
+import { userInfo } from 'os';
 
 function AuthObserver() {
   const supabase = createClient();
@@ -9,6 +10,7 @@ function AuthObserver() {
 
   useEffect(() => {
     const session = supabase.auth.getSession();
+
     const handleAuthChange = (event: any, session: any) => {
       if (session?.user) {
         setUserInfo({
