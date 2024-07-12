@@ -92,7 +92,7 @@ const AccountEditPage: React.FC<ChangePasswordFormProps> = ({ onSubmit }) => {
 
     updateNickname(e);
     toast.success('수정되었습니다.');
-    
+
     console.log(error);
   };
 
