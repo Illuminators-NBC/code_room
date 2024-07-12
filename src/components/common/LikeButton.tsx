@@ -10,7 +10,9 @@ export default function LikeButton({ post_id }: postProps): JSX.Element {
   const router = useRouter();
   const [liked, setLiked] = useState(false);
   const { userInfo } = useUserInfo();
-  const { id: user_id } = userInfo;
+  const { id: user_id, email } = userInfo;
+
+  console.log(user_id, email);
 
   const onClickLike = async () => {
     if (!user_id) {
@@ -20,7 +22,7 @@ export default function LikeButton({ post_id }: postProps): JSX.Element {
       setLiked(!liked);
       const response = await fetch('/api/home', {
         method: 'POST',
-        body: JSON.stringify({ user_id, post_id })
+        body: JSON.stringify({ email, post_id })
       });
     }
   };
