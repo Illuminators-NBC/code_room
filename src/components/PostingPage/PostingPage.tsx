@@ -5,7 +5,7 @@ import { Posting } from './Posting/Posting';
 
 const PostingPage = () => {
   return (
-    <div className="bg-black w-[640px] h-screen border-2 border-zinc-800 h-auto m-auto ">
+    <div className="bg-zinc-950 w-[640px] h-screen border-2 border-zinc-800 h-auto m-auto ">
       <div className="bg-black">
         <header className="flex justify-between items-center p-5">
           <Image src="/team_logo.png" alt="code_room" width={110} height={110} />
