@@ -7,6 +7,7 @@ import dayjs from 'dayjs';
 import Image from 'next/image';
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import { categories } from '../PostingPage/Category/CategoryMenu';
 
 interface PostContentProps {
   initialPostData: Tables<'post'>;
@@ -16,7 +17,10 @@ function PostContent({ initialPostData }: PostContentProps) {
   const { id } = useParams<{ id: string }>();
   const { data: post } = usePostQuery(id, initialPostData);
   const { user_id, image, content, created_at, like, tag, updated_at } = post;
+
   const formattedDate = dayjs(updated_at ? updated_at : created_at).format('h:mm A · MMM D, YYYY');
+
+  const categorie = tag && categories.find((categorie) => categorie.name === tag);
 
   const [nickname, setNickname] = useState<Tables<'user'>['nickname']>('');
 
@@ -60,7 +64,13 @@ function PostContent({ initialPostData }: PostContentProps) {
             <p>0</p>
           </div>
         </div>
-        {tag && <p>{tag}</p>}
+        {tag && (
+          <div
+            className={`px-2 py-1 rounded-full text-sm flex items-center ${categorie.backgroundColor} ${categorie.color}`}
+          >
+            {categorie.name}
+          </div>
+        )}
       </div>
     </div>
   );
