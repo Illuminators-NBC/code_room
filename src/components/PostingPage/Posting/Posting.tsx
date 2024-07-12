@@ -1,22 +1,22 @@
 'use client';
-import dayjs from 'dayjs';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm, SubmitHandler, Control } from 'react-hook-form';
-import { z } from 'zod';
 import { Button } from '@/components/ui/button';
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import { Form, FormControl, FormDescription, FormField, FormItem, FormMessage } from '@/components/ui/form';
 import { Textarea } from '@/components/ui/textarea';
 import { toast } from '@/components/ui/use-toast';
-import Link from 'next/link';
-import { createClient } from '@/supabase/client';
 import useUserInfo from '@/hooks/useUserInfo';
-import CategoryManager from '../Category/CategoryMenu';
-import { useState, useEffect } from 'react';
+import { createClient } from '@/supabase/client';
 import { Category } from '@/types/category';
-import { useRouter } from 'next/navigation';
+import { zodResolver } from '@hookform/resolvers/zod';
+import dayjs from 'dayjs';
 import Image from 'next/image';
-import { v4 as uuidv4 } from 'uuid';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import { Control, SubmitHandler, useForm } from 'react-hook-form';
 import { ToastContainer } from 'react-toastify';
+import { v4 as uuidv4 } from 'uuid';
+import { z } from 'zod';
+import CategoryManager from '../Category/CategoryMenu';
 
 const supabase = createClient();
 
@@ -68,7 +68,6 @@ export function Posting() {
     try {
       const newFileName = uuidv4();
       const { data, error } = await supabase.storage.from('Images').upload(`${newFileName}`, file);
-      console.log(data);
       if (error) {
         console.error(error);
         return;

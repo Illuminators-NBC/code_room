@@ -1,14 +1,18 @@
-"use client";
+'use client';
 import CommentButton from '@/components/common/CommentButton';
 import Header from '@/components/common/Header';
 import HeartButton from '@/components/common/LikeButton';
-import { Button } from '@/components/ui/button';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger
+} from '@/components/ui/dropdown-menu';
 import useUserInfo from '@/hooks/useUserInfo';
 import { createClient } from '@/supabase/client';
 import Image from 'next/image';
 import Link from 'next/link';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 function MyPage() {
   const [postdata, setPostdata] = useState<any[]>([]);
@@ -18,10 +22,6 @@ function MyPage() {
   const [likedPost, setlikedPost] = useState<any[]>([]);
   const { userInfo } = useUserInfo();
   const supabase = createClient();
-
-  useEffect(() => {
-    console.log('포스트데이터', postdata);
-  }, [postdata])
 
   useEffect(() => {
     const PostingData = async () => {
@@ -41,18 +41,15 @@ function MyPage() {
         //console.log('불러온 닉네임=>', UserNickname);
         setNickname(UserNickname);
 
-        const { data, error } = await supabase
-          .from("post")
-          .select("*, user(nickname)")
-          .eq("user_id", UserId);
+        const { data, error } = await supabase.from('post').select('*, user(nickname)').eq('user_id', UserId);
         if (error) {
-          console.error("오류 발생", error);
+          console.error('오류 발생', error);
         } else {
           setPostdata(data);
           //console.log("데이터=> ", data);
         }
       } catch (error) {
-        console.error("Data Fetching Error", error);
+        console.error('Data Fetching Error', error);
       }
     };
     PostingData();
@@ -68,18 +65,15 @@ function MyPage() {
       const UserNickname = UserData.user?.user_metadata?.nickname;
       setNickname(UserNickname);
 
-      const { data, error } = await supabase
-        .from("post")
-        .select("*, user(nickname)")
-        .eq("user_id", UserId);
+      const { data, error } = await supabase.from('post').select('*, user(nickname)').eq('user_id', UserId);
       if (error) {
-        console.error("오류 발생", error);
+        console.error('오류 발생', error);
       } else {
         setPostdata(data);
         //console.log("데이터=> ", data);
       }
     } catch (error) {
-      console.error("Data Fetching Error", error);
+      console.error('Data Fetching Error', error);
     }
   };
 
@@ -117,34 +111,25 @@ function MyPage() {
       const UserNickname = UserData.user?.user_metadata?.nickname;
       setNickname(UserNickname);
 
-      const { data: likedPostsIdResponse, error } = await supabase
-        .from("user")
-        .select("liked_post")
-        .eq("id", UserId);
+      const { data: likedPostsIdResponse, error } = await supabase.from('user').select('liked_post').eq('id', UserId);
       if (error) {
-        console.error("오류 발생", error);
+        console.error('오류 발생', error);
       }
 
       if (!likedPostsIdResponse) {
-        setlikedPost([])
+        setlikedPost([]);
         return;
       }
-      const likedPostsId = likedPostsIdResponse[0].liked_post as string[]
+      const likedPostsId = likedPostsIdResponse[0].liked_post as string[];
 
       const postPromises = likedPostsId?.map(async (postId) => {
-        const { data: postData, error: postError } =
-          await supabase
-            .from("post")
-            .select("*")
-            .eq("post_id", postId)
-          console.log(postData);
-        return postData?.[0]
-      })
-      const likedposts = await Promise.all(postPromises)
+        const { data: postData, error: postError } = await supabase.from('post').select('*').eq('post_id', postId);
+        return postData?.[0];
+      });
+      const likedposts = await Promise.all(postPromises);
       setlikedPost(likedposts);
-      console.log(likedposts)
     } catch (error) {
-      console.error("Data Fetching Error", error);
+      console.error('Data Fetching Error', error);
     }
   };
 
@@ -159,13 +144,12 @@ function MyPage() {
     setFavoritePost(true);
     FavoritePosting();
     setWritePost(false);
-  }
+  };
 
   const selectData = writePost ? postdata : likedPost;
 
   return (
     <div className="w-[640px] mx-auto bg-[#09090B] text-white min-h-screen border border-[#27272A]">
-
       {/* 헤더 */}
       <Header />
       {/* <header className="h-[53px] bg-[#09090B] border-b border-[#27272A] flex justify-between">
@@ -176,19 +160,36 @@ function MyPage() {
       {/* 프로필 */}
       <section className="flex justify-between items-center bg-[#09090B] rounded h-[93px]">
         <span className="text-xl ml-[84px] flex">
-          <Image src="/logo_icon.png" width={30} height={30} alt="logo" className='ml-[-37px] mr-[19px]' />
+          <Image src="/logo_icon.png" width={30} height={30} alt="logo" className="ml-[-37px] mr-[19px]" />
           {nickname}
         </span>
-        <Link href={`/user/${userInfo.id}/edit`} className="px-4 py-2 bg-[#DD268E] rounded hover:bg-[#FB2EA2] mr-[30px]">프로필 수정</Link>
+        <Link
+          href={`/user/${userInfo.id}/edit`}
+          className="px-4 py-2 bg-[#DD268E] rounded hover:bg-[#FB2EA2] mr-[30px]"
+        >
+          프로필 수정
+        </Link>
       </section>
 
       {/* 버튼 */}
       <section>
         <div className="flex justify-center">
-          <button className={`w-[320px] h-[40px] border border-[#27272A] font-bold ${writePost ? 'bg-[#27272A]' : 'bg-[#09090B] hover:bg-[#27272A]'}`}
-            onClick={WriteShowHandler}>작성한 글</button>
-          <button className={`w-[320px] h-[40px] border border-[#27272A] font-bold ${favoritePost ? 'bg-[#27272A]' : 'bg-[#09090B] hover:bg-[#27272A]'}`}
-            onClick={FavoriteShowHandler}>좋아요한 글</button>
+          <button
+            className={`w-[320px] h-[40px] border border-[#27272A] font-bold ${
+              writePost ? 'bg-[#27272A]' : 'bg-[#09090B] hover:bg-[#27272A]'
+            }`}
+            onClick={WriteShowHandler}
+          >
+            작성한 글
+          </button>
+          <button
+            className={`w-[320px] h-[40px] border border-[#27272A] font-bold ${
+              favoritePost ? 'bg-[#27272A]' : 'bg-[#09090B] hover:bg-[#27272A]'
+            }`}
+            onClick={FavoriteShowHandler}
+          >
+            좋아요한 글
+          </button>
         </div>
       </section>
 
@@ -199,7 +200,9 @@ function MyPage() {
           return (
             <div key={index} className="bg-[#09090B] rounded mt-4">
               <div className="flex justify-between items-center">
-                <span className="ml-[29px] h-[67px] flex items-center font-bold  text-[20px] ">{post.user?.nickname}</span>
+                <span className="ml-[29px] h-[67px] flex items-center font-bold  text-[20px] ">
+                  {post.user?.nickname}
+                </span>
 
                 {/* 드롭다운 */}
                 <div className="mr-[28px]">
@@ -225,8 +228,12 @@ function MyPage() {
                       <div className="mb-[19px]">
                         <p className="mt-[20px] mb-[19px] break-words">{post.content}</p>
                         <div className="flex justify-left">
-                          <p className="flex gap-[8px]"><HeartButton /> {post.like}</p>
-                          <p className="ml-[19px] flex gap-[8px]"><CommentButton /> {post.comment_count}</p>
+                          <p className="flex gap-[8px]">
+                            <HeartButton /> {post.like}
+                          </p>
+                          <p className="ml-[19px] flex gap-[8px]">
+                            <CommentButton /> {post.comment_count}
+                          </p>
                           <p className="ml-[auto]">{post.tag}</p>
                         </div>
                       </div>
@@ -236,8 +243,14 @@ function MyPage() {
                     <div>
                       <p className="mt-[-10px] mb-[19px] break-words">{post.content}</p>
                       <div className="flex justify-left mb-[31px] ">
-                        <p className="flex gap-[8px]"><HeartButton />{post.like}</p>
-                        <p className="ml-[19px] flex gap-[8px]"><CommentButton />{post.comment_count}</p>
+                        <p className="flex gap-[8px]">
+                          <HeartButton />
+                          {post.like}
+                        </p>
+                        <p className="ml-[19px] flex gap-[8px]">
+                          <CommentButton />
+                          {post.comment_count}
+                        </p>
                         <p className="ml-[auto]">{post.tag}</p>
                       </div>
                     </div>

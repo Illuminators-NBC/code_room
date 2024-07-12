@@ -1,6 +1,6 @@
 import { ChangeEventHandler } from 'react';
-import { Input } from '../ui/input';
 import RandomNickname from '../common/RandomNickname';
+import { Input } from '../ui/input';
 
 interface NicknameSectionProps {
   nickname: string;
@@ -15,7 +15,7 @@ const NicknameSection: React.FC<NicknameSectionProps> = ({ nickname, onNicknameC
   const handleNicknameGenerated = (generatedNickname: string) => {
     onNicknameChange(generatedNickname);
   };
-  console.log(nickname);
+
   return (
     <section className="w-96 h-10 mx-auto mb-7 relative">
       <Input

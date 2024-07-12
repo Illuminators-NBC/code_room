@@ -41,12 +41,7 @@ export async function POST(request: Request) {
 
   const { email, post_id } = await request.json();
 
-  console.log('email', email);
-  console.log('post_id', post_id);
-
   const { data: post } = await supabase.from('post').select('like').eq('post_id', post_id).single();
-
-  console.log('count', post?.like);
 
   const { data, error } = await supabase
     .from('post')
@@ -63,16 +58,10 @@ export async function POST(request: Request) {
 
   const likedPosts = liked?.liked_post ? liked.liked_post : [];
 
-  console.log('liked_post', likedPosts);
-  console.log('liked_post_list', [...likedPosts, post_id]);
-  console.log(post_id);
-
   const {} = await supabase
     .from('user')
     .update({ liked_post: [...likedPosts!, post_id] })
     .eq('email', email);
-
-  console.log(JSON.stringify([{ ...likedPosts!, post_id }]));
 
   return NextResponse.json({ data });
 }
