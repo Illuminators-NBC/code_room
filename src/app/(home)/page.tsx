@@ -1,7 +1,7 @@
 'use client';
+import Header from '@/components/common/Header';
 import FeedList from '@/components/HomePage/FeedList';
 import PostBox from '@/components/HomePage/PostBox';
-import Header from '@/components/common/Header';
 
 function HomePage() {
   return (
