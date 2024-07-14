@@ -1,18 +1,46 @@
 'use client';
 
 import { Category } from '@/types/category';
+import { Tables } from '@/types/supabase';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
-import { useState } from 'react';
-import CategoryManager from '../PostingPage/Category/CategoryMenu';
+import { ChangeEvent, useEffect, useState } from 'react';
+import CategoryManager, { categories } from '../PostingPage/Category/CategoryMenu';
 import { Button } from '../ui/button';
 
-function EditPost() {
+interface EditPostProps {
+  initialPostData: Tables<'post'>;
+}
+
+function EditPost({ initialPostData }: EditPostProps) {
+  const { content: prevContent, tag: prevTag, image: prevImageURL } = initialPostData;
+
   const { id } = useParams<{ id: string }>();
 
+  const [editedContent, setEditedContent] = useState<string>(prevContent);
   const [selectedCategories, setSelectedCategories] = useState<Category[]>([]);
+  const [imgPreviewURL, setImgPreviewURL] = useState<string | null>(null);
   const [imgFile, setImgFile] = useState<File | null>(null);
+
+  const handleChangeImgFile = (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      const newImgFile = e.target.files[0];
+      setImgFile(newImgFile);
+      setImgPreviewURL(URL.createObjectURL(newImgFile));
+    }
+  };
+
+  useEffect(() => {
+    if (prevImageURL) {
+      setImgPreviewURL(prevImageURL);
+    }
+
+    if (prevTag) {
+      setSelectedCategories([categories.find((category) => category.name === prevTag) as Category]);
+    }
+  }, [prevImageURL, prevTag]);
+
   return (
     <>
       <Image src="/terminal.png" alt="terminal" width={35} height={35} className="mb-[18px] mt-[26px]" />
@@ -20,14 +48,21 @@ function EditPost() {
         <CategoryManager selectedCategories={selectedCategories} setSelectedCategories={setSelectedCategories} />
       </div>
       <div className="flex flex-col gap-5">
-        <textarea className="w-full bg-transparent outline-none border-[#2F3336] border p-4 min-h-[300px]" />
+        <textarea
+          value={editedContent}
+          onChange={(e) => setEditedContent(e.target.value)}
+          className="w-full bg-transparent outline-none border-[#2F3336] border p-4 min-h-[300px] text-white"
+        />
         <div className="relative aspect-video max-w-[240px] rounded-[12px] overflow-hidden">
-          {imgFile && (
+          {imgPreviewURL && (
             <>
-              <Image src={URL.createObjectURL(imgFile)} fill className="absolute" alt="" />
+              <Image src={imgPreviewURL} fill className="absolute" alt="" />
               <button
                 className="absolute top-2 right-2 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs"
-                onClick={() => setImgFile(null)}
+                onClick={() => {
+                  setImgFile(null);
+                  setImgPreviewURL(null);
+                }}
               >
                 X
               </button>
@@ -35,13 +70,7 @@ function EditPost() {
           )}
         </div>
         <div className="flex justify-between items-center">
-          <input
-            type="file"
-            id="img_file"
-            accept="image/*"
-            className="hidden"
-            onChange={(e) => e.target.files && setImgFile(e.target.files[0])}
-          />
+          <input type="file" id="img_file" accept="image/*" className="hidden" onChange={handleChangeImgFile} />
           <label htmlFor="img_file" className="cursor-pointer hover:brightness-75 active:brightness-90 transition">
             <Image src="/add_image_icon.png" alt="addImg" width={40} height={35} />
           </label>
