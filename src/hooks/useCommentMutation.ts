@@ -9,7 +9,10 @@ const useCommentMutation = () => {
     mutationFn: ({ id, newComment }: { id: string; newComment: Pick<Tables<'comments'>, 'post_id' | 'content'> }) => {
       return axios.post(`/api/post/comment/${id}`, newComment);
     },
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['comment'] })
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['comment'] });
+      queryClient.invalidateQueries({ queryKey: ['post'] });
+    }
   });
 
   const updateCommentMutation = useMutation({
@@ -30,7 +33,10 @@ const useCommentMutation = () => {
   const deleteCommentMutation = useMutation({
     mutationFn: ({ id, commentId }: { id: string; commentId: Tables<'comments'>['comment_id'] }) =>
       axios.delete(`/api/post/comment/${id}`, { data: { commentId } }),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['comment'] })
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['comment'] });
+      queryClient.invalidateQueries({ queryKey: ['post'] });
+    }
   });
 
   return { createCommentMutation, updateCommentMutation, deleteCommentMutation };
