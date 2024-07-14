@@ -22,7 +22,7 @@ const CategoryDropdown: React.FC<CategoryDropdownProps> = ({ categories, onCateg
 
   return (
     <DropdownMenu onOpenChange={toggleDropdown}>
-      <DropdownMenuTrigger className="text-pink-600 hover:text-pink-300 transition-colors duration-200 text-xl border-none ">
+      <DropdownMenuTrigger className=" h-[30px] text-white hover:text-[#DD268E] transition-colors duration-200 text-[16px] border-none ">
         Categories {isOpen ? '◢' : '◥'}
       </DropdownMenuTrigger>
       <DropdownMenuContent>
