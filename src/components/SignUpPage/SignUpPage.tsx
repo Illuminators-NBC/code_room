@@ -3,14 +3,14 @@
 import { FormState } from '@/types/signUpFormType';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { ChangeEventHandler, FormEventHandler, useEffect, useState } from 'react';
+import { ChangeEventHandler, FormEventHandler, useState } from 'react';
+import ReCAPTCHA from 'react-google-recaptcha';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { Input } from '../ui/input';
-import { Button } from '../ui/button';
-import ReCAPTCHA from 'react-google-recaptcha';
-import NicknameSection from '../common/NicknameSection';
 import CloseButton from '../common/CloseButton';
+import NicknameSection from '../common/NicknameSection';
+import { Button } from '../ui/button';
+import { Input } from '../ui/input';
 
 const RECAPTCHA_SITE_KEY = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY as string;
 
@@ -42,14 +42,16 @@ export default function SignUpForm() {
 
   const onSubmitHandler: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
+
     if (!formState.email || !formState.pw || !formState.nickname || !recaptchaToken) {
-      return toast.error('Please enter all fields and verify reCAPTCHA');
+      return toast.error('모든 빈칸을 채워주시고 reCAPTCHA를 완료해주세요.');
+
     }
     if (formState.pw !== formState.confirmPw) {
-      return toast.error('Passwords do not match');
+      return toast.error('비밀번호가 올바르지 않습니다.');
     }
     if (!validateEmail(formState.email)) {
-      return toast.error('Invalid Email Format');
+      return toast.error('이메일 형식이 올바르지 않습니다.');
     }
     const data = await fetch('api/auth/sign-up', {
       method: 'POST',
@@ -63,7 +65,7 @@ export default function SignUpForm() {
       toast.error(data.errorMsg);
       return;
     }
-    toast.success('Success Register');
+    toast.success('성공적으로 회원가입되었습니다.');
     setFormState(initialState);
     router.push('/login');
   };
