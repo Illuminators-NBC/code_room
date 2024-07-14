@@ -2,6 +2,7 @@ import { createClient as createServerClient } from '@/supabase/server';
 import { Tables } from '@/types/supabase';
 
 // Post
+
 export const getPostByIdInServer = async (id: string) => {
   const supabaseClient = createServerClient();
   const { data, error } = await supabaseClient.from('post').select('*').eq('post_id', id);
@@ -11,6 +12,24 @@ export const getPostByIdInServer = async (id: string) => {
   }
 
   return data;
+};
+
+export const updatePostByIdInServer = async (id: string, newPost: Tables<'post'>) => {
+  const supabaseClient = createServerClient();
+  const { error } = await supabaseClient.from('post').update(newPost).eq('post_id', id);
+
+  if (error) {
+    throw new Error(error.message);
+  }
+};
+
+export const deletePostByIdInServer = async (id: string) => {
+  const supabaseClient = createServerClient();
+  const { error } = await supabaseClient.from('post').delete().eq('post_id', id);
+
+  if (error) {
+    throw new Error(error.message);
+  }
 };
 
 // Comment
