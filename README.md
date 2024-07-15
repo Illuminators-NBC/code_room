@@ -153,7 +153,25 @@ supabase<br />
   <b>해결</b> : <a href="https://supabase.com/docs/guides/auth/passwords?queryGroups=language&language=js#resetting-a-password">password-based</a>를 참고하여 비밀번호를 재설정할 때엔 이메일 인증이 완료된 사용자만 접근 가능한 것을 확인했습니다. auth-provider에서 confirm email 설정으로 회원가입 시 이메일 인증을 필수로 받게 하여 추후 비밀번호를 재설정 할 수 있게 해결하였습니다.
 </details>
 <details>
-<summary>2. </summary>
-  <b>오류</b> : <br />
-  <b>해결</b> : 
+<summary>2. 좋아요 구현</summary>
+  <b>오류</b> : 좋아요 기능 구현 시 `user_id` 로 테이블 접근할 시 내용 변경이 되지 않는 현상<br />
+  <b>해결</b> : user 테이블에 있는 `user_id` 값을 기반으로, 해당 유저의 `liked_post` 항목에 수정을 하려고 시도하면 값 수정이 되지 않는 문제가 있었습니다. `email` 을 통해 접근하는 방법으로 변경하니 값 수정이 가능했습니다.
+</details>
+
+## Unsolved Trouble Shooting
+
+<details>
+  <summary>1. 좋아요 수 실시간 반영</summary>
+  <b>오류</b> : 좋아요 버튼을 누르더라도 실시간으로 반영이 되지 않는 문제<br />
+  <b>원인</b> : supabase 에서 `post` 테이블의 값이 변하는 상황을 감지하지 못해서 갱신이 안되는 현상으로 파악했습니다.
+</details>
+<details>
+  <summary>2. 좋아요 취소 기능</summary>
+  <b>오류</b> : 이미 좋아요를 누른 상태여도 계속해서 중복 좋아요가 되는 문제<br />
+  <b>원인</b> : supabase 에서 `user` 테이블의 `liked_post` 항목에서 post_id 중복을 막는 기능이 필요한 것으로 파악했습니다.
+</details>
+<details>
+  <summary>3. 유저가 좋아요 누른 게시글의 버튼 UI 수정</summary>
+  <b>오류</b> : 이미 좋아요를 누른 게시글이지만 새로 고침 시 좋아요를 누르지 않은 상태의 UI 가 나타남<br />
+  <b>원인</b> : 좋아요 누른 게시글의 목록을 가져오지 않고 있어서 이를 불러온 다음, 상태 관리를 통해 UI 조건부 렌더링을 적용해야할 것으로 파악했습니다
 </details>
