@@ -32,6 +32,7 @@ function MyPage() {
         const UserId = UserData.user?.id;
 
         const nickname = userInfo.nickname;
+       
         setNickname(nickname);
 
         const { data, error } = await supabase.from('post').select('*, user(nickname)').eq('user_id', UserId);
@@ -67,6 +68,7 @@ function MyPage() {
     }
   };
 
+  // 좋아요한 글 보여주기
   const FavoritePosting = async () => {
     try {
       const { data: UserData, error: UserDataError } = await supabase.auth.getUser();
@@ -106,6 +108,7 @@ function MyPage() {
     WritePosting();
     setFavoritePost(false);
   };
+
 
   const FavoriteShowHandler = () => {
     setFavoritePost(true);
@@ -155,27 +158,30 @@ function MyPage() {
 
       <section>
         {selectData.map((post, index) => {
+         
           return (
             <div key={index} className="bg-[#09090B] rounded mt-4">
               <div className="flex justify-between items-center">
                 <span className="ml-[29px] h-[67px] flex items-center font-bold  text-[20px] ">
-                  {post.user?.nickname}
-                </span>
+                {post?.user?.nickname}
+                </span> 
 
-                <div className="mr-[28px]">
-                  <DropdownMenu>
-                    <DropdownMenuTrigger>...</DropdownMenuTrigger>
-                    <DropdownMenuContent className="mr-[60px] bg-[#09090B] text-white border-[#27272A]">
-                      <DropdownMenuItem>글 삭제</DropdownMenuItem>
-                      <DropdownMenuItem>글 수정</DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                </div>
+                {writePost && (
+                  <div className="mr-[28px]">
+                    <DropdownMenu>
+                      <DropdownMenuTrigger>...</DropdownMenuTrigger>
+                      <DropdownMenuContent className="mr-[60px] bg-[#09090B] text-white border-[#27272A]">
+                        <Link href={`/post/${post.post_id}`}><DropdownMenuItem>글 삭제</DropdownMenuItem></Link>
+                        <Link href={`/post/${post.post_id}`}><DropdownMenuItem>글 수정</DropdownMenuItem></Link>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  </div>
+                )}
               </div>
 
               <div className="mt-2 bg-[#09090B] rounded">
                 <div className="px-[29px] border-b border-[#27272A]">
-                  {post.image ? (
+                  {post?.image ? (
                     <>
                       <img className="w-[580px] h-[260px] mb-[19px] " src={post.image} alt="image" />
                       <div className="mb-[19px]">
@@ -193,17 +199,17 @@ function MyPage() {
                     </>
                   ) : (
                     <div>
-                      <p className="mt-[-10px] mb-[19px] break-words">{post.content}</p>
+                      <p className="mt-[-10px] mb-[19px] break-words">{post?.content}</p>
                       <div className="flex justify-left mb-[31px] ">
                         <p className="flex gap-[8px]">
                           <MyPageLikeButton />
-                          {post.like}
+                          {post?.like}
                         </p>
                         <p className="ml-[19px] flex gap-[8px]">
                           <CommentButton />
-                          {post.comment_count}
+                          {post?.comment_count}
                         </p>
-                        <p className="ml-[auto]">{post.tag}</p>
+                        <p className="ml-[auto]">{post?.tag}</p>
                       </div>
                     </div>
                   )}
