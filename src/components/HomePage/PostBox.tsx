@@ -12,7 +12,6 @@ export default function PostInput() {
           </figure>
           <span className="text-[#676B70] mr-2">아이디어를 공유해보세요!</span>
         </div>
-        {/* <Image src="/image-plus.png" alt="image icon" width={25} height={25} /> */}
         <Button size="sm" variant="default">
           Post
         </Button>

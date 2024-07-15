@@ -1,8 +1,7 @@
 'use client';
-import { useEffect } from 'react';
 import useUserInfo from '@/hooks/useUserInfo';
 import { createClient } from '@/supabase/client';
-import { userInfo } from 'os';
+import { useEffect } from 'react';
 
 function AuthObserver() {
   const supabase = createClient();
@@ -19,22 +18,6 @@ function AuthObserver() {
   };
 
   useEffect(() => {
-    // const session = supabase.auth.getSession();
-
-    // const handleAuthChange = (event: any, session: any) => {
-    //   if (session?.user) {
-    //     setUserInfo({
-    //       id: session.user.id,
-    //       nickname: session.user.user_metadata.nickname,
-    //       email: session.user.user_metadata.email
-    //     });
-    //   } else {
-    //     deleteUserInfo();
-    //   }
-    // };
-
-    // handleAuthChange(null, session);
-
     const handleAuthChange = async (event: any, session: any) => {
       if (session?.user) {
         const nickname = await getUserNickname(session.user.id);

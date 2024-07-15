@@ -1,12 +1,9 @@
-// components/LikeButton.js
 import useUserInfo from '@/hooks/useUserInfo';
 import { postProps } from '@/types/posts';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 export default function LikeButton({ post_id }: postProps): JSX.Element {
-  // 좋아요 버튼 클릭 여부를 react state 말고 서버에서 받아오는 방법은?
-  // 유저가 좋아요한 글 추가해줘야함
   const router = useRouter();
   const [liked, setLiked] = useState(false);
   const { userInfo } = useUserInfo();
@@ -14,8 +11,7 @@ export default function LikeButton({ post_id }: postProps): JSX.Element {
 
   const onClickLike = async () => {
     if (!user_id) {
-      alert('로그인이 필요합니다.');
-      router.push('/login');
+      router.push('/sign-up');
     } else {
       setLiked(!liked);
       const response = await fetch('/api/home', {

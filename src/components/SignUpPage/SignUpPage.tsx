@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { ChangeEventHandler, FormEventHandler, useState } from 'react';
 import ReCAPTCHA from 'react-google-recaptcha';
-import { toast, ToastContainer } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import CloseButton from '../common/CloseButton';
 import NicknameSection from '../common/NicknameSection';
@@ -45,7 +45,6 @@ export default function SignUpForm() {
 
     if (!formState.email || !formState.pw || !formState.nickname || !recaptchaToken) {
       return toast.error('모든 빈칸을 채워주시고 reCAPTCHA를 완료해주세요.');
-
     }
     if (formState.pw !== formState.confirmPw) {
       return toast.error('비밀번호가 올바르지 않습니다.');
@@ -132,18 +131,6 @@ export default function SignUpForm() {
           Log In
         </Button>
       </form>
-      <ToastContainer
-        position="top-center"
-        autoClose={3000}
-        limit={2}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        theme="dark"
-      />
     </div>
   );
 }

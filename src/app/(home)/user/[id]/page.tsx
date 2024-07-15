@@ -1,7 +1,6 @@
 'use client';
 import CommentButton from '@/components/common/CommentButton';
 import Header from '@/components/common/Header';
-import HeartButton from '@/components/common/LikeButton';
 import MyPageLikeButton from '@/components/common/MyPageLikeButton';
 import {
   DropdownMenu,
@@ -27,19 +26,13 @@ function MyPage() {
   useEffect(() => {
     const PostingData = async () => {
       try {
-        // 로그인 된 유저데이터 저장
         const { data: UserData, error: UserDataError } = await supabase.auth.getUser();
         if (UserDataError) throw UserDataError;
 
-        //console.log('유저데이터=> ', UserData);
-
-        // 유저ID 저장
         const UserId = UserData.user?.id;
-        //console.log('유저ID=> ', UserId);
 
-        // 닉네임 저장
         const nickname = userInfo.nickname;
-        // console.log('불러온 닉네임=>', MyNickname);
+       
         setNickname(nickname);
 
         const { data, error } = await supabase.from('post').select('*, user(nickname)').eq('user_id', UserId);
@@ -47,7 +40,6 @@ function MyPage() {
           console.error('오류 발생', error);
         } else {
           setPostdata(data);
-          //console.log("데이터=> ", data);
         }
       } catch (error) {
         console.error('Data Fetching Error', error);
@@ -56,7 +48,6 @@ function MyPage() {
     PostingData();
   }, [userInfo.nickname, supabase]);
 
-  // 작성된 글 보여주기
   const WritePosting = async () => {
     try {
       const { data: UserData, error: UserDataError } = await supabase.auth.getUser();
@@ -71,7 +62,6 @@ function MyPage() {
         console.error('오류 발생', error);
       } else {
         setPostdata(data);
-        //console.log("데이터=> ", data);
       }
     } catch (error) {
       console.error('Data Fetching Error', error);
@@ -113,13 +103,12 @@ function MyPage() {
     }
   };
 
-  // 작성한글 보여주는 함수
   const WriteShowHandler = () => {
     setWritePost(true);
     WritePosting();
     setFavoritePost(false);
   };
-  // 좋아요한 글 보여주는 함수
+
   const FavoriteShowHandler = () => {
     setFavoritePost(true);
     FavoritePosting();
@@ -130,14 +119,8 @@ function MyPage() {
 
   return (
     <div className="w-[640px] mx-auto bg-[#09090B] text-white min-h-screen border border-[#27272A]">
-      {/* 헤더 */}
       <Header />
-      {/* <header className="h-[53px] bg-[#09090B] border-b border-[#27272A] flex justify-between">
-        <Link href="/" className="m-auto ml-[30px]"><Image src="/Group 100.png" width={100} height={50} alt="logo" /></Link>
-        <Image src="/user.png" width={30} height={30} alt="user" className="m-auto mr-[30px]" />
-      </header> */}
 
-      {/* 프로필 */}
       <section className="flex justify-between items-center bg-[#09090B] rounded h-[93px]">
         <span className="text-xl ml-[84px] flex">
           <Image src="/logo_icon.png" width={30} height={30} alt="logo" className="ml-[-37px] mr-[19px]" />
@@ -151,7 +134,6 @@ function MyPage() {
         </Link>
       </section>
 
-      {/* 버튼 */}
       <section>
         <div className="flex justify-center">
           <button
@@ -173,10 +155,9 @@ function MyPage() {
         </div>
       </section>
 
-      {/* 작성한 글 */}
       <section>
         {selectData.map((post, index) => {
-          console.log('현재map Data',post)
+         
           return (
             <div key={index} className="bg-[#09090B] rounded mt-4">
               <div className="flex justify-between items-center">
@@ -184,22 +165,21 @@ function MyPage() {
                 {post?.user?.nickname}
                 </span> 
 
-                {/* 드롭다운 */}
-                <div className="mr-[28px]">
-                  <DropdownMenu>
-                    <DropdownMenuTrigger>...</DropdownMenuTrigger>
-                    <DropdownMenuContent className="mr-[60px] bg-[#09090B] text-white border-[#27272A]">
-                      <Link href={`/post/baee1aa5-7ecf-4b8d-94eb-35fd26c3856a`}><DropdownMenuItem>글 삭제</DropdownMenuItem></Link>
-                      <DropdownMenuItem>글 수정</DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                </div>
+                {writePost && (
+                  <div className="mr-[28px]">
+                    <DropdownMenu>
+                      <DropdownMenuTrigger>...</DropdownMenuTrigger>
+                      <DropdownMenuContent className="mr-[60px] bg-[#09090B] text-white border-[#27272A]">
+                        <Link href={`/post/${post.post_id}`}><DropdownMenuItem>글 삭제</DropdownMenuItem></Link>
+                        <Link href={`/post/${post.post_id}`}><DropdownMenuItem>글 수정</DropdownMenuItem></Link>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  </div>
+                )}
               </div>
 
-              {/* 사진 + 내용 */}
               <div className="mt-2 bg-[#09090B] rounded">
                 <div className="px-[29px] border-b border-[#27272A]">
-                  {/* 삼항 연산자 사용해서 처리해보기*/}
                   {post?.image ? (
                     <>
                       <img className="w-[580px] h-[260px] mb-[19px] " src={post.image} alt="image" />
@@ -217,7 +197,6 @@ function MyPage() {
                       </div>
                     </>
                   ) : (
-                    // <div className="px-[29px] ">
                     <div>
                       <p className="mt-[-10px] mb-[19px] break-words">{post?.content}</p>
                       <div className="flex justify-left mb-[31px] ">
