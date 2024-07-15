@@ -5,21 +5,27 @@ import axios from 'axios';
 const usePostMutation = () => {
   const queryClient = useQueryClient();
 
-  const updateCommentMutation = useMutation({
-    mutationFn: ({ id, newPost }: { id: string; newPost: Tables<'post'> }) => {
-      return axios.patch(`/api/post/${id}`, { newPost });
+  const updatePostMutation = useMutation({
+    mutationFn: ({
+      id,
+      newPost
+    }: {
+      id: string;
+      newPost: Pick<Tables<'post'>, 'content'> & Pick<Partial<Tables<'post'>>, 'image' | 'tag'>;
+    }) => {
+      return axios.patch(`/api/post/${id}`, newPost);
     },
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['post'] })
   });
 
-  const deleteCommentMutation = useMutation({
+  const deletePostMutation = useMutation({
     mutationFn: ({ id }: { id: string }) => axios.delete(`/api/post/${id}`),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['post'] });
     }
   });
 
-  return { updateCommentMutation, deleteCommentMutation };
+  return { updatePostMutation, deletePostMutation };
 };
 
 export default usePostMutation;

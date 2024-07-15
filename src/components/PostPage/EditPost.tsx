@@ -1,5 +1,7 @@
 'use client';
 
+import usePostMutation from '@/hooks/usePostMutation';
+import { createClient } from '@/supabase/client';
 import { Category } from '@/types/category';
 import { Tables } from '@/types/supabase';
 import Image from 'next/image';
@@ -15,6 +17,7 @@ interface EditPostProps {
 
 function EditPost({ initialPostData }: EditPostProps) {
   const { content: prevContent, tag: prevTag, image: prevImageURL } = initialPostData;
+  const supabase = createClient();
 
   const { id } = useParams<{ id: string }>();
 
@@ -23,12 +26,41 @@ function EditPost({ initialPostData }: EditPostProps) {
   const [imgPreviewURL, setImgPreviewURL] = useState<string | null>(null);
   const [imgFile, setImgFile] = useState<File | null>(null);
 
+  const { updatePostMutation } = usePostMutation();
+
+  const addImgFileInStorage = async () => {
+    if (imgFile) {
+      const newFileName = crypto.randomUUID();
+      const { data, error } = await supabase.storage.from('Images').upload(`${newFileName}`, imgFile);
+
+      if (error) {
+        throw new Error(error.message);
+      }
+
+      const res = supabase.storage.from('Images').getPublicUrl(data.path);
+
+      const publicUrl = res.data.publicUrl;
+      return publicUrl;
+    }
+  };
+
   const handleChangeImgFile = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       const newImgFile = e.target.files[0];
       setImgFile(newImgFile);
       setImgPreviewURL(URL.createObjectURL(newImgFile));
     }
+  };
+
+  const handleUpdatePost = async () => {
+    const publicUrl = await addImgFileInStorage();
+
+    const newPost: Pick<Tables<'post'>, 'content'> & Pick<Partial<Tables<'post'>>, 'image' | 'tag'> = {
+      content: editedContent,
+      image: publicUrl ? publicUrl : null,
+      tag: selectedCategories[0].name
+    };
+    updatePostMutation.mutate({ id, newPost });
   };
 
   useEffect(() => {
@@ -78,7 +110,7 @@ function EditPost({ initialPostData }: EditPostProps) {
             <Button className="bg-[#27272A] hover:bg-[#4f4f57] text-white font-semibold">
               <Link href={`/post/${id}`}>Cancel</Link>
             </Button>
-            <Button>Edit</Button>
+            <Button onClick={handleUpdatePost}>Edit</Button>
           </div>
         </div>
       </div>

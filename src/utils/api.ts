@@ -14,9 +14,15 @@ export const getPostByIdInServer = async (id: string) => {
   return data;
 };
 
-export const updatePostByIdInServer = async (id: string, newPost: Tables<'post'>) => {
+export const updatePostByIdInServer = async (
+  id: string,
+  newPost: Pick<Tables<'post'>, 'content'> & Pick<Partial<Tables<'post'>>, 'image' | 'tag'>
+) => {
   const supabaseClient = createServerClient();
-  const { error } = await supabaseClient.from('post').update(newPost).eq('post_id', id);
+  const { error } = await supabaseClient
+    .from('post')
+    .update({ content: newPost.content, image: newPost.image, tag: newPost.tag })
+    .eq('post_id', id);
 
   if (error) {
     throw new Error(error.message);
