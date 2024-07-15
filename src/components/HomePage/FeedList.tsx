@@ -2,24 +2,21 @@
 
 import { PaigniatedPost, Post } from '@/types/posts';
 import { useInfiniteQuery } from '@tanstack/react-query';
+import dayjs from 'dayjs';
 import Image from 'next/image';
+import Link from 'next/link';
 import { useInView } from 'react-intersection-observer';
 import CommentButton from '../common/CommentButton';
 import LikeButton from '../common/LikeButton';
-import { SkeletonCard } from './Skeleton';
-import Link from 'next/link';
-import UserNickname from './UserNickname';
 import { categories } from '../PostingPage/Category/CategoryMenu';
-import dayjs from 'dayjs';
+import { SkeletonCard } from './Skeleton';
+import UserNickname from './UserNickname';
 
 const fetchPost = async (pageParam: number) => {
   try {
-    // HTTP 요청에 대한 정보를 담고 있음, status code, header, body 등
-    // SEO 최적화를 위해 client-side 가 아니라 서버 환경에서 진행할 경우, route.ts 코드를 직접 실행할 수 있게 만드는 방법이 있음
     const response = await fetch(`http://localhost:3000/api/home?page=${pageParam}`);
 
     if (response.ok) {
-      // response.json()은 body를 JSON으로 파싱하는 메소드
       const posts = await response.json();
 
       return posts;
@@ -29,7 +26,6 @@ const fetchPost = async (pageParam: number) => {
   }
 };
 
-// 메인페이지에서 게시글 목록을 보여주기 위한 컴포넌트
 export default function FeedList() {
   const {
     data: paginatedPosts,
@@ -78,8 +74,6 @@ export default function FeedList() {
             );
 
             return (
-              // react-intersection-observer 에서 제공하는 ref 를 사용하기 위해 한 컴포넌트 안에서 ref를 사용하도록 설정.
-              // forwardRef 를 사용하면 동작 안 함
               <li
                 ref={isLastItem ? ref : null}
                 key={post.post_id}

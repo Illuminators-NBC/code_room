@@ -1,8 +1,6 @@
 import { createClient as createServerClient } from '@/supabase/server';
 import { Tables } from '@/types/supabase';
 
-// Post
-
 export const getPostByIdInServer = async (id: string) => {
   const supabaseClient = createServerClient();
   const { data, error } = await supabaseClient.from('post').select('*').eq('post_id', id);
@@ -37,8 +35,6 @@ export const deletePostByIdInServer = async (id: string) => {
     throw new Error(error.message);
   }
 };
-
-// Comment
 
 export const getCommentByIdInServer = async (postId: string) => {
   const supabaseClient = createServerClient();

@@ -13,7 +13,6 @@ export default function UserNickname({ post_id }: postProps) {
   useEffect(() => {
     const fetchNickname = async () => {
       try {
-        // post_id를 이용해 user_id를 가져옵니다.
         const { data: postData, error: postError } = await supabase
           .from('post')
           .select('user_id')
@@ -27,7 +26,6 @@ export default function UserNickname({ post_id }: postProps) {
 
         const user_id = postData.user_id;
 
-        // user_id를 이용해 nickname을 가져옵니다.
         const { data: userData, error: userError } = await supabase
           .from('user')
           .select('nickname')

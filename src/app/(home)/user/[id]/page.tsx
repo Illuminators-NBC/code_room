@@ -1,7 +1,6 @@
 'use client';
 import CommentButton from '@/components/common/CommentButton';
 import Header from '@/components/common/Header';
-import HeartButton from '@/components/common/LikeButton';
 import MyPageLikeButton from '@/components/common/MyPageLikeButton';
 import {
   DropdownMenu,
@@ -27,19 +26,12 @@ function MyPage() {
   useEffect(() => {
     const PostingData = async () => {
       try {
-        // 로그인 된 유저데이터 저장
         const { data: UserData, error: UserDataError } = await supabase.auth.getUser();
         if (UserDataError) throw UserDataError;
 
-        //console.log('유저데이터=> ', UserData);
-
-        // 유저ID 저장
         const UserId = UserData.user?.id;
-        //console.log('유저ID=> ', UserId);
 
-        // 닉네임 저장
         const nickname = userInfo.nickname;
-        // console.log('불러온1 닉네임=>', MyNickname);
         setNickname(nickname);
 
         const { data, error } = await supabase.from('post').select('*, user(nickname)').eq('user_id', UserId);
@@ -47,7 +39,6 @@ function MyPage() {
           console.error('오류 발생', error);
         } else {
           setPostdata(data);
-          //console.log("데이터=> ", data);
         }
       } catch (error) {
         console.error('Data Fetching Error', error);
@@ -56,7 +47,6 @@ function MyPage() {
     PostingData();
   }, [userInfo.nickname, supabase]);
 
-  // 작성된 글 보여주기
   const WritePosting = async () => {
     try {
       const { data: UserData, error: UserDataError } = await supabase.auth.getUser();
@@ -71,38 +61,12 @@ function MyPage() {
         console.error('오류 발생', error);
       } else {
         setPostdata(data);
-        //console.log("데이터=> ", data);
       }
     } catch (error) {
       console.error('Data Fetching Error', error);
     }
   };
 
-  // 전체 글 보여주기(좋아요한 글 버튼에 적용되어있음)
-  // const FavoritePosting = async () => {
-  //   try {
-  //     const { data: UserData, error: UserDataError } = await supabase.auth.getUser();
-  //     if (UserDataError) throw UserDataError;
-
-  //     const UserId = UserData.user?.id;
-  //     const UserNickname = UserData.user?.user_metadata?.nickname;
-  //     setNickname(UserNickname);
-
-  //     const { data, error } = await supabase
-  //       .from("post")
-  //       .select("*, user(nickname)");
-  //     if (error) {
-  //       console.error("오류 발생", error);
-  //     } else {
-  //       setPostdata(data);
-  //       console.log("데이터=> ", data);
-  //     }
-  //   } catch (error) {
-  //     console.error("Data Fetching Error", error);
-  //   }
-  // };
-
-  // 좋아요한 글 보여주기
   const FavoritePosting = async () => {
     try {
       const { data: UserData, error: UserDataError } = await supabase.auth.getUser();
@@ -137,13 +101,12 @@ function MyPage() {
     }
   };
 
-  // 작성한글 보여주는 함수
   const WriteShowHandler = () => {
     setWritePost(true);
     WritePosting();
     setFavoritePost(false);
   };
-  // 좋아요한 글 보여주는 함수
+
   const FavoriteShowHandler = () => {
     setFavoritePost(true);
     FavoritePosting();
@@ -242,7 +205,6 @@ function MyPage() {
                       </div>
                     </>
                   ) : (
-                    // <div className="px-[29px] ">
                     <div>
                       <p className="mt-[-10px] mb-[19px] break-words">{post.content}</p>
                       <div className="flex justify-left mb-[31px] ">
