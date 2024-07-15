@@ -43,8 +43,10 @@ const CategoryManager: React.FC<CategoryManagerProps> = ({ selectedCategories, s
   };
 
   return (
-    <div className="mx-5">
-      <CategoryDropdown categories={categories} onCategoryClick={handleCategoryClick} />
+    <div className="w-full ml-5 flex justify-between">
+      <div className="">
+        <CategoryDropdown categories={categories} onCategoryClick={handleCategoryClick} />
+      </div>
       <CategoryTags selectedCategories={selectedCategories} onRemoveCategory={handleRemoveCategory} />
     </div>
   );
