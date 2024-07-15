@@ -48,5 +48,11 @@ export default function UserNickname({ post_id }: postProps) {
     fetchNickname();
   }, [post_id]);
 
-  return <h6 className="mb-4 text-lg font-bold">{nickname}</h6>;
+  return (
+    <div className="mb-4">
+      <span className="w-auto border border-zinc-500 leading-8 px-6 py-2 text-[15px] rounded-lg font-bold">
+        {nickname}
+      </span>
+    </div>
+  );
 }
