@@ -9,6 +9,8 @@ import LikeButton from '../common/LikeButton';
 import { SkeletonCard } from './Skeleton';
 import Link from 'next/link';
 import UserNickname from './UserNickname';
+import { categories } from '../PostingPage/Category/CategoryMenu';
+import dayjs from 'dayjs';
 
 const fetchPost = async (pageParam: number) => {
   try {
@@ -69,6 +71,12 @@ export default function FeedList() {
         {paginatedPosts.pages.map((page) => {
           return page.data.map((post: Post) => {
             const isLastItem = page.data.length - 1 === page.data.indexOf(post);
+
+            const category = post.tag && categories.find((category) => category.name === post.tag);
+            const formattedDate = dayjs(post.updated_at ? post.updated_at : post.created_at).format(
+              'h:mm A · MMM D, YYYY'
+            );
+
             return (
               // react-intersection-observer 에서 제공하는 ref 를 사용하기 위해 한 컴포넌트 안에서 ref를 사용하도록 설정.
               // forwardRef 를 사용하면 동작 안 함
@@ -93,11 +101,18 @@ export default function FeedList() {
                   <p className="mt-5 mb-7">{post.content}</p>
                 </Link>
                 <div className="flex mb-7">
+                  <span className="mr-2">{formattedDate}</span>
                   <LikeButton post_id={post.post_id} /> <span className="mx-2">{post.like}</span>
                   <Link className="flex pointer" href={`/post/${post.post_id}`}>
                     <CommentButton /> <span className="mx-2">{post.comment_count}</span>
                   </Link>
-                  <span className="ml-auto">{post.tag}</span>
+                  {category && (
+                    <span
+                      className={`ml-auto px-2 py-1 rounded-full text-sm flex items-center ${category.backgroundColor} ${category.color}`}
+                    >
+                      {post.tag}
+                    </span>
+                  )}
                 </div>
               </li>
             );
