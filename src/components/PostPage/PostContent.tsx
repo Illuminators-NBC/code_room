@@ -1,13 +1,17 @@
 'use client';
 
 import { usePostQuery } from '@/hooks';
+import usePostMutation from '@/hooks/usePostMutation';
+import useUserInfo from '@/hooks/useUserInfo';
 import { createClient } from '@/supabase/client';
 import { Tables } from '@/types/supabase';
 import dayjs from 'dayjs';
 import Image from 'next/image';
-import { useParams } from 'next/navigation';
+import Link from 'next/link';
+import { useParams, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { categories } from '../PostingPage/Category/CategoryMenu';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '../ui/dropdown-menu';
 
 interface PostContentProps {
   initialPostData: Tables<'post'>;
@@ -15,8 +19,13 @@ interface PostContentProps {
 
 function PostContent({ initialPostData }: PostContentProps) {
   const { id } = useParams<{ id: string }>();
+  const router = useRouter();
+
+  const { userInfo } = useUserInfo();
   const { data: post } = usePostQuery(id, initialPostData);
   const { user_id, image, content, created_at, like, tag, updated_at, comment_count } = post;
+
+  const { deletePostMutation } = usePostMutation();
 
   const formattedDate = dayjs(updated_at ? updated_at : created_at).format('h:mm A · MMM D, YYYY');
 
@@ -25,6 +34,11 @@ function PostContent({ initialPostData }: PostContentProps) {
   const [nickname, setNickname] = useState<Tables<'user'>['nickname']>('');
 
   const supabaseClient = createClient();
+
+  const handleDeletePost = () => {
+    deletePostMutation.mutate({ id });
+    router.push('/');
+  };
 
   useEffect(() => {
     (async () => {
@@ -42,7 +56,20 @@ function PostContent({ initialPostData }: PostContentProps) {
       <div className="min-h-[300px]">
         <div className="flex justify-between items-center mb-5 font-medium">
           <p>{nickname}</p>
-          <button className="text-[#676B70]">...</button>
+          {userInfo.id === user_id && (
+            <DropdownMenu>
+              <DropdownMenuTrigger className="outline-none">...</DropdownMenuTrigger>
+              <DropdownMenuContent className="bg-black text-[15px] font-medium text-white border-[#2F3336]">
+                <DropdownMenuItem className="w-full justify-center cursor-pointer">
+                  <Link href={`/post/${id}/edit`}>피드 수정</Link>
+                </DropdownMenuItem>
+                <hr className="border-b border-[#2F3336]" />
+                <DropdownMenuItem onClick={handleDeletePost} className="w-full justify-center cursor-pointer">
+                  피드 삭제
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          )}
         </div>
         {image && (
           <div className="relative aspect-video mb-5 rounded-[10px] overflow-hidden">

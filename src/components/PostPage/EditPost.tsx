@@ -6,7 +6,7 @@ import { Category } from '@/types/category';
 import { Tables } from '@/types/supabase';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import { ChangeEvent, useEffect, useState } from 'react';
 import CategoryManager, { categories } from '../PostingPage/Category/CategoryMenu';
 import { Button } from '../ui/button';
@@ -20,6 +20,7 @@ function EditPost({ initialPostData }: EditPostProps) {
   const supabase = createClient();
 
   const { id } = useParams<{ id: string }>();
+  const router = useRouter();
 
   const [editedContent, setEditedContent] = useState<string>(prevContent);
   const [selectedCategories, setSelectedCategories] = useState<Category[]>([]);
@@ -61,6 +62,7 @@ function EditPost({ initialPostData }: EditPostProps) {
       tag: selectedCategories[0].name
     };
     updatePostMutation.mutate({ id, newPost });
+    router.back();
   };
 
   useEffect(() => {
