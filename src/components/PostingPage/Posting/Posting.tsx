@@ -132,7 +132,7 @@ export function Posting() {
 
   return (
     <div>
-      <div className="flex items-center mb-8 mx-[30px] h-[30px]">
+      <div className="flex items-center mb-8 mx-[30px] h-[30px] gap-4">
         <Image src="/terminal.png" alt="terminal" width={30} height={30} />
         <CategoryManager selectedCategories={selectedCategories} setSelectedCategories={setSelectedCategories} />
       </div>
