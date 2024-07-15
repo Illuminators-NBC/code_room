@@ -13,11 +13,7 @@ import React, { ChangeEventHandler, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-type ChangePasswordFormProps = {
-  onSubmit: (newPassword: string) => void;
-};
-
-const AccountEditPage: React.FC<ChangePasswordFormProps> = ({ onSubmit }) => {
+const AccountEditPage: React.FC = () => {
   const supabase = createClient();
   const [userEmail, setUserEmail] = useState('');
   const [newPassword, setNewPassword] = useState('');
@@ -48,7 +44,7 @@ const AccountEditPage: React.FC<ChangePasswordFormProps> = ({ onSubmit }) => {
             handleNicknameChange(data.nickname ?? '');
           }
         }
-      } catch (error) { }
+      } catch (error) {}
     };
     fetchUserData();
   }, []);
@@ -80,7 +76,7 @@ const AccountEditPage: React.FC<ChangePasswordFormProps> = ({ onSubmit }) => {
     setFormState((prev) => ({ ...prev, nickname }));
   };
 
-  const handleSubmit = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
     setNewPassword(e.target.value);
 

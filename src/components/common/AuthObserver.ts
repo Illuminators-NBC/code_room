@@ -23,7 +23,7 @@ function AuthObserver() {
         const nickname = await getUserNickname(session.user.id);
         setUserInfo({
           id: session.user.id,
-          nickname: nickname,
+          nickname: nickname!,
           email: session.user.user_metadata.email
         });
       } else {
