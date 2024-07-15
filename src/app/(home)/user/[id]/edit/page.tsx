@@ -88,11 +88,12 @@ const AccountEditPage: React.FC<ChangePasswordFormProps> = ({ onSubmit }) => {
 
     updateNickname(e);
     toast.success('수정되었습니다.');
+
     router.replace(`/user/${userInfo.id}`);
   };
 
   return (
-    <div className="bg-zinc-950 w-screen h-screen">
+    <div className="bg-zinc-950 w-full h-screen">
       <div className="text-white bg-zinc-950 w-[640px] h-screen border border-zinc-800 m-auto p-[30px] text-center ">
         <Image
           src={'/logo_icon.png'}
