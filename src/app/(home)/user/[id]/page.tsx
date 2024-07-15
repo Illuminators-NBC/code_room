@@ -77,30 +77,6 @@ function MyPage() {
     }
   };
 
-  // 전체 글 보여주기(좋아요한 글 버튼에 적용되어있음)
-  // const FavoritePosting = async () => {
-  //   try {
-  //     const { data: UserData, error: UserDataError } = await supabase.auth.getUser();
-  //     if (UserDataError) throw UserDataError;
-
-  //     const UserId = UserData.user?.id;
-  //     const UserNickname = UserData.user?.user_metadata?.nickname;
-  //     setNickname(UserNickname);
-
-  //     const { data, error } = await supabase
-  //       .from("post")
-  //       .select("*, user(nickname)");
-  //     if (error) {
-  //       console.error("오류 발생", error);
-  //     } else {
-  //       setPostdata(data);
-  //       console.log("데이터=> ", data);
-  //     }
-  //   } catch (error) {
-  //     console.error("Data Fetching Error", error);
-  //   }
-  // };
-
   // 좋아요한 글 보여주기
   const FavoritePosting = async () => {
     try {
@@ -196,12 +172,12 @@ function MyPage() {
       {/* 작성한 글 */}
       <section>
         {selectData.map((post, index) => {
-          // console.log('map Data',post)
+          console.log('현재map Data',post)
           return (
             <div key={index} className="bg-[#09090B] rounded mt-4">
               <div className="flex justify-between items-center">
                 <span className="ml-[29px] h-[67px] flex items-center font-bold  text-[20px] ">
-                  {post.user?.nickname}
+                {post?.user?.nickname}
                 </span>
 
                 {/* 드롭다운 */}
@@ -211,7 +187,7 @@ function MyPage() {
                     <DropdownMenuContent className="mr-[60px] bg-[#09090B] text-white border-[#27272A]">
                       {/* <DropdownMenuLabel>My Account</DropdownMenuLabel> */}
                       {/* <DropdownMenuSeparator /> */}
-                      <DropdownMenuItem>글 삭제</DropdownMenuItem>
+                      <Link href={`/posting/${userInfo.id}/detail`}><DropdownMenuItem>글 삭제</DropdownMenuItem></Link>
                       <DropdownMenuItem>글 수정</DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>
@@ -222,7 +198,7 @@ function MyPage() {
               <div className="mt-2 bg-[#09090B] rounded">
                 <div className="px-[29px] border-b border-[#27272A]">
                   {/* 삼항 연산자 사용해서 처리해보기*/}
-                  {post.image ? (
+                  {post?.image ? (
                     <>
                       <img className="w-[580px] h-[260px] mb-[19px] " src={post.image} alt="image" />
                       <div className="mb-[19px]">
@@ -241,17 +217,17 @@ function MyPage() {
                   ) : (
                     // <div className="px-[29px] ">
                     <div>
-                      <p className="mt-[-10px] mb-[19px] break-words">{post.content}</p>
+                      <p className="mt-[-10px] mb-[19px] break-words">{post?.content}</p>
                       <div className="flex justify-left mb-[31px] ">
                         <p className="flex gap-[8px]">
                           <HeartButton />
-                          {post.like}
+                          {post?.like}
                         </p>
                         <p className="ml-[19px] flex gap-[8px]">
                           <CommentButton />
-                          {post.comment_count}
+                          {post?.comment_count}
                         </p>
-                        <p className="ml-[auto]">{post.tag}</p>
+                        <p className="ml-[auto]">{post?.tag}</p>
                       </div>
                     </div>
                   )}
