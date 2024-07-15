@@ -117,14 +117,8 @@ function MyPage() {
 
   return (
     <div className="w-[640px] mx-auto bg-[#09090B] text-white min-h-screen border border-[#27272A]">
-      {/* 헤더 */}
       <Header />
-      {/* <header className="h-[53px] bg-[#09090B] border-b border-[#27272A] flex justify-between">
-        <Link href="/" className="m-auto ml-[30px]"><Image src="/Group 100.png" width={100} height={50} alt="logo" /></Link>
-        <Image src="/user.png" width={30} height={30} alt="user" className="m-auto mr-[30px]" />
-      </header> */}
 
-      {/* 프로필 */}
       <section className="flex justify-between items-center bg-[#09090B] rounded h-[93px]">
         <span className="text-xl ml-[84px] flex">
           <Image src="/logo_icon.png" width={30} height={30} alt="logo" className="ml-[-37px] mr-[19px]" />
@@ -138,7 +132,6 @@ function MyPage() {
         </Link>
       </section>
 
-      {/* 버튼 */}
       <section>
         <div className="flex justify-center">
           <button
@@ -160,7 +153,6 @@ function MyPage() {
         </div>
       </section>
 
-      {/* 작성한 글 */}
       <section>
         {selectData.map((post, index) => {
           return (
@@ -170,13 +162,10 @@ function MyPage() {
                   {post.user?.nickname}
                 </span>
 
-                {/* 드롭다운 */}
                 <div className="mr-[28px]">
                   <DropdownMenu>
                     <DropdownMenuTrigger>...</DropdownMenuTrigger>
                     <DropdownMenuContent className="mr-[60px] bg-[#09090B] text-white border-[#27272A]">
-                      {/* <DropdownMenuLabel>My Account</DropdownMenuLabel> */}
-                      {/* <DropdownMenuSeparator /> */}
                       <DropdownMenuItem>글 삭제</DropdownMenuItem>
                       <DropdownMenuItem>글 수정</DropdownMenuItem>
                     </DropdownMenuContent>
@@ -184,10 +173,8 @@ function MyPage() {
                 </div>
               </div>
 
-              {/* 사진 + 내용 */}
               <div className="mt-2 bg-[#09090B] rounded">
                 <div className="px-[29px] border-b border-[#27272A]">
-                  {/* 삼항 연산자 사용해서 처리해보기*/}
                   {post.image ? (
                     <>
                       <img className="w-[580px] h-[260px] mb-[19px] " src={post.image} alt="image" />
