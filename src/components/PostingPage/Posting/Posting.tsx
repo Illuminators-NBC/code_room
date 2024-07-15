@@ -13,7 +13,6 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { Control, SubmitHandler, useForm } from 'react-hook-form';
-import { ToastContainer } from 'react-toastify';
 import { v4 as uuidv4 } from 'uuid';
 import { z } from 'zod';
 import CategoryManager from '../Category/CategoryMenu';
@@ -212,19 +211,6 @@ export function Posting() {
                 </button>
               </div>
             </div>
-            <ToastContainer
-              position="top-center"
-              autoClose={3000}
-              limit={1}
-              hideProgressBar={false}
-              newestOnTop={false}
-              closeOnClick
-              rtl={false}
-              pauseOnFocusLoss
-              draggable
-              pauseOnHover
-              theme="dark"
-            />
           </div>
         </form>
       </Form>

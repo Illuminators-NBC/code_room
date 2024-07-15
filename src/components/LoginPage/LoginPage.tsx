@@ -5,7 +5,7 @@ import useUserInfo from '@/hooks/useUserInfo';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { ChangeEventHandler, FormEventHandler, useState } from 'react';
-import { toast, ToastContainer } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import CloseButton from '../common/CloseButton';
 import { Button } from '../ui/button';
@@ -94,18 +94,6 @@ export default function LoginForm() {
           Register
         </Button>
       </form>
-      <ToastContainer
-        position="top-center"
-        autoClose={3000}
-        limit={2}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        theme="dark"
-      />
     </div>
   );
 }
