@@ -14,7 +14,7 @@ import UserNickname from './UserNickname';
 
 const fetchPost = async (pageParam: number) => {
   try {
-    const response = await fetch(`http://localhost:3000/api/home?page=${pageParam}`);
+    const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/home?page=${pageParam}`);
 
     if (response.ok) {
       const posts = await response.json();
