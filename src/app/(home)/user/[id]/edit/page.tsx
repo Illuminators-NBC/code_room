@@ -30,9 +30,8 @@ const AccountEditPage: React.FC<ChangePasswordFormProps> = ({ onSubmit }) => {
     nickname: '',
     recaptchaToken: ''
   };
-  const { userInfo } = useUserInfo();
+  const { userInfo, setUserInfo } = useUserInfo();
 
-  // 데이타 불러오기
   useEffect(() => {
     const fetchUserData = async () => {
       try {
@@ -54,7 +53,6 @@ const AccountEditPage: React.FC<ChangePasswordFormProps> = ({ onSubmit }) => {
     fetchUserData();
   }, []);
 
-  // 닉네임 업데이트
   const updateNickname = async (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
     try {
@@ -65,6 +63,7 @@ const AccountEditPage: React.FC<ChangePasswordFormProps> = ({ onSubmit }) => {
       if (error) {
         throw error;
       }
+      setUserInfo({ ...userInfo, nickname: formState.nickname });
     } catch (error) {
       toast.error('닉네임을 수정하는 도중 오류가 발생했습니다.');
     }
@@ -81,7 +80,6 @@ const AccountEditPage: React.FC<ChangePasswordFormProps> = ({ onSubmit }) => {
     setFormState((prev) => ({ ...prev, nickname }));
   };
 
-  // 업데이트
   const handleSubmit = async (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
     setNewPassword(e.target.value);
