@@ -6,7 +6,6 @@ import LogoutButton from '../LoginPage/LogoutButton';
 
 const Header = () => {
   const { userInfo } = useUserInfo();
-  console.log(userInfo.id);
   return (
     <header>
       <div className="w-[640px] h-[53px] m-auto bg-zinc-950 items-center justify-between px-[30px] flex border border-zinc-800">

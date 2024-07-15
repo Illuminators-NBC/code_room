@@ -2,6 +2,7 @@
 import CommentButton from '@/components/common/CommentButton';
 import Header from '@/components/common/Header';
 import HeartButton from '@/components/common/LikeButton';
+import MyPageLikeButton from '@/components/common/MyPageLikeButton';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -37,9 +38,9 @@ function MyPage() {
         //console.log('유저ID=> ', UserId);
 
         // 닉네임 저장
-        const UserNickname = UserData.user?.user_metadata?.nickname;
-        //console.log('불러온 닉네임=>', UserNickname);
-        setNickname(UserNickname);
+        const nickname = userInfo.nickname;
+        // console.log('불러온1 닉네임=>', MyNickname);
+        setNickname(nickname);
 
         const { data, error } = await supabase.from('post').select('*, user(nickname)').eq('user_id', UserId);
         if (error) {
@@ -53,7 +54,7 @@ function MyPage() {
       }
     };
     PostingData();
-  }, []);
+  }, [userInfo.nickname, supabase]);
 
   // 작성된 글 보여주기
   const WritePosting = async () => {
@@ -99,7 +100,10 @@ function MyPage() {
       const likedPostsId = likedPostsIdResponse[0].liked_post as string[];
 
       const postPromises = likedPostsId?.map(async (postId) => {
-        const { data: postData, error: postError } = await supabase.from('post').select('*,user(*)').eq('post_id', postId);
+        const { data: postData, error: postError } = await supabase
+          .from('post')
+          .select('*,user(*)')
+          .eq('post_id', postId);
         return postData?.[0];
       });
       const likedposts = await Promise.all(postPromises);
@@ -137,7 +141,7 @@ function MyPage() {
       <section className="flex justify-between items-center bg-[#09090B] rounded h-[93px]">
         <span className="text-xl ml-[84px] flex">
           <Image src="/logo_icon.png" width={30} height={30} alt="logo" className="ml-[-37px] mr-[19px]" />
-          {nickname}
+          {userInfo.nickname}
         </span>
         <Link
           href={`/user/${userInfo.id}/edit`}
@@ -205,7 +209,7 @@ function MyPage() {
                         <p className="mt-[20px] mb-[19px] break-words">{post.content}</p>
                         <div className="flex justify-left">
                           <p className="flex gap-[8px]">
-                            <HeartButton /> {post.like}
+                            <MyPageLikeButton /> {post.like}
                           </p>
                           <p className="ml-[19px] flex gap-[8px]">
                             <CommentButton /> {post.comment_count}
@@ -220,8 +224,8 @@ function MyPage() {
                       <p className="mt-[-10px] mb-[19px] break-words">{post?.content}</p>
                       <div className="flex justify-left mb-[31px] ">
                         <p className="flex gap-[8px]">
-                          <HeartButton />
-                          {post?.like}
+                          <MyPageLikeButton />
+                          {post.like}
                         </p>
                         <p className="ml-[19px] flex gap-[8px]">
                           <CommentButton />

@@ -3,7 +3,7 @@ import { Category } from '../../../types/category';
 import CategoryDropdown from './CategoryDropdown';
 import CategoryTags from './CategoryTags';
 
-const categories: Category[] = [
+export const categories: Category[] = [
   { name: 'JavaScript', color: 'text-yellow-900', backgroundColor: 'bg-yellow-200' },
   { name: 'React.js', color: 'text-sky-900', backgroundColor: 'bg-sky-200' },
   { name: 'Next.js', color: 'text-gray-900', backgroundColor: 'bg-gray-200' },
