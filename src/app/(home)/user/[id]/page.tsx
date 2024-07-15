@@ -32,6 +32,7 @@ function MyPage() {
         const UserId = UserData.user?.id;
 
         const nickname = userInfo.nickname;
+       
         setNickname(nickname);
 
         const { data, error } = await supabase.from('post').select('*, user(nickname)').eq('user_id', UserId);
@@ -67,6 +68,7 @@ function MyPage() {
     }
   };
 
+  // 좋아요한 글 보여주기
   const FavoritePosting = async () => {
     try {
       const { data: UserData, error: UserDataError } = await supabase.auth.getUser();
@@ -159,26 +161,25 @@ function MyPage() {
             <div key={index} className="bg-[#09090B] rounded mt-4">
               <div className="flex justify-between items-center">
                 <span className="ml-[29px] h-[67px] flex items-center font-bold  text-[20px] ">
-                  {post?.user?.nickname}
-                </span>
+                {post?.user?.nickname}
+                </span> 
 
-                <div className="mr-[28px]">
-                  <DropdownMenu>
-                    <DropdownMenuTrigger>...</DropdownMenuTrigger>
-                    <DropdownMenuContent className="mr-[60px] bg-[#09090B] text-white border-[#27272A]">
-                      {/* <DropdownMenuLabel>My Account</DropdownMenuLabel> */}
-                      {/* <DropdownMenuSeparator /> */}
-                      <DropdownMenuItem>글 삭제</DropdownMenuItem>
-                      <DropdownMenuItem>글 수정</DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                </div>
+                {writePost && (
+                  <div className="mr-[28px]">
+                    <DropdownMenu>
+                      <DropdownMenuTrigger>...</DropdownMenuTrigger>
+                      <DropdownMenuContent className="mr-[60px] bg-[#09090B] text-white border-[#27272A]">
+                        <Link href={`/post/${post.post_id}`}><DropdownMenuItem>글 삭제</DropdownMenuItem></Link>
+                        <Link href={`/post/${post.post_id}`}><DropdownMenuItem>글 수정</DropdownMenuItem></Link>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  </div>
+                )}
               </div>
 
               <div className="mt-2 bg-[#09090B] rounded">
                 <div className="px-[29px] border-b border-[#27272A]">
-                  {/* 삼항 연산자 사용해서 처리해보기*/}
-                  {post.image ? (
+                  {post?.image ? (
                     <>
                       <img className="w-[580px] h-[260px] mb-[19px] " src={post.image} alt="image" />
                       <div className="mb-[19px]">
