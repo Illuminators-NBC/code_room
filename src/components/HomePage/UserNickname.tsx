@@ -48,5 +48,5 @@ export default function UserNickname({ post_id }: postProps) {
     fetchNickname();
   }, [post_id]);
 
-  return <h6>{nickname}</h6>;
+  return <h6 className="mb-4">{nickname}</h6>;
 }
