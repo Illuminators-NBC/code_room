@@ -109,6 +109,7 @@ function MyPage() {
     setFavoritePost(false);
   };
 
+
   const FavoriteShowHandler = () => {
     setFavoritePost(true);
     FavoritePosting();
