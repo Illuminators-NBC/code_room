@@ -6,8 +6,6 @@
 
 프로젝트에 사용된 기술 스택의 사용 이유를 공유하는 피드 형식의 커뮤니티
 
-**`서비스 링크`** : [>\_code_room 링크](https://my-log-one.vercel.app/) < 버셀링크 수정해야함 >
-
 **`피그마 링크`** : [>\_code_room 피그마 초안 링크](https://www.figma.com/design/hfrfB6sIIUFnjWluPlaF5n/team-project?node-id=0-1)
 
 ## 팀원 소개
