@@ -39,7 +39,7 @@ function MyPage() {
 
         // 닉네임 저장
         const nickname = userInfo.nickname;
-        // console.log('불러온1 닉네임=>', MyNickname);
+        // console.log('불러온 닉네임=>', MyNickname);
         setNickname(nickname);
 
         const { data, error } = await supabase.from('post').select('*, user(nickname)').eq('user_id', UserId);
@@ -182,16 +182,14 @@ function MyPage() {
               <div className="flex justify-between items-center">
                 <span className="ml-[29px] h-[67px] flex items-center font-bold  text-[20px] ">
                 {post?.user?.nickname}
-                </span>
+                </span> 
 
                 {/* 드롭다운 */}
                 <div className="mr-[28px]">
                   <DropdownMenu>
                     <DropdownMenuTrigger>...</DropdownMenuTrigger>
                     <DropdownMenuContent className="mr-[60px] bg-[#09090B] text-white border-[#27272A]">
-                      {/* <DropdownMenuLabel>My Account</DropdownMenuLabel> */}
-                      {/* <DropdownMenuSeparator /> */}
-                      <Link href={`/posting/${userInfo.id}/detail`}><DropdownMenuItem>글 삭제</DropdownMenuItem></Link>
+                      <Link href={`/post/baee1aa5-7ecf-4b8d-94eb-35fd26c3856a`}><DropdownMenuItem>글 삭제</DropdownMenuItem></Link>
                       <DropdownMenuItem>글 수정</DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>
@@ -225,7 +223,7 @@ function MyPage() {
                       <div className="flex justify-left mb-[31px] ">
                         <p className="flex gap-[8px]">
                           <MyPageLikeButton />
-                          {post.like}
+                          {post?.like}
                         </p>
                         <p className="ml-[19px] flex gap-[8px]">
                           <CommentButton />

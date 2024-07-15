@@ -48,7 +48,7 @@ const AccountEditPage: React.FC<ChangePasswordFormProps> = ({ onSubmit }) => {
             handleNicknameChange(data.nickname ?? '');
           }
         }
-      } catch (error) {}
+      } catch (error) { }
     };
     fetchUserData();
   }, []);
