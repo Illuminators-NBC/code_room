@@ -32,8 +32,7 @@ const CategoryManager: React.FC<CategoryManagerProps> = ({ selectedCategories, s
       if (!category) return prevCategories;
 
       return prevCategories.some((c) => c.name === categoryName)
-        ? // 배열 요소 중 하나라도 callback함수를 통과하면 true : false
-          prevCategories.filter((c) => c.name !== categoryName)
+        ? prevCategories.filter((c) => c.name !== categoryName)
         : [...prevCategories, category];
     });
   };

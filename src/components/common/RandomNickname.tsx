@@ -1,7 +1,6 @@
 'use client';
-import { useState, useEffect } from 'react';
-import { Button } from '../ui/button';
 import Image from 'next/image';
+import { useState } from 'react';
 
 interface RandomNicknameProps {
   onNicknameGenerated: (nickname: string) => void;
@@ -27,9 +26,6 @@ export default function RandomNickname({ onNicknameGenerated }: RandomNicknamePr
 
   return (
     <div>
-      {/* <Button type="button" onClick={generateNickname} className="w-96 mb-7 bg-[#DD268E] hover:bg-[#FB2EA2]">
-        Generate Random Nickname
-      </Button> */}
       <button
         type="button"
         className="ml-2 hover:transition-all hover:duration-500 hover:rotate-180 items-center absolute top-[10px] right-[12px]"

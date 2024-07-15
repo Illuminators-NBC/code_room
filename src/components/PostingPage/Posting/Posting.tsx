@@ -13,7 +13,6 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { Control, SubmitHandler, useForm } from 'react-hook-form';
-import { ToastContainer } from 'react-toastify';
 import { v4 as uuidv4 } from 'uuid';
 import { z } from 'zod';
 import CategoryManager from '../Category/CategoryMenu';
@@ -147,7 +146,6 @@ export function Posting() {
             name="bio"
             render={({ field }) => (
               <FormItem>
-                {/* <FormLabel></FormLabel> */}
                 <FormControl>
                   <Textarea
                     placeholder="Tell us a little bit about yourself"
@@ -207,25 +205,11 @@ export function Posting() {
                 <button
                   className="bg-[#DD268E] text-white hover:bg-[#FB2EA2] hover:text-black px-5 py-2.5 rounded-md text-sm font-semibold"
                   type="submit"
-                  // onClick={() => navigate.push('/')}
                 >
                   POST
                 </button>
               </div>
             </div>
-            <ToastContainer
-              position="top-center"
-              autoClose={3000}
-              limit={1}
-              hideProgressBar={false}
-              newestOnTop={false}
-              closeOnClick
-              rtl={false}
-              pauseOnFocusLoss
-              draggable
-              pauseOnHover
-              theme="dark"
-            />
           </div>
         </form>
       </Form>
