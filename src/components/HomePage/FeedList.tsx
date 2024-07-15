@@ -7,6 +7,10 @@ import { useInView } from 'react-intersection-observer';
 import CommentButton from '../common/CommentButton';
 import LikeButton from '../common/LikeButton';
 import { SkeletonCard } from './Skeleton';
+import Link from 'next/link';
+import UserNickname from './UserNickname';
+import { categories } from '../PostingPage/Category/CategoryMenu';
+import dayjs from 'dayjs';
 
 const fetchPost = async (pageParam: number) => {
   try {
@@ -67,6 +71,12 @@ export default function FeedList() {
         {paginatedPosts.pages.map((page) => {
           return page.data.map((post: Post) => {
             const isLastItem = page.data.length - 1 === page.data.indexOf(post);
+
+            const category = post.tag && categories.find((category) => category.name === post.tag);
+            const formattedDate = dayjs(post.updated_at ? post.updated_at : post.created_at).format(
+              'h:mm A · MMM D, YYYY'
+            );
+
             return (
               // react-intersection-observer 에서 제공하는 ref 를 사용하기 위해 한 컴포넌트 안에서 ref를 사용하도록 설정.
               // forwardRef 를 사용하면 동작 안 함
@@ -75,27 +85,34 @@ export default function FeedList() {
                 key={post.post_id}
                 className="w-92 sm:w-120 border border-[#2F3336] p-3.5 sm:p-7"
               >
-                {/* <h6 className="mb-5">{nickname}</h6> */}
-                {post.image ? (
-                  <figure className="relative max-w-92 sm:max-w-120 h-32 sm:h-64">
-                    {post.image ? (
-                      <Image
-                        loader={({ src }) => src}
-                        className="rounded-xl"
-                        priority={true}
-                        src={post.image}
-                        alt="유저가 업로드한 사진"
-                        fill={true}
-                        sizes="100vw"
-                        loader={({ src }) => src}
-                      />
-                    ) : null}
+                <Link className="pointer" href={`/post/${post.post_id}`}>
+                  <UserNickname post_id={post.post_id} />
+                  <figure className="relative max-w-92 sm:max-w-120 h-32 sm:h-[300px]">
+                    <Image
+                      priority={true}
+                      src={post.image ? post.image : '/no-image.png'}
+                      className="rounded-xl"
+                      alt="유저가 업로드한 사진"
+                      fill={true}
+                      sizes={'100vw'}
+                    />
                   </figure>
-                ) : null}
-                <p className="mt-5 mb-7">{post.content}</p>
+
+                  <p className="mt-5 mb-7">{post.content}</p>
+                </Link>
                 <div className="flex mb-7">
+                  <span className="mr-2">{formattedDate}</span>
                   <LikeButton post_id={post.post_id} /> <span className="mx-2">{post.like}</span>
-                  <CommentButton /> <span className="mx-2">{post.comment_count}</span>
+                  <Link className="flex pointer" href={`/post/${post.post_id}`}>
+                    <CommentButton /> <span className="mx-2">{post.comment_count}</span>
+                  </Link>
+                  {category && (
+                    <span
+                      className={`ml-auto px-2 py-1 rounded-full text-sm flex items-center ${category.backgroundColor} ${category.color}`}
+                    >
+                      {post.tag}
+                    </span>
+                  )}
                 </div>
               </li>
             );
