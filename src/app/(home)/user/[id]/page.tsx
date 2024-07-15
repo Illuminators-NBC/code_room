@@ -200,7 +200,6 @@ function MyPage() {
       {/* 작성한 글 */}
       <section>
         {selectData.map((post, index) => {
-          // console.log('map Data',post)
           return (
             <div key={index} className="bg-[#09090B] rounded mt-4">
               <div className="flex justify-between items-center">
