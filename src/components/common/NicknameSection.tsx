@@ -15,7 +15,6 @@ const NicknameSection: React.FC<NicknameSectionProps> = ({ nickname, onNicknameC
   const handleNicknameGenerated = (generatedNickname: string) => {
     onNicknameChange(generatedNickname);
   };
-
   return (
     <section className="w-96 h-10 mx-auto mb-7 relative">
       <Input

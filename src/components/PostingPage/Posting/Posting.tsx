@@ -133,7 +133,8 @@ export function Posting() {
 
   return (
     <div>
-      <div>
+      <div className="flex items-center mb-8 mx-[30px] h-[30px]">
+        <Image src="/terminal.png" alt="terminal" width={30} height={30} />
         <CategoryManager selectedCategories={selectedCategories} setSelectedCategories={setSelectedCategories} />
       </div>
       <Form {...form}>
@@ -184,8 +185,10 @@ export function Posting() {
                   </div>
                 ))}
               </div>
+            </div>
+            <div className="flex justify-between items-center mt-auto">
               <label className="flex items-center cursor-pointer">
-                <Image src="/add_image_icon.png" alt="addImg" width={50} height={50} />
+                <Image src="/add_image_icon.png" alt="addImg" width={30} height={30} className="" />
                 <input
                   type="file"
                   id="test"
@@ -195,20 +198,20 @@ export function Posting() {
                   onChange={handleUploadFiles}
                 />
               </label>
-            </div>
-            <div className="flex justify-end items-center mt-auto">
-              <Button asChild variant="outline" className="bg-[#27272A] border-none m-2">
-                <Link href="/" className="bg-[#27272A] hover:bg-[#4f4f57] text-white font-semibold">
-                  Cancel
-                </Link>
-              </Button>
-              <button
-                className="bg-[#DD268E] text-white hover:bg-[#FB2EA2] hover:text-black px-5 py-2.5 rounded-md text-sm font-semibold"
-                type="submit"
-                // onClick={() => navigate.push('/')}
-              >
-                POST
-              </button>
+              <div>
+                <Button asChild variant="outline" className="bg-[#27272A] border-none m-2">
+                  <Link href="/" className="bg-[#27272A] hover:bg-[#4f4f57] text-white font-semibold">
+                    Cancel
+                  </Link>
+                </Button>
+                <button
+                  className="bg-[#DD268E] text-white hover:bg-[#FB2EA2] hover:text-black px-5 py-2.5 rounded-md text-sm font-semibold"
+                  type="submit"
+                  // onClick={() => navigate.push('/')}
+                >
+                  POST
+                </button>
+              </div>
             </div>
             <ToastContainer
               position="top-center"
