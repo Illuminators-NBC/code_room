@@ -78,7 +78,7 @@ function EditPost({ initialPostData }: EditPostProps) {
   return (
     <>
       <Image src="/terminal.png" alt="terminal" width={35} height={35} className="mb-[18px] mt-[26px]" />
-      <div className="-mx-5 min-h-24">
+      <div className="py-4">
         <CategoryManager selectedCategories={selectedCategories} setSelectedCategories={setSelectedCategories} />
       </div>
       <div className="flex flex-col gap-5">

@@ -8,7 +8,7 @@ interface CategoryTagsProps {
 
 const CategoryTags: React.FC<CategoryTagsProps> = ({ selectedCategories, onRemoveCategory }) => {
   return (
-    <div className="mt-4 flex flex-wrap gap-2 justify-end">
+    <div className="flex gap-2">
       {selectedCategories?.map((category, index) => (
         <span
           key={index}
